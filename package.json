@@ -4,11 +4,6 @@
   "version": "1.0.0",
   "description": "Ultra-modern, high-energy landing page for TITAN FORGE GYM",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "vite": "^5.4.2"
+    "build": "node build.js"
   }
 }

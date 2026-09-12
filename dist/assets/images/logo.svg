@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#CCFF00" flood-opacity="0.65"/>
+    </filter>
+    <linearGradient id="volt-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="35%" stop-color="#CCFF00"/>
+      <stop offset="100%" stop-color="#99CC00"/>
+    </linearGradient>
+    <linearGradient id="metal-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#242430"/>
+      <stop offset="100%" stop-color="#0E0E14"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Hexagonal Shield Badge -->
+  <polygon points="100,12 180,52 180,148 100,188 20,148 20,52" 
+           fill="url(#metal-grad)" 
+           stroke="#2C2C3A" 
+           stroke-width="4.5" />
+  
+  <polygon points="100,22 170,57 170,143 100,178 30,143 30,57" 
+           fill="none" 
+           stroke="#CCFF00" 
+           stroke-width="2" 
+           stroke-dasharray="6 4" 
+           opacity="0.8" />
+
+  <!-- Titan Forge 'T' Anvil Head -->
+  <path d="M52,60 L148,60 L138,76 L108,76 L108,90 L92,90 L92,76 L62,76 Z" 
+        fill="url(#volt-grad)" 
+        filter="url(#neon-glow)"/>
+
+  <!-- High-Energy Lightning Bolt Core -->
+  <polygon points="114,76 72,126 96,126 84,166 136,108 108,108" 
+           fill="#FFFFFF" 
+           filter="url(#neon-glow)"/>
+  
+  <polygon points="112,80 77,124 97,124 88,158 131,110 108,110" 
+           fill="url(#volt-grad)"/>
+
+  <!-- Accent Detail Dots -->
+  <circle cx="100" cy="38" r="3.5" fill="#FF3344"/>
+  <circle cx="55" cy="136" r="2.5" fill="#CCFF00" opacity="0.7"/>
+  <circle cx="145" cy="136" r="2.5" fill="#CCFF00" opacity="0.7"/>
+</svg>
