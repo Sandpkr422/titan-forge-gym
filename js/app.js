@@ -1,21 +1,37 @@
 // TITAN FORGE GYM - Ultra-Modern Interactive Controller v2.0
 
-document.addEventListener('DOMContentLoaded', () => {
-  initAudioEngine();
-  initForgeParticles();
-  initDynamicCounters();
-  initBmiCalculator();
-  initPricingToggle();
-  initCardMouseGlow();
-  initModals();
-  initLeadForm();
-  initMobileNav();
-  initScheduleViewer();
-  initBeforeAfterSlider();
-  initLiveFloorPulse();
-  initEquipmentViewer();
-  initTourVideoPlayer();
-});
+function initAll() {
+  const inits = [
+    ['AudioEngine', initAudioEngine],
+    ['ForgeParticles', initForgeParticles],
+    ['DynamicCounters', initDynamicCounters],
+    ['BmiCalculator', initBmiCalculator],
+    ['PricingToggle', initPricingToggle],
+    ['CardMouseGlow', initCardMouseGlow],
+    ['Modals', initModals],
+    ['LeadForm', initLeadForm],
+    ['MobileNav', initMobileNav],
+    ['ScheduleViewer', initScheduleViewer],
+    ['BeforeAfterSlider', initBeforeAfterSlider],
+    ['LiveFloorPulse', initLiveFloorPulse],
+    ['EquipmentViewer', initEquipmentViewer],
+    ['TourVideoPlayer', initTourVideoPlayer]
+  ];
+
+  inits.forEach(([name, fn]) => {
+    try {
+      if (typeof fn === 'function') fn();
+    } catch (err) {
+      console.warn(`[TitanForge] Error in ${name}:`, err);
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
 
 /* =========================================================
    1. SYNTHESIZED WEB AUDIO API SOUND ENGINE
@@ -243,40 +259,52 @@ function initDynamicCounters() {
   const statElements = document.querySelectorAll('.stat-counter');
   let hasAnimated = false;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !hasAnimated) {
-        hasAnimated = true;
-        statElements.forEach(statEl => {
-          const target = parseInt(statEl.getAttribute('data-target'), 10);
-          const suffix = statEl.getAttribute('data-suffix') || '';
-          const duration = 1800;
-          const startTime = performance.now();
+  function runCounterAnimation() {
+    if (hasAnimated) return;
+    hasAnimated = true;
+    statElements.forEach(statEl => {
+      const target = parseInt(statEl.getAttribute('data-target'), 10);
+      const suffix = statEl.getAttribute('data-suffix') || '';
+      if (isNaN(target)) return;
+      const duration = 1500;
+      const startTime = performance.now();
 
-          function updateCounter(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const easeOut = 1 - Math.pow(1 - progress, 3);
-            const currentVal = Math.floor(easeOut * target);
+      function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const currentVal = Math.floor(easeOut * target);
 
-            statEl.textContent = currentVal.toLocaleString() + suffix;
+        statEl.textContent = currentVal.toLocaleString() + suffix;
 
-            if (progress < 1) {
-              requestAnimationFrame(updateCounter);
-            } else {
-              statEl.textContent = target.toLocaleString() + suffix;
-            }
-          }
+        if (progress < 1) {
           requestAnimationFrame(updateCounter);
-        });
+        } else {
+          statEl.textContent = target.toLocaleString() + suffix;
+        }
       }
+      requestAnimationFrame(updateCounter);
     });
-  }, { threshold: 0.25 });
+  }
 
   const statsSection = document.getElementById('hero-stats-row');
-  if (statsSection) {
+  if (statsSection && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !hasAnimated) {
+          runCounterAnimation();
+        }
+      });
+    }, { threshold: 0.1 });
     observer.observe(statsSection);
   }
+
+  // Automatic trigger fallback on page load after a brief moment
+  setTimeout(() => {
+    if (!hasAnimated) {
+      runCounterAnimation();
+    }
+  }, 600);
 }
 
 /* =========================================================
@@ -553,13 +581,25 @@ function initBeforeAfterSlider() {
   // Ensure after image matches container's exact width for seamless pixel alignment
   function syncImageWidth() {
     if (afterImg && container) {
-      afterImg.style.width = `${container.offsetWidth}px`;
+      const containerWidth = container.getBoundingClientRect().width || container.offsetWidth;
+      if (containerWidth > 0) {
+        afterImg.style.width = `${containerWidth}px`;
+        afterImg.style.minWidth = `${containerWidth}px`;
+      }
     }
   }
 
-  // Initial sizing and resize listener
+  // Initial sizing and resize/load listeners
   syncImageWidth();
   window.addEventListener('resize', syncImageWidth);
+  if (beforeImg) {
+    if (beforeImg.complete) syncImageWidth();
+    else beforeImg.addEventListener('load', syncImageWidth);
+  }
+  if (afterImg) {
+    if (afterImg.complete) syncImageWidth();
+    else afterImg.addEventListener('load', syncImageWidth);
+  }
 
   function setSliderPercent(percent) {
     const clamped = Math.min(100, Math.max(0, percent));
@@ -581,6 +621,7 @@ function initBeforeAfterSlider() {
   function startAutoSwipe() {
     if (autoSwipeActive) return;
     autoSwipeActive = true;
+    syncImageWidth();
     const indicator = document.getElementById('ba-swipe-indicator');
     const label = document.getElementById('ba-swipe-label');
     if (indicator) indicator.className = 'w-2 h-2 rounded-full bg-[#CCFF00] animate-ping';
@@ -591,8 +632,8 @@ function initBeforeAfterSlider() {
       if (!autoSwipeActive) return;
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
-      // Smooth sine oscillation between 18% and 82%
-      const sweepPercent = 50 + Math.sin(elapsed / 900) * 32;
+      // Smooth sine oscillation between 15% and 85%
+      const sweepPercent = 50 + Math.sin(elapsed / 800) * 35;
       setSliderPercent(sweepPercent);
       autoSwipeReqId = requestAnimationFrame(step);
     }
@@ -745,15 +786,32 @@ function initBeforeAfterSlider() {
 
       // Keep auto-sweep alive or restart
       if (!autoSwipeActive) {
-        setSliderPercent(50);
+        startAutoSwipe();
       }
     });
   });
 
   // Always start live transition sweep automatically when page loads
   setTimeout(() => {
+    syncImageWidth();
     startAutoSwipe();
-  }, 400);
+  }, 250);
+
+  // Re-trigger and sync width when scrolled into view
+  const transformSection = document.getElementById('transformations');
+  if (transformSection && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          syncImageWidth();
+          if (!autoSwipeActive && !isDragging) {
+            startAutoSwipe();
+          }
+        }
+      });
+    }, { threshold: 0.1 });
+    observer.observe(transformSection);
+  }
 }
 
 /* =========================================================
@@ -1128,7 +1186,6 @@ function initOnPageTourPlayer() {
       pageVideo.currentTime = ratio * pageVideo.duration;
     });
   }
-}
 }
 
 /* =========================================================
