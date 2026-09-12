@@ -956,37 +956,20 @@ function closeModal(modal) {
 /* =========================================================
    10B. REALISTIC FACILITY TOUR VIDEO CONTROLLER (INDIAN CONTEXT)
    ========================================================= */
-let tourClockInterval = null;
-let tourProgressInterval = null;
-
 function initTourVideoPlayer() {
   const video = document.getElementById('tour-video');
-  const feedImg = document.getElementById('tour-feed-img');
   const bigPlayBtn = document.getElementById('tour-big-play');
   const playToggle = document.getElementById('tour-play-toggle');
   const playIcon = document.getElementById('tour-play-icon');
   const progressBar = document.getElementById('tour-progress-bar');
   const progressFill = document.getElementById('tour-progress-fill');
-  const timeDisplay = document.getElementById('tour-time-display');
   const muteToggle = document.getElementById('tour-mute-toggle');
   const muteIcon = document.getElementById('tour-mute-icon');
   const fullscreenBtn = document.getElementById('tour-fullscreen-btn');
-  const camButtons = document.querySelectorAll('.tour-cam-btn');
-  const zoneTitle = document.getElementById('tour-zone-title');
-  const camBadge = document.getElementById('tour-cam-badge');
-  const hudSub = document.getElementById('tour-hud-sub');
-  const equipSpec = document.getElementById('tour-equipment-spec');
-  const liveClock = document.getElementById('tour-live-clock');
-  const athleteNameEl = document.getElementById('tour-athlete-name');
-  const athleteHrEl = document.getElementById('tour-athlete-hr');
 
-  if (!video && !feedImg) return;
-
-  let isPlaying = true;
-  let simulatedSeconds = 24;
+  if (!video) return;
 
   function updatePlayState(playing) {
-    isPlaying = playing;
     if (playIcon) {
       playIcon.setAttribute('data-lucide', playing ? 'pause' : 'play');
     }
@@ -1000,117 +983,73 @@ function initTourVideoPlayer() {
     if (window.lucide) lucide.createIcons();
   }
 
-  function updateClock() {
-    if (!liveClock) return;
-    const now = new Date();
-    liveClock.textContent = now.toTimeString().split(' ')[0];
-  }
+  video.addEventListener('play', () => updatePlayState(true));
+  video.addEventListener('pause', () => updatePlayState(false));
 
-  // Simulated live progress & audio feedback
-  function startProgressTick() {
-    clearInterval(tourProgressInterval);
-    tourProgressInterval = setInterval(() => {
-      if (!isPlaying) return;
-      simulatedSeconds++;
-      if (simulatedSeconds > 60) simulatedSeconds = 0;
-      const pct = (simulatedSeconds / 60) * 100;
+  video.addEventListener('click', () => {
+    if (video.paused) {
+      video.muted = true;
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  });
+
+  video.addEventListener('timeupdate', () => {
+    if (video.duration) {
+      const pct = (video.currentTime / video.duration) * 100;
       if (progressFill) progressFill.style.width = `${pct}%`;
-      if (timeDisplay) {
-        timeDisplay.textContent = `LIVE // 00:${simulatedSeconds < 10 ? '0' : ''}${simulatedSeconds} (REC 1080P)`;
-      }
+    }
+  });
 
-      // Dynamic subtle heart rate fluctuation
-      if (athleteHrEl && Math.random() > 0.6) {
-        const currentHr = parseInt(athleteHrEl.textContent) || 150;
-        const delta = Math.floor((Math.random() - 0.5) * 4);
-        athleteHrEl.textContent = `${Math.min(185, Math.max(62, currentHr + delta))} BPM`;
-      }
-    }, 1000);
-  }
-
-  startProgressTick();
-
-  // Video Time Update & Progress Synchronization
-  if (video) {
-    video.addEventListener('play', () => updatePlayState(true));
-    video.addEventListener('pause', () => updatePlayState(false));
-
-    // Tap on video directly to play/pause
-    video.addEventListener('click', () => {
-      if (video.paused) {
-        video.muted = true;
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
-    });
-
-    video.addEventListener('timeupdate', () => {
-      if (video.duration) {
-        const pct = (video.currentTime / video.duration) * 100;
-        if (progressFill) progressFill.style.width = `${pct}%`;
-        const curMins = Math.floor(video.currentTime / 60);
-        const curSecs = Math.floor(video.currentTime % 60);
-        const durMins = Math.floor(video.duration / 60);
-        const durSecs = Math.floor(video.duration % 60);
-        if (timeDisplay) {
-          timeDisplay.textContent = `LIVE // ${curMins < 10 ? '0' : ''}${curMins}:${curSecs < 10 ? '0' : ''}${curSecs} / ${durMins < 10 ? '0' : ''}${durMins}:${durSecs < 10 ? '0' : ''}${durSecs}`;
-        }
-      }
-    });
-  }
-
-  // Central Big Play Button (Mobile & Desktop)
   if (bigPlayBtn) {
     bigPlayBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (video) {
-        video.muted = true;
-        video.play().then(() => updatePlayState(true)).catch(err => console.log(err));
-      }
+      video.muted = true;
+      video.play().then(() => updatePlayState(true)).catch(() => {});
       if (typeof playClickSound === 'function' && soundEnabled) playClickSound();
     });
   }
 
-  // Play / Pause Toggle Button
   if (playToggle) {
     playToggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (!video) return;
       if (video.paused) {
         video.muted = true;
-        video.play().then(() => {
-          updatePlayState(true);
-          showToast('▶ Live Stream Resumed');
-        }).catch(() => {});
+        video.play().then(() => updatePlayState(true)).catch(() => {});
       } else {
         video.pause();
         updatePlayState(false);
-        showToast('⏸ Stream Paused');
       }
       if (typeof playClickSound === 'function' && soundEnabled) playClickSound();
     });
   }
 
-  // Mute / Unmute Toggle
   if (muteToggle) {
     muteToggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (!video) return;
       video.muted = !video.muted;
       if (muteIcon) {
         muteIcon.setAttribute('data-lucide', video.muted ? 'volume-x' : 'volume-2');
       }
       if (window.lucide) lucide.createIcons();
-      showToast(video.muted ? '🔇 Feed Audio: Muted' : '🔊 Floor Audio: Active');
       if (typeof playClickSound === 'function' && soundEnabled) playClickSound();
     });
   }
 
-  // Fullscreen Toggle
+  if (progressBar) {
+    progressBar.addEventListener('click', (e) => {
+      if (!video.duration) return;
+      const rect = progressBar.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const ratio = Math.max(0, Math.min(1, clickX / rect.width));
+      video.currentTime = ratio * video.duration;
+    });
+  }
+
   if (fullscreenBtn) {
     fullscreenBtn.addEventListener('click', () => {
-      const container = document.getElementById('tour-video-container') || (video ? video.parentElement : null);
+      const container = document.getElementById('tour-video-container') || video.parentElement;
       if (container) {
         if (!document.fullscreenElement) {
           if (container.requestFullscreen) container.requestFullscreen();
@@ -1123,241 +1062,73 @@ function initTourVideoPlayer() {
     });
   }
 
-  // Cam Feed Switcher with Authentic Indian Faces & Real 1080p Video Footage
-  camButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const imageSrc = btn.getAttribute('data-image');
-      const videoSrc = btn.getAttribute('data-video');
-      const title = btn.getAttribute('data-title');
-      const spec = btn.getAttribute('data-spec');
-      const camNum = btn.getAttribute('data-cam');
-      const athlete = btn.getAttribute('data-athlete');
-      const hr = btn.getAttribute('data-hr');
-
-      camButtons.forEach(b => {
-        b.classList.remove('active', 'bg-[#CCFF00]', 'text-black', 'font-bold');
-        b.classList.add('bg-zinc-900', 'text-zinc-300');
-        const dot = b.querySelector('span');
-        if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-zinc-500';
-      });
-
-      btn.classList.add('active', 'bg-[#CCFF00]', 'text-black', 'font-bold');
-      btn.classList.remove('bg-zinc-900', 'text-zinc-300');
-      const activeDot = btn.querySelector('span');
-      if (activeDot) activeDot.className = 'w-1.5 h-1.5 rounded-full bg-black';
-
-      // Update HUD telemetry
-      if (zoneTitle) zoneTitle.textContent = title;
-      if (camBadge) camBadge.textContent = `CAM 0${camNum}`;
-      if (hudSub) hudSub.textContent = title.replace(`CAM 0${camNum}: `, '');
-      if (equipSpec) equipSpec.textContent = spec;
-      if (athleteNameEl && athlete) athleteNameEl.textContent = athlete;
-      if (athleteHrEl && hr) athleteHrEl.textContent = hr;
-
-      // Switch real streaming video
-      if (video && videoSrc) {
-        video.style.opacity = '0.3';
-        video.src = videoSrc;
-        if (imageSrc) video.poster = imageSrc;
-        video.load();
-        const p = video.play();
-        if (p !== undefined) {
-          p.then(() => updatePlayState(true)).catch(() => updatePlayState(false));
-        }
-        setTimeout(() => {
-          video.style.opacity = '1';
-        }, 150);
-        if (playIcon) playIcon.setAttribute('data-lucide', 'pause');
-        if (window.lucide) lucide.createIcons();
-      }
-
-      if (typeof playHeavyThud === 'function' && soundEnabled) playHeavyThud();
-      showToast(`📹 Connected to ${title}`);
-    });
-  });
-
-  // Keep Clock Running
-  updateClock();
-  clearInterval(tourClockInterval);
-  tourClockInterval = setInterval(updateClock, 1000);
-
-  // 10C. CONNECT ON-PAGE DEDICATED TOUR SECTION
+  // Also initialize on-page video player
   initOnPageTourPlayer();
 }
 
 function initOnPageTourPlayer() {
   const pageVideo = document.getElementById('page-tour-video');
-  const pageFeedImg = document.getElementById('page-tour-feed-img');
   const pagePlayToggle = document.getElementById('page-tour-play-toggle');
   const pagePlayIcon = document.getElementById('page-tour-play-icon');
   const pageProgressBar = document.getElementById('page-tour-progress-bar');
   const pageProgressFill = document.getElementById('page-tour-progress-fill');
-  const pageTimeDisplay = document.getElementById('page-tour-time-display');
   const pageMuteToggle = document.getElementById('page-tour-mute-toggle');
   const pageMuteIcon = document.getElementById('page-tour-mute-icon');
-  const pageCamButtons = document.querySelectorAll('.page-tour-cam-btn');
-  const pageZoneTitle = document.getElementById('page-tour-zone-title');
-  const pageCamBadge = document.getElementById('page-tour-cam-badge');
-  const pageEquipSpec = document.getElementById('page-tour-equipment-spec');
-  const pageLiveClock = document.getElementById('page-tour-live-clock');
-  const pageAthleteName = document.getElementById('page-tour-athlete-name');
-  const pageAthleteHr = document.getElementById('page-tour-athlete-hr');
-  const pageDiscipline = document.getElementById('page-tour-discipline');
 
-  if (!pageVideo && !pageFeedImg) return;
+  if (!pageVideo) return;
 
-  // Format MM:SS
-  function formatTime(seconds) {
-    if (isNaN(seconds) || seconds < 0) return '00:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
-  }
+  pageVideo.muted = true;
+  pageVideo.play().catch(() => {});
 
-  // Ensure initial play
-  if (pageVideo) {
-    pageVideo.muted = true;
-    pageVideo.play().catch(() => {});
-  }
-
-  // Clock
-  function updatePageClock() {
-    if (!pageLiveClock) return;
-    const now = new Date();
-    pageLiveClock.textContent = now.toTimeString().split(' ')[0];
-  }
-  setInterval(updatePageClock, 1000);
-  updatePageClock();
-
-  // Biometric Heart Rate fluctuation
-  setInterval(() => {
-    if (pageAthleteHr && Math.random() > 0.6) {
-      const cur = parseInt(pageAthleteHr.textContent) || 150;
-      const delta = Math.floor((Math.random() - 0.5) * 4);
-      pageAthleteHr.textContent = `${Math.min(185, Math.max(60, cur + delta))} BPM`;
+  pageVideo.addEventListener('timeupdate', () => {
+    if (pageVideo.duration) {
+      const pct = (pageVideo.currentTime / pageVideo.duration) * 100;
+      if (pageProgressFill) pageProgressFill.style.width = `${pct}%`;
     }
-  }, 1200);
+  });
 
-  // Sync real video playback progress and time display
-  if (pageVideo) {
-    pageVideo.addEventListener('timeupdate', () => {
-      if (pageVideo.duration) {
-        const pct = (pageVideo.currentTime / pageVideo.duration) * 100;
-        if (pageProgressFill) pageProgressFill.style.width = `${pct}%`;
-        if (pageTimeDisplay) {
-          pageTimeDisplay.textContent = `LIVE // ${formatTime(pageVideo.currentTime)} / ${formatTime(pageVideo.duration)} (1080P UHD)`;
-        }
-      }
-    });
+  pageVideo.addEventListener('play', () => {
+    if (pagePlayIcon) pagePlayIcon.setAttribute('data-lucide', 'pause');
+    if (window.lucide) lucide.createIcons();
+  });
 
-    pageVideo.addEventListener('play', () => {
-      if (pagePlayIcon) pagePlayIcon.setAttribute('data-lucide', 'pause');
-      if (window.lucide) lucide.createIcons();
-    });
+  pageVideo.addEventListener('pause', () => {
+    if (pagePlayIcon) pagePlayIcon.setAttribute('data-lucide', 'play');
+    if (window.lucide) lucide.createIcons();
+  });
 
-    pageVideo.addEventListener('pause', () => {
-      if (pagePlayIcon) pagePlayIcon.setAttribute('data-lucide', 'play');
-      if (window.lucide) lucide.createIcons();
-    });
-  }
-
-  // Play / Pause Toggle
   if (pagePlayToggle) {
     pagePlayToggle.addEventListener('click', () => {
-      if (pageVideo) {
-        if (pageVideo.paused) {
-          pageVideo.play().catch(() => {});
-          showToast('▶ Live Indian Feed Streaming');
-        } else {
-          pageVideo.pause();
-          showToast('⏸ Stream Paused');
-        }
+      if (pageVideo.paused) {
+        pageVideo.play().catch(() => {});
+      } else {
+        pageVideo.pause();
       }
       if (typeof playClickSound === 'function' && soundEnabled) playClickSound();
     });
   }
 
-  // Audio Toggle
   if (pageMuteToggle) {
     pageMuteToggle.addEventListener('click', () => {
-      if (pageVideo) {
-        pageVideo.muted = !pageVideo.muted;
-        if (pageMuteIcon) {
-          pageMuteIcon.setAttribute('data-lucide', pageVideo.muted ? 'volume-x' : 'volume-2');
-        }
-        if (window.lucide) lucide.createIcons();
-        showToast(pageVideo.muted ? '🔇 Floor Audio Muted' : '🔊 Mumbai Floor Audio Active');
+      pageVideo.muted = !pageVideo.muted;
+      if (pageMuteIcon) {
+        pageMuteIcon.setAttribute('data-lucide', pageVideo.muted ? 'volume-x' : 'volume-2');
       }
+      if (window.lucide) lucide.createIcons();
       if (typeof playClickSound === 'function' && soundEnabled) playClickSound();
     });
   }
 
-  // Seek bar scrub
   if (pageProgressBar) {
     pageProgressBar.addEventListener('click', (e) => {
-      if (!pageVideo || !pageVideo.duration) return;
+      if (!pageVideo.duration) return;
       const rect = pageProgressBar.getBoundingClientRect();
       const clickX = e.clientX - rect.left;
       const ratio = Math.max(0, Math.min(1, clickX / rect.width));
       pageVideo.currentTime = ratio * pageVideo.duration;
     });
   }
-
-  // Cam Feed Switcher
-  pageCamButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const videoSrc = btn.getAttribute('data-video');
-      const imageSrc = btn.getAttribute('data-image');
-      const title = btn.getAttribute('data-title');
-      const spec = btn.getAttribute('data-spec');
-      const camNum = btn.getAttribute('data-cam');
-      const athlete = btn.getAttribute('data-athlete');
-      const hr = btn.getAttribute('data-hr');
-      const discipline = btn.getAttribute('data-discipline');
-
-      pageCamButtons.forEach(b => {
-        b.classList.remove('active', 'bg-[#CCFF00]', 'text-black', 'font-bold');
-        b.classList.add('bg-zinc-900', 'text-zinc-300');
-        const dot = b.querySelector('span');
-        if (dot) dot.className = 'w-2 h-2 rounded-full bg-zinc-500';
-      });
-
-      btn.classList.add('active', 'bg-[#CCFF00]', 'text-black', 'font-bold');
-      btn.classList.remove('bg-zinc-900', 'text-zinc-300');
-      const activeDot = btn.querySelector('span');
-      if (activeDot) activeDot.className = 'w-2 h-2 rounded-full bg-black';
-
-      // Update telemetry
-      if (pageZoneTitle) pageZoneTitle.textContent = title.replace(`CAM 0${camNum}: `, '');
-      if (pageCamBadge) pageCamBadge.textContent = `CAM 0${camNum}`;
-      if (pageEquipSpec) pageEquipSpec.textContent = spec;
-      if (pageAthleteName && athlete) pageAthleteName.textContent = athlete;
-      if (pageAthleteHr && hr) pageAthleteHr.textContent = hr;
-      if (pageDiscipline && discipline) pageDiscipline.textContent = discipline;
-
-      // Switch real streaming video
-      if (pageVideo && videoSrc) {
-        pageVideo.style.opacity = '0.3';
-        pageVideo.src = videoSrc;
-        if (imageSrc) pageVideo.poster = imageSrc;
-        pageVideo.load();
-        pageVideo.play().catch(() => {});
-        setTimeout(() => {
-          pageVideo.style.opacity = '1';
-        }, 150);
-        if (pagePlayIcon) pagePlayIcon.setAttribute('data-lucide', 'pause');
-        if (window.lucide) lucide.createIcons();
-      }
-
-      // Also update backup img if exists
-      if (pageFeedImg && imageSrc) {
-        pageFeedImg.src = imageSrc;
-      }
-
-      if (typeof playHeavyThud === 'function' && soundEnabled) playHeavyThud();
-      showToast(`📹 Switched to ${title}`);
-    });
-  });
+}
 }
 
 /* =========================================================

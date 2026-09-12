@@ -38,7 +38,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="css/styles.css?v=2.3">
+  <link rel="stylesheet" href="css/styles.css?v=2.4">
 </head>
 <body class="bg-[#070708] text-white selection:bg-[#CCFF00] selection:text-black font-body relative overflow-x-hidden antialiased text-sm">
 
@@ -520,28 +520,19 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
       <!-- Section Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-        <div>
-          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#CCFF00]/10 border border-[#CCFF00]/30 text-[#CCFF00] font-mono text-[10px] font-bold uppercase tracking-wider mb-2">
-            <span class="w-2 h-2 rounded-full bg-[#CCFF00] animate-ping"></span>
-            LIVE CCTV SATELLITE FEED // 1080P 60FPS
-          </div>
-          <h2 class="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight text-white mt-1">
-            WATCH FACILITY TOUR <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#CCFF00] to-white">// MUMBAI FLAGSHIP</span>
-          </h2>
-        </div>
-        <p class="text-zinc-400 max-w-md text-xs sm:text-sm leading-relaxed">
-          Stream direct high-definition CCTV feeds from our 10,000 sq. ft. flagship on Linking Road, Bandra West. Inspect live lifting floors, combat arenas, sprint turf, and cryotherapy suites.
-        </p>
+      <div class="mb-8 text-center max-w-3xl mx-auto">
+        <h2 class="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight text-white">
+          WATCH FACILITY TOUR <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#CCFF00] to-white">// MUMBAI FLAGSHIP</span>
+        </h2>
       </div>
 
-      <!-- Dedicated Video Experience Frame -->
-      <div class="glass-card rounded-2xl overflow-hidden border border-zinc-800 shadow-[0_0_60px_rgba(0,0,0,0.85)] relative">
+      <!-- Dedicated Clean Video Frame -->
+      <div class="glass-card rounded-2xl overflow-hidden border border-zinc-800 shadow-[0_0_60px_rgba(0,0,0,0.85)] relative max-w-5xl mx-auto">
         
-        <!-- Live Video & Media Feed Display -->
-        <div class="relative w-full aspect-[16/9] sm:aspect-[21/9] lg:aspect-[16/8] bg-black overflow-hidden group select-none">
+        <!-- Pure Video Display -->
+        <div class="relative w-full aspect-[16/9] sm:aspect-[21/9] lg:aspect-[16/9] bg-black overflow-hidden group select-none">
           
-          <!-- Real Live High-Definition Streaming Video Layer -->
+          <!-- High-Definition Streaming Video Element -->
           <video 
             id="page-tour-video" 
             class="w-full h-full object-cover relative z-[2] transition-opacity duration-500" 
@@ -556,161 +547,36 @@
             <source src="https://assets.mixkit.co/videos/52112/52112-720.mp4" type="video/mp4">
           </video>
 
-          <!-- Authentic Indian Athlete Live Video Backup / Snapshot Display (Behind video or active) -->
           <img 
             id="page-tour-feed-img" 
             src="assets/images/tour_indian_iron_dungeon.jpg" 
-            alt="Titan Forge Gym Mumbai Facility Tour - Live Athlete" 
-            class="absolute inset-0 w-full h-full object-cover filter brightness-[0.92] contrast-[1.12] z-[1] hidden"
+            alt="Titan Forge Gym Mumbai Facility Tour" 
+            class="absolute inset-0 w-full h-full object-cover filter brightness-[0.95] contrast-[1.05] z-[1] hidden"
           />
 
-          <!-- Authentic CCTV CRT Scanline & Ambient Vignette Texture -->
-          <div class="absolute inset-0 tour-cctv-scanline opacity-50 pointer-events-none z-[5]"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/60 pointer-events-none z-[6]"></div>
-
-          <!-- Top HUD Surveillance Telemetry Bar -->
-          <div class="absolute inset-x-0 top-0 p-4 sm:p-5 flex items-center justify-between text-[11px] font-mono z-10 pointer-events-none">
-            <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/80 border border-zinc-800 backdrop-blur-md">
-              <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-              <span id="page-tour-cam-badge" class="text-[#CCFF00] font-bold">CAM 01</span>
-              <span class="text-zinc-600">•</span>
-              <span id="page-tour-zone-title" class="text-white font-semibold uppercase">MUMBAI HEAVY IRON DUNGEON</span>
-            </div>
-
-            <div class="flex items-center gap-3">
-              <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/80 border border-zinc-800 backdrop-blur-md text-zinc-300">
-                <span class="text-zinc-500">RES:</span>
-                <span class="text-emerald-400 font-bold">1080P UHD</span>
-                <span class="text-zinc-600">•</span>
-                <span class="text-zinc-500">FPS:</span>
-                <span class="text-white font-bold">60.0</span>
-              </div>
-              <div class="px-3 py-1.5 rounded-lg bg-black/80 border border-zinc-800 backdrop-blur-md text-[#CCFF00] flex items-center gap-1.5">
-                <span class="text-zinc-400 font-bold text-[10px]">IST</span>
-                <span id="page-tour-live-clock">00:00:00</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Biometric Athlete Tag Overlay (Upper Left) -->
-          <div class="absolute top-16 left-5 hidden md:block pointer-events-none z-10">
-            <div class="px-3 py-2 rounded-xl bg-black/85 border border-zinc-800 backdrop-blur-md space-y-1 text-[10px] font-mono">
-              <div class="text-zinc-400">ATHLETE: <strong id="page-tour-athlete-name" class="text-white">VIKRAM S. (SENIOR POWERLIFTER)</strong></div>
-              <div class="text-zinc-400">BIOMETRIC HR: <strong id="page-tour-athlete-hr" class="text-[#CCFF00]">152 BPM</strong></div>
-              <div class="text-zinc-400">DISCIPLINE: <span id="page-tour-discipline" class="text-sky-400 font-semibold">OLYMPIC BARBELL // 220KG DEADLIFT</span></div>
-            </div>
-          </div>
-
-          <!-- Bottom Telemetry Bar Overlay -->
-          <div class="absolute inset-x-0 bottom-14 sm:bottom-16 px-4 sm:px-6 flex items-center justify-between text-[11px] font-mono z-10 pointer-events-none">
-            <div class="hidden sm:flex items-center gap-3 px-3 py-1.5 rounded-lg bg-black/80 border border-zinc-800 backdrop-blur-md text-zinc-300">
-              <span>LOCATION: <strong class="text-[#CCFF00]">BANDRA WEST (MUMBAI)</strong></span>
-              <span class="text-zinc-600">•</span>
-              <span>FLOOR TEMP: <strong class="text-sky-400">20.4°C</strong></span>
-              <span class="text-zinc-600">•</span>
-              <span>ACTIVE ATHLETES: <strong class="text-white">48</strong></span>
-            </div>
-            <div id="page-tour-equipment-spec" class="px-3 py-1.5 rounded-lg bg-black/80 border border-zinc-800 backdrop-blur-md text-zinc-300">
-              ELEIKO COMPETITION RIGS & 80KG DUMBBELL RACK
-            </div>
-          </div>
-
-          <!-- Interactive Custom Floating Control Bar -->
-          <div class="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black via-black/80 to-transparent flex items-center gap-3 z-20">
+          <!-- Clean Floating Controls Bar -->
+          <div class="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center gap-3 z-20 opacity-90 hover:opacity-100 transition-opacity">
             <!-- Play / Pause Button -->
-            <button id="page-tour-play-toggle" class="p-2 rounded-xl bg-zinc-900/90 hover:bg-[#CCFF00] text-zinc-300 hover:text-black transition-colors" title="Toggle Live Feed Stream">
+            <button id="page-tour-play-toggle" class="p-2 rounded-xl bg-zinc-900/90 hover:bg-[#CCFF00] text-zinc-300 hover:text-black transition-colors" title="Play / Pause Video" aria-label="Toggle Play">
               <i data-lucide="pause" class="w-4 h-4" id="page-tour-play-icon"></i>
             </button>
 
-            <!-- Video / Live Scrub Bar -->
+            <!-- Video Scrub Bar -->
             <div class="flex-1 h-2 bg-zinc-800 rounded-full overflow-hidden cursor-pointer relative group" id="page-tour-progress-bar">
               <div id="page-tour-progress-fill" class="h-full bg-[#CCFF00] rounded-full" style="width: 45%;"></div>
             </div>
 
-            <!-- Time Display -->
-            <span id="page-tour-time-display" class="text-[10px] font-mono text-zinc-400 shrink-0 hidden sm:inline">LIVE // STREAM STABLE</span>
-
             <!-- Audio Mute Toggle -->
-            <button id="page-tour-mute-toggle" class="p-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 hover:text-white transition-colors" title="Toggle Floor Audio">
+            <button id="page-tour-mute-toggle" class="p-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 hover:text-white transition-colors" title="Toggle Audio" aria-label="Toggle Mute">
               <i data-lucide="volume-2" class="w-4 h-4" id="page-tour-mute-icon"></i>
             </button>
 
-            <!-- Fullscreen Trigger -->
+            <!-- Cinema Mode / Fullscreen Trigger -->
             <button data-open-modal="tour-modal" class="px-3 py-1.5 rounded-xl bg-[#CCFF00] hover:bg-[#b5e600] text-black font-display font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shadow">
               <i data-lucide="maximize" class="w-3.5 h-3.5"></i>
               <span class="hidden sm:inline">Cinema Mode</span>
             </button>
           </div>
-
-        </div>
-
-        <!-- Camera Feed Selector Tabs (4 Real Indian Environments) -->
-        <div class="p-3.5 sm:p-5 bg-[#0C0C10] border-t border-zinc-800 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3.5">
-          
-          <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 w-full lg:w-auto">
-            <span class="text-zinc-500 font-mono text-xs uppercase tracking-wider mr-1 shrink-0">FEEDS:</span>
-
-            <!-- CAM 01 Button -->
-            <button class="page-tour-cam-btn active px-3 py-2 rounded-xl bg-[#CCFF00] text-black font-bold font-mono text-xs transition-all flex items-center gap-2 shadow shrink-0 min-h-[38px]"
-                    data-cam="1"
-                    data-image="assets/images/tour_indian_iron_dungeon.jpg"
-                    data-video="https://assets.mixkit.co/videos/52112/52112-720.mp4"
-                    data-title="CAM 01: MUMBAI HEAVY IRON DUNGEON"
-                    data-athlete="VIKRAM S. (SENIOR POWERLIFTER)"
-                    data-hr="152 BPM"
-                    data-discipline="OLYMPIC BARBELL // 220KG DEADLIFT"
-                    data-spec="ELEIKO IPF POWER RACKS & 80KG DUMBBELLS">
-              <span class="w-2 h-2 rounded-full bg-black"></span>
-              <span>CAM 01: IRON DUNGEON</span>
-            </button>
-
-            <!-- CAM 02 Button -->
-            <button class="page-tour-cam-btn px-3 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-mono text-xs transition-all flex items-center gap-2 border border-zinc-800 shrink-0 min-h-[38px]"
-                    data-cam="2"
-                    data-image="assets/images/tour_indian_combat_boxing.jpg"
-                    data-video="https://assets.mixkit.co/videos/52118/52118-720.mp4"
-                    data-title="CAM 02: BANDRA COMBAT OCTAGON"
-                    data-athlete="POOJA R. (NATIONAL STRIKING PRO)"
-                    data-hr="168 BPM"
-                    data-discipline="COMBAT BOXING // HEAVY BAG COMBOS"
-                    data-spec="REGULATION BOXING RING & 12 WATER BAGS">
-              <span class="w-2 h-2 rounded-full bg-zinc-500"></span>
-              <span>CAM 02: COMBAT ARENA</span>
-            </button>
-
-            <!-- CAM 03 Button -->
-            <button class="page-tour-cam-btn px-3 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-mono text-xs transition-all flex items-center gap-2 border border-zinc-800 shrink-0 min-h-[38px]"
-                    data-cam="3"
-                    data-image="assets/images/tour_indian_turf_sprint.jpg"
-                    data-video="https://assets.mixkit.co/videos/52104/52104-720.mp4"
-                    data-title="CAM 03: KHAR PRO SLED & TURF SPRINT"
-                    data-athlete="ROHAN M. (PROWLER SPEED RECORD)"
-                    data-hr="175 BPM"
-                    data-discipline="ATHLETIC SPRINT // PROWLER SLED PUSH"
-                    data-spec="WOODWAY CURVE RUNNERS & 30M PROWLER TRACK">
-              <span class="w-2 h-2 rounded-full bg-zinc-500"></span>
-              <span>CAM 03: TURF & SLED</span>
-            </button>
-
-            <!-- CAM 04 Button -->
-            <button class="page-tour-cam-btn px-3 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-mono text-xs transition-all flex items-center gap-2 border border-zinc-800 shrink-0 min-h-[38px]"
-                    data-cam="4"
-                    data-image="assets/images/tour_indian_cryo_recovery.jpg"
-                    data-video="https://assets.mixkit.co/videos/50972/50972-720.mp4"
-                    data-title="CAM 04: MUMBAI CRYO & RECOVERY SPA"
-                    data-athlete="NEHA D. (CRYO IMMERSION ATHLETE)"
-                    data-hr="64 BPM (RECOVERY)"
-                    data-discipline="METABOLIC RESET // SUB-ZERO COLD PLUNGE"
-                    data-spec="SUB-ZERO (-110°C) CRYO & FINNISH SAUNA">
-              <span class="w-2 h-2 rounded-full bg-zinc-500"></span>
-              <span>CAM 04: RECOVERY SPA</span>
-            </button>
-          </div>
-
-          <!-- Book 1-Day Trial Pass Callout -->
-          <a href="#lead-capture" class="btn-shine px-5 py-2.5 rounded-xl bg-[#CCFF00] hover:bg-[#b5e600] text-black font-display font-black text-xs uppercase tracking-wider transition-all text-center shrink-0 shadow-[0_0_20px_rgba(204,255,0,0.25)]">
-            Experience In-Person Today →
-          </a>
 
         </div>
 
@@ -1487,28 +1353,18 @@
       <div class="p-3 sm:p-4 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/90 shrink-0">
         <div class="flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-[#CCFF00] animate-ping"></span>
-          <span class="font-display font-bold text-xs uppercase tracking-wider text-white flex items-center gap-1.5 sm:gap-2">
-            <span>TITAN FORGE MUMBAI</span>
-            <span class="text-zinc-600">|</span>
-            <span id="tour-zone-title" class="text-[#CCFF00] font-mono text-[10px] sm:text-[11px] truncate max-w-[180px] sm:max-w-none">CAM 01: IRON DUNGEON</span>
+          <span class="font-display font-bold text-xs uppercase tracking-wider text-white">
+            TITAN FORGE // MUMBAI FLAGSHIP TOUR
           </span>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 rounded bg-red-950/60 border border-red-500/40 text-red-400 text-[9px] sm:text-[10px] font-mono font-bold flex items-center gap-1.5 shrink-0">
-            <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-            LIVE 1080P
-          </span>
-          <button data-close-modal class="text-zinc-400 hover:text-white p-2 rounded-lg hover:bg-zinc-800 transition-colors" aria-label="Close tour modal">
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
-        </div>
+        <button data-close-modal class="text-zinc-400 hover:text-white p-2 rounded-lg hover:bg-zinc-800 transition-colors" aria-label="Close tour modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
       </div>
 
-      <!-- Realistic Video Player Container -->
+      <!-- Video Player Container -->
       <div class="relative w-full aspect-video bg-black overflow-hidden group select-none shrink-0" id="tour-player-viewport">
-        <!-- Authentic Indian Athlete Live Video Simulation Layer -->
         <div id="tour-video-container" class="w-full h-full relative overflow-hidden bg-zinc-950">
-          <!-- Real High-Definition Streaming Video Element -->
           <video 
             id="tour-video" 
             class="w-full h-full object-cover relative z-[2] transition-opacity duration-500" 
@@ -1523,17 +1379,12 @@
             <source src="https://assets.mixkit.co/videos/52112/52112-720.mp4" type="video/mp4">
           </video>
 
-          <!-- Photorealistic Indian Athlete Live Footage Display (Fallback/Poster) -->
           <img 
             id="tour-feed-img" 
             src="assets/images/tour_indian_iron_dungeon.jpg" 
-            alt="Titan Forge Mumbai Live Feed - Indian Athlete Powerlifting" 
-            class="absolute inset-0 w-full h-full object-cover filter brightness-[0.9] contrast-[1.1] z-[1] hidden"
+            alt="Titan Forge Mumbai Live Feed" 
+            class="absolute inset-0 w-full h-full object-cover filter brightness-[0.95] contrast-[1.05] z-[1] hidden"
           />
-
-          <!-- Authentic CCTV CRT Scanline & Grain Texture -->
-          <div class="absolute inset-0 tour-cctv-scanline opacity-50 pointer-events-none z-[5]"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60 pointer-events-none z-[6]"></div>
         </div>
 
         <!-- Central Tap-To-Play / Pause Mobile Button -->
@@ -1541,53 +1392,8 @@
           <i data-lucide="play" class="w-7 h-7 sm:w-8 sm:h-8 fill-current ml-1" id="tour-big-play-icon"></i>
         </button>
 
-        <!-- Dynamic HUD Camera Overlay -->
-        <div class="absolute inset-0 pointer-events-none p-3 sm:p-5 flex flex-col justify-between z-10">
-          <!-- Top Telemetry -->
-          <div class="flex items-center justify-between text-[10px] font-mono text-zinc-300">
-            <div class="px-2 sm:px-2.5 py-1 bg-black/80 backdrop-blur-md rounded border border-zinc-800 flex items-center gap-1.5 sm:gap-2">
-              <span class="text-[#CCFF00] font-bold" id="tour-cam-badge">CAM 01</span>
-              <span>•</span>
-              <span id="tour-hud-sub" class="truncate max-w-[140px] sm:max-w-none">MUMBAI HEAVY IRON DUNGEON</span>
-            </div>
-            <div class="px-2 sm:px-2.5 py-1 bg-black/80 backdrop-blur-md rounded border border-zinc-800 text-[#CCFF00] flex items-center gap-1.5">
-              <span class="text-zinc-400 font-bold">IST</span>
-              <span id="tour-live-clock">00:00:00</span>
-            </div>
-          </div>
-
-          <!-- Crosshairs and Grid Marks -->
-          <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-6 opacity-40">
-            <span class="text-[#CCFF00] font-mono text-xs">+</span>
-            <span class="text-[#CCFF00] font-mono text-xs">+</span>
-          </div>
-
-          <!-- Live Athlete Telemetry HUD Tag -->
-          <div class="absolute top-12 left-3 sm:top-14 sm:left-5 hidden xs:block">
-            <div class="px-2 sm:px-2.5 py-1 rounded bg-black/80 border border-zinc-800/90 text-[9px] sm:text-[10px] font-mono text-zinc-300 backdrop-blur-md space-y-0.5">
-              <div>TARGET: <span id="tour-athlete-name" class="text-white font-bold">VIKRAM S. (SENIOR LIFTER)</span></div>
-              <div>HEART RATE: <span id="tour-athlete-hr" class="text-[#CCFF00] font-bold">148 BPM</span></div>
-              <div class="hidden sm:block">BIOMETRIC ID: <span class="text-sky-400 font-bold">MUM-7728</span></div>
-            </div>
-          </div>
-
-          <!-- Bottom Telemetry Readout -->
-          <div class="flex items-center justify-between text-[9px] sm:text-[10px] font-mono text-zinc-300">
-            <div class="hidden sm:flex items-center gap-3 px-2.5 py-1 bg-black/80 backdrop-blur-md rounded border border-zinc-800">
-              <span>FACILITY: <strong class="text-[#CCFF00]">BANDRA WEST FLAGSHIP</strong></span>
-              <span>•</span>
-              <span>TEMP: <strong class="text-sky-400">20.4°C</strong></span>
-              <span>•</span>
-              <span>FLOOR: <strong class="text-white">ZONE A ACTIVE</strong></span>
-            </div>
-            <div id="tour-equipment-spec" class="px-2 sm:px-2.5 py-1 bg-black/80 backdrop-blur-md rounded border border-zinc-800 text-zinc-400 truncate max-w-full sm:max-w-none">
-              ELEIKO COMPETITION RIGS & 80KG DUMBBELL RACK
-            </div>
-          </div>
-        </div>
-
-        <!-- Custom Video Controls Floating Bar - ALWAYS visible on touch/mobile, hover on desktop -->
-        <div id="tour-controls-bar" class="absolute inset-x-0 bottom-0 p-2 sm:p-3 bg-gradient-to-t from-black/95 via-black/70 to-transparent flex items-center gap-2 sm:gap-3 z-20 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
+        <!-- Custom Video Controls Floating Bar -->
+        <div id="tour-controls-bar" class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/95 via-black/70 to-transparent flex items-center gap-3 z-20 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
           <!-- Play / Pause -->
           <button id="tour-play-toggle" class="p-2 rounded-lg bg-zinc-900/90 hover:bg-[#CCFF00] text-zinc-200 hover:text-black transition-colors" aria-label="Toggle Play">
             <i data-lucide="pause" class="w-4 h-4" id="tour-play-icon"></i>
@@ -1598,12 +1404,9 @@
             <div id="tour-progress-fill" class="h-full bg-[#CCFF00] rounded-full" style="width: 35%;"></div>
           </div>
 
-          <!-- Time Display -->
-          <span id="tour-time-display" class="text-[9px] sm:text-[10px] font-mono text-zinc-400 shrink-0 hidden xs:inline">LIVE // FEED ACTIVE</span>
-
           <!-- Mute / Unmute -->
           <button id="tour-mute-toggle" class="p-2 rounded-lg bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-white transition-colors" title="Toggle Tour Audio" aria-label="Toggle Mute">
-            <i data-lucide="volume-x" class="w-4 h-4" id="tour-mute-icon"></i>
+            <i data-lucide="volume-2" class="w-4 h-4" id="tour-mute-icon"></i>
           </button>
 
           <!-- Fullscreen -->
@@ -1611,65 +1414,6 @@
             <i data-lucide="maximize" class="w-4 h-4"></i>
           </button>
         </div>
-      </div>
-
-      <!-- Camera / Zone Feeds Switcher Bar (Mobile Horizontal Swipe Friendly) -->
-      <div class="p-3 bg-zinc-950 border-t border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[11px] font-mono shrink-0">
-        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 w-full sm:w-auto">
-          <span class="text-zinc-500 text-[10px] uppercase shrink-0">FEEDS:</span>
-          
-          <button class="tour-cam-btn active px-3 py-1.5 rounded-xl bg-[#CCFF00] text-black font-bold text-[10px] transition-all flex items-center gap-1.5 shrink-0 min-h-[36px]" 
-                  data-cam="1" 
-                  data-image="assets/images/tour_indian_iron_dungeon.jpg" 
-                  data-video="https://assets.mixkit.co/videos/52112/52112-720.mp4" 
-                  data-title="CAM 01: MUMBAI HEAVY IRON DUNGEON" 
-                  data-athlete="VIKRAM S. (SENIOR POWERLIFTER)" 
-                  data-hr="152 BPM" 
-                  data-spec="ELEIKO IPF POWER RACKS & 80KG DUMBBELLS">
-            <span class="w-1.5 h-1.5 rounded-full bg-black"></span>
-            CAM 01: IRON DUNGEON
-          </button>
-
-          <button class="tour-cam-btn px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-[10px] transition-all flex items-center gap-1.5 shrink-0 min-h-[36px]" 
-                  data-cam="2" 
-                  data-image="assets/images/tour_indian_combat_boxing.jpg" 
-                  data-video="https://assets.mixkit.co/videos/52118/52118-720.mp4" 
-                  data-title="CAM 02: BANDRA COMBAT OCTAGON" 
-                  data-athlete="POOJA R. (NATIONAL STRIKING PRO)" 
-                  data-hr="168 BPM" 
-                  data-spec="REGULATION BOXING RING & 12 WATER BAGS">
-            <span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>
-            CAM 02: COMBAT ARENA
-          </button>
-
-          <button class="tour-cam-btn px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-[10px] transition-all flex items-center gap-1.5 shrink-0 min-h-[36px]" 
-                  data-cam="3" 
-                  data-image="assets/images/tour_indian_turf_sprint.jpg" 
-                  data-video="https://assets.mixkit.co/videos/52104/52104-720.mp4" 
-                  data-title="CAM 03: KHAR PRO SLED & TURF SPRINT" 
-                  data-athlete="ROHAN M. (PROWLER SPEED RECORD)" 
-                  data-hr="175 BPM" 
-                  data-spec="WOODWAY CURVE RUNNERS & 30M PROWLER TRACK">
-            <span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>
-            CAM 03: TURF & SLED
-          </button>
-
-          <button class="tour-cam-btn px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-[10px] transition-all flex items-center gap-1.5 shrink-0 min-h-[36px]" 
-                  data-cam="4" 
-                  data-image="assets/images/tour_indian_cryo_recovery.jpg" 
-                  data-video="https://assets.mixkit.co/videos/50972/50972-720.mp4" 
-                  data-title="CAM 04: MUMBAI CRYO & RECOVERY SPA" 
-                  data-athlete="NEHA D. (CRYO IMMERSION -110°C)" 
-                  data-hr="64 BPM (RECOVERY)" 
-                  data-spec="SUB-ZERO (-110°C) CRYO & FINNISH SAUNA">
-            <span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>
-            CAM 04: RECOVERY SPA
-          </button>
-        </div>
-
-        <a href="#lead-capture" data-close-modal class="btn-shine w-full sm:w-auto text-center px-4 py-2.5 bg-[#CCFF00] text-black font-display font-black uppercase rounded-xl text-xs hover:bg-[#b5e600] transition-colors shadow shrink-0">
-          Claim Free Pass To Visit
-        </a>
       </div>
 
     </div>
@@ -1735,6 +1479,6 @@
   </script>
 
   <!-- Main Application Script -->
-  <script src="js/app.js?v=2.3"></script>
+  <script src="js/app.js?v=2.4"></script>
 </body>
 </html>
