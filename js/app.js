@@ -577,6 +577,28 @@ function initBeforeAfterSlider() {
     setSliderPercent(percent);
   }
 
+  // 7A. Auto-Sweep / Live Transition Functions
+  function startAutoSwipe() {
+    if (autoSwipeActive) return;
+    autoSwipeActive = true;
+    const indicator = document.getElementById('ba-swipe-indicator');
+    const label = document.getElementById('ba-swipe-label');
+    if (indicator) indicator.className = 'w-2 h-2 rounded-full bg-[#CCFF00] animate-ping';
+    if (label) label.textContent = 'Live Transition (Click to Pause)';
+
+    let startTime = null;
+    function step(timestamp) {
+      if (!autoSwipeActive) return;
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      // Smooth sine oscillation between 18% and 82%
+      const sweepPercent = 50 + Math.sin(elapsed / 900) * 32;
+      setSliderPercent(sweepPercent);
+      autoSwipeReqId = requestAnimationFrame(step);
+    }
+    autoSwipeReqId = requestAnimationFrame(step);
+  }
+
   // Stop auto-sweep on user manual interaction
   function stopAutoSwipe() {
     if (autoSwipeActive) {
@@ -585,7 +607,7 @@ function initBeforeAfterSlider() {
       const indicator = document.getElementById('ba-swipe-indicator');
       const label = document.getElementById('ba-swipe-label');
       if (indicator) indicator.className = 'w-2 h-2 rounded-full bg-[#CCFF00]';
-      if (label) label.textContent = 'Auto-Sweep Transition';
+      if (label) label.textContent = 'Start Live Transition';
     }
   }
 
@@ -641,47 +663,20 @@ function initBeforeAfterSlider() {
     isDragging = false;
   });
 
-  // 7A. Auto-Sweep / Live Transition Feature
+  // Toggle button listener
   const autoSwipeBtn = document.getElementById('ba-auto-swipe-btn');
   if (autoSwipeBtn) {
     autoSwipeBtn.addEventListener('click', () => {
       if (autoSwipeActive) {
         stopAutoSwipe();
       } else {
-        autoSwipeActive = true;
-        const indicator = document.getElementById('ba-swipe-indicator');
-        const label = document.getElementById('ba-swipe-label');
-        if (indicator) indicator.className = 'w-2 h-2 rounded-full bg-[#CCFF00] animate-ping';
-        if (label) label.textContent = 'Live Transitioning... (Click to Pause)';
-
-        let startTime = null;
-        function step(timestamp) {
-          if (!autoSwipeActive) return;
-          if (!startTime) startTime = timestamp;
-          const elapsed = timestamp - startTime;
-          // Smooth sine oscillation between 15% and 85%
-          const sweepPercent = 50 + Math.sin(elapsed / 800) * 35;
-          setSliderPercent(sweepPercent);
-          autoSwipeReqId = requestAnimationFrame(step);
-        }
-        autoSwipeReqId = requestAnimationFrame(step);
+        startAutoSwipe();
       }
     });
   }
 
-  // 7B. Multiple Indian Client Transformation Case Studies
+  // 7B. Multiple Indian Client Transformation Case Studies (Priya first, then Aman)
   const caseProfiles = {
-    aman: {
-      beforeSrc: 'assets/indian-transformation-before.jpg',
-      afterSrc: 'assets/indian-transformation-after.jpg',
-      beforeAlt: 'Aman Singhania Day 1 Baseline (Titan Forge Mumbai)',
-      afterAlt: 'Aman Singhania Week 12 Transformed Peak Recomp',
-      beforeBadge: 'DAY 1 // 24.5% BODY FAT',
-      afterBadge: 'WEEK 12 // 9.8% BF (+7.2KG LEAN)',
-      statBf: '24.5% → 9.8% (-14.7%)',
-      statMuscle: '+7.2 kg Accrued',
-      statStrength: 'Deadlift: 100 → 185 kg'
-    },
     priya: {
       beforeSrc: 'assets/female-transformation-before.jpg',
       afterSrc: 'assets/female-transformation-after.jpg',
@@ -692,6 +687,17 @@ function initBeforeAfterSlider() {
       statBf: '27.0% → 16.0% (-11.0%)',
       statMuscle: 'Toned Abs & Athletic Deltoids',
       statStrength: '5K Run: 31m → 22m 40s'
+    },
+    aman: {
+      beforeSrc: 'assets/indian-transformation-before.jpg',
+      afterSrc: 'assets/indian-transformation-after.jpg',
+      beforeAlt: 'Aman Singhania Day 1 Baseline (Titan Forge Mumbai)',
+      afterAlt: 'Aman Singhania Week 12 Transformed Peak Recomp',
+      beforeBadge: 'DAY 1 // 24.5% BODY FAT',
+      afterBadge: 'WEEK 12 // 9.8% BF (+7.2KG LEAN)',
+      statBf: '24.5% → 9.8% (-14.7%)',
+      statMuscle: '+7.2 kg Accrued',
+      statStrength: 'Deadlift: 100 → 185 kg'
     }
   };
 
@@ -722,10 +728,12 @@ function initBeforeAfterSlider() {
       const beforeBadge = document.getElementById('ba-before-badge');
       const afterBadge = document.getElementById('ba-after-badge');
       if (beforeBadge) {
-        beforeBadge.querySelector('span:last-child').textContent = profile.beforeBadge;
+        const textSpan = beforeBadge.querySelector('span:last-child');
+        if (textSpan) textSpan.textContent = profile.beforeBadge;
       }
       if (afterBadge) {
-        afterBadge.querySelector('span:last-child').textContent = profile.afterBadge;
+        const textSpan = afterBadge.querySelector('span:last-child');
+        if (textSpan) textSpan.textContent = profile.afterBadge;
       }
 
       const statBf = document.getElementById('ba-stat-bf');
@@ -735,9 +743,17 @@ function initBeforeAfterSlider() {
       if (statMuscle) statMuscle.textContent = profile.statMuscle;
       if (statStrength) statStrength.textContent = profile.statStrength;
 
-      setSliderPercent(50);
+      // Keep auto-sweep alive or restart
+      if (!autoSwipeActive) {
+        setSliderPercent(50);
+      }
     });
   });
+
+  // Always start live transition sweep automatically when page loads
+  setTimeout(() => {
+    startAutoSwipe();
+  }, 400);
 }
 
 /* =========================================================

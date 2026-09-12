@@ -38,7 +38,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="css/styles.css?v=2.2">
+  <link rel="stylesheet" href="css/styles.css?v=2.3">
 </head>
 <body class="bg-[#070708] text-white selection:bg-[#CCFF00] selection:text-black font-body relative overflow-x-hidden antialiased text-sm">
 
@@ -49,26 +49,6 @@
   <div class="fixed inset-0 pointer-events-none z-0 ambient-cyber-grid opacity-60"></div>
   <div class="fixed top-[-15%] left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-[#CCFF00]/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
   <div class="fixed bottom-[-10%] right-[-10%] w-[550px] h-[550px] bg-[#FF3344]/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
-
-  <!-- =========================================================
-       LIVE GYM FLOOR PULSE BANNER (TOP HUD)
-       ========================================================= -->
-  <div class="w-full bg-[#0A0A0E] border-b border-zinc-800/80 py-1.5 px-4 text-center z-50 relative">
-    <div class="max-w-7xl mx-auto flex items-center justify-between text-[11px] font-mono text-zinc-400">
-      <div class="flex items-center gap-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-ping"></span>
-        <span class="text-white font-bold uppercase tracking-wider">LIVE GYM PULSE</span>
-        <span class="text-zinc-600">|</span>
-        <span>OCCUPANCY: <strong id="live-occupancy-num" class="text-[#CCFF00] font-bold">74%</strong></span>
-        <span class="hidden sm:inline text-zinc-600">|</span>
-        <span class="hidden sm:inline">AIR TEMP: <strong id="live-temp-num" class="text-sky-400 font-bold">19.4°C</strong></span>
-      </div>
-      <div class="flex items-center gap-3">
-        <span class="hidden md:inline text-zinc-400 text-[10px]">CURRENT TRACK: <strong class="text-zinc-200">KINETIC OVERLOAD (145 BPM)</strong></span>
-        <span class="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-[10px] text-[#CCFF00] font-bold">24/7 OPEN</span>
-      </div>
-    </div>
-  </div>
 
   <!-- =========================================================
        1. STICKY HEADER & NAVIGATION
@@ -92,7 +72,6 @@
 
       <!-- Desktop Navigation Links -->
       <nav class="hidden lg:flex items-center gap-7 text-xs font-semibold tracking-wider text-zinc-300 uppercase">
-        <a href="#tour" class="hover:text-[#CCFF00] transition-colors flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-pulse"></span>Tour</a>
         <a href="#programs" class="hover:text-[#CCFF00] transition-colors">Programs</a>
         <a href="#arsenal" class="hover:text-[#CCFF00] transition-colors">Hardware</a>
         <a href="#trainers" class="hover:text-[#CCFF00] transition-colors">Coaches</a>
@@ -139,20 +118,6 @@
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
-
-        <!-- Featured Tour Link -->
-        <a href="#tour" data-open-modal="tour-modal" class="mobile-nav-link text-zinc-200 hover:text-[#CCFF00] transition-colors py-3 px-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 hover:border-[#CCFF00]/50 flex items-center justify-between group">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-[#CCFF00]/15 text-[#CCFF00] flex items-center justify-center group-hover:bg-[#CCFF00] group-hover:text-black transition-colors">
-              <i data-lucide="play" class="w-4 h-4 fill-current"></i>
-            </div>
-            <div class="flex flex-col">
-              <span class="text-xs font-bold text-white group-hover:text-[#CCFF00]">Watch Facility Tour</span>
-              <span class="text-[9px] font-mono text-zinc-400">360° Mumbai Flagship Live</span>
-            </div>
-          </div>
-          <span class="px-2 py-0.5 rounded bg-[#CCFF00]/15 text-[#CCFF00] text-[10px] font-mono font-bold">LIVE 1080P</span>
-        </a>
 
         <a href="#programs" class="mobile-nav-link text-zinc-300 hover:text-[#CCFF00] transition-colors py-2.5 px-2 border-b border-zinc-900/90 flex items-center justify-between">
           <span>Programs & Disciplines</span>
@@ -981,18 +946,18 @@
       <!-- Case Selection Tabs & Live Transition Auto-Swipe Toggle -->
       <div class="max-w-3xl mx-auto mb-5 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-2 p-1 rounded-xl bg-zinc-900/90 border border-zinc-800 text-xs font-mono">
-          <button type="button" data-case="aman" class="ba-case-btn active px-3 py-1.5 rounded-lg bg-[#CCFF00] text-black font-bold transition-all shadow">
-            Aman S. (12W Recomp)
-          </button>
-          <button type="button" data-case="priya" class="ba-case-btn px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition-all">
+          <button type="button" data-case="priya" class="ba-case-btn active px-3 py-1.5 rounded-lg bg-[#CCFF00] text-black font-bold transition-all shadow">
             Priya N. (12W Athletic Shred)
+          </button>
+          <button type="button" data-case="aman" class="ba-case-btn px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition-all">
+            Aman S. (12W Recomp)
           </button>
         </div>
 
         <!-- Live Auto-Transition Sweep Button -->
         <button id="ba-auto-swipe-btn" type="button" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-700 hover:border-[#CCFF00] text-xs font-mono text-zinc-200 transition-all hover:bg-zinc-850 active:scale-95">
-          <span id="ba-swipe-indicator" class="w-2 h-2 rounded-full bg-[#CCFF00]"></span>
-          <span id="ba-swipe-label" class="font-bold uppercase tracking-wider text-[11px]">Auto-Sweep Transition</span>
+          <span id="ba-swipe-indicator" class="w-2 h-2 rounded-full bg-[#CCFF00] animate-ping"></span>
+          <span id="ba-swipe-label" class="font-bold uppercase tracking-wider text-[11px]">Live Transition (Click to Pause)</span>
         </button>
       </div>
 
@@ -1004,14 +969,14 @@
           <div class="w-full h-full relative">
             <img 
               id="ba-before-img"
-              src="assets/indian-transformation-before.jpg" 
-              alt="Aman Singhania Day 1 Baseline Transformation" 
+              src="assets/female-transformation-before.jpg" 
+              alt="Priya Nair Day 1 Baseline (Titan Forge Mumbai)" 
               class="w-full h-full object-cover object-top filter brightness-[0.9] contrast-[1.05]"
             />
             <!-- Before Floating Badge -->
             <div id="ba-before-badge" class="absolute bottom-5 left-5 px-3 py-1.5 rounded-lg bg-black/85 backdrop-blur-md border border-zinc-700 text-xs font-mono text-zinc-300 font-bold shadow-lg">
               <span class="text-zinc-500 block text-[9px] uppercase tracking-widest">Baseline State</span>
-              <span>DAY 1 // 24.5% BODY FAT</span>
+              <span>DAY 1 // 27.0% BODY FAT</span>
             </div>
           </div>
 
@@ -1019,14 +984,14 @@
           <div id="ba-after-layer" class="ba-image-after w-[50%] transition-[width] duration-75">
             <img 
               id="ba-after-img"
-              src="assets/indian-transformation-after.jpg" 
-              alt="Aman Singhania Week 12 Transformed Peak Recomp" 
+              src="assets/female-transformation-after.jpg" 
+              alt="Priya Nair Week 12 Transformed Athletic Conditioning" 
               class="absolute top-0 left-0 max-w-none h-full object-cover object-top filter brightness-[1.02] contrast-[1.12]"
             />
             <!-- After Floating Badge -->
             <div id="ba-after-badge" class="absolute bottom-5 right-5 px-3 py-1.5 rounded-lg bg-[#CCFF00] text-black text-xs font-mono font-black shadow-2xl border border-black/20">
               <span class="text-black/70 block text-[9px] uppercase tracking-widest font-bold">Titan Forge Peak</span>
-              <span>WEEK 12 // 9.8% BF (+7.2KG LEAN)</span>
+              <span>WEEK 12 // 16.0% BF (TONED CORE)</span>
             </div>
           </div>
 
@@ -1050,15 +1015,15 @@
         <div id="ba-telemetry-bar" class="mt-4 p-3.5 sm:p-4 rounded-xl bg-zinc-950 border border-zinc-800 grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 text-center text-xs font-mono">
           <div class="p-2.5 rounded-lg bg-black/60 border border-zinc-850">
             <span class="text-[10px] text-zinc-500 uppercase block">Body Fat Evolution</span>
-            <span id="ba-stat-bf" class="font-bold text-sm text-[#CCFF00]">24.5% → 9.8% (-14.7%)</span>
+            <span id="ba-stat-bf" class="font-bold text-sm text-[#CCFF00]">27.0% → 16.0% (-11.0%)</span>
           </div>
           <div class="p-2.5 rounded-lg bg-black/60 border border-zinc-850">
             <span class="text-[10px] text-zinc-500 uppercase block">Lean Skeletal Muscle</span>
-            <span id="ba-stat-muscle" class="font-bold text-sm text-white">+7.2 kg Accrued</span>
+            <span id="ba-stat-muscle" class="font-bold text-sm text-white">Toned Abs & Athletic Deltoids</span>
           </div>
           <div class="p-2.5 rounded-lg bg-black/60 border border-zinc-850">
-            <span class="text-[10px] text-zinc-500 uppercase block">Big-3 Compound Lift PR</span>
-            <span id="ba-stat-strength" class="font-bold text-sm text-sky-400">Deadlift: 100 → 185 kg</span>
+            <span class="text-[10px] text-zinc-500 uppercase block">Performance / Cardio PR</span>
+            <span id="ba-stat-strength" class="font-bold text-sm text-sky-400">5K Run: 31m → 22m 40s</span>
           </div>
         </div>
 
@@ -1438,10 +1403,13 @@
               href="https://wa.me/919876543210?text=Hello%20Titan%20Forge%20Gym!%20I%20want%20to%20inquire%20about%20memberships%20and%20claim%20my%201-Day%20Free%20Pass." 
               target="_blank" 
               rel="noopener noreferrer" 
-              class="btn-shine inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-black font-bold text-xs uppercase tracking-wider transition-all"
+              class="btn-shine inline-flex items-center gap-2.5 px-4 py-2.5 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(37,211,102,0.3)]"
             >
-              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-              Chat on WhatsApp
+              <svg class="w-4 h-4 fill-white shrink-0" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.676.15-.2.301-.776.978-.952 1.179-.176.2-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.675-2.085-.176-.3-.019-.462.132-.612.136-.135.301-.351.451-.526.151-.176.201-.301.301-.502.1-.2.05-.376-.025-.526-.075-.15-.677-1.631-.928-2.233-.244-.587-.492-.507-.676-.517-.175-.008-.376-.01-.576-.01s-.527.075-.802.376c-.276.301-1.053 1.028-1.053 2.508 0 1.479 1.078 2.909 1.229 3.109.15.201 2.121 3.239 5.14 4.542.718.31 1.279.495 1.716.634.721.23 1.378.197 1.9.12.581-.088 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.201-.576-.351z"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.05 22l4.985-1.308A9.948 9.948 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.167c-1.57 0-3.045-.44-4.303-1.206l-.309-.187-2.96.777.79-2.884-.205-.327A8.132 8.132 0 0 1 3.833 12c0-4.51 3.657-8.167 8.167-8.167s8.167 3.657 8.167 8.167-3.657 8.167-8.167 8.167z"/>
+              </svg>
+              <span>Chat on WhatsApp</span>
             </a>
           </div>
         </div>
@@ -1751,10 +1719,14 @@
     href="https://wa.me/919876543210?text=Hi%20Titan%20Forge!%20I%20am%20interested%20in%20a%20VIP%20Trial%20Pass." 
     target="_blank" 
     rel="noopener noreferrer" 
-    title="Chat with Concierge" 
-    class="fixed bottom-5 left-5 z-40 w-12 h-12 rounded-full bg-[#25D366] text-black flex items-center justify-center shadow-[0_0_20px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform focus:outline-none group"
+    title="Chat on WhatsApp" 
+    aria-label="Chat on WhatsApp"
+    class="fixed bottom-5 left-5 z-40 w-12 h-12 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_0_20px_rgba(37,211,102,0.5)] hover:scale-110 transition-transform focus:outline-none group"
   >
-    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+    <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.676.15-.2.301-.776.978-.952 1.179-.176.2-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.675-2.085-.176-.3-.019-.462.132-.612.136-.135.301-.351.451-.526.151-.176.201-.301.301-.502.1-.2.05-.376-.025-.526-.075-.15-.677-1.631-.928-2.233-.244-.587-.492-.507-.676-.517-.175-.008-.376-.01-.576-.01s-.527.075-.802.376c-.276.301-1.053 1.028-1.053 2.508 0 1.479 1.078 2.909 1.229 3.109.15.201 2.121 3.239 5.14 4.542.718.31 1.279.495 1.716.634.721.23 1.378.197 1.9.12.581-.088 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.201-.576-.351z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.05 22l4.985-1.308A9.948 9.948 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.167c-1.57 0-3.045-.44-4.303-1.206l-.309-.187-2.96.777.79-2.884-.205-.327A8.132 8.132 0 0 1 3.833 12c0-4.51 3.657-8.167 8.167-8.167s8.167 3.657 8.167 8.167-3.657 8.167-8.167 8.167z"/>
+    </svg>
   </a>
 
   <!-- Lucide Icon Initialization -->
@@ -1763,6 +1735,6 @@
   </script>
 
   <!-- Main Application Script -->
-  <script src="js/app.js?v=2.2"></script>
+  <script src="js/app.js?v=2.3"></script>
 </body>
 </html>
