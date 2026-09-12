@@ -178,13 +178,15 @@ function initForgeParticles() {
 
   let width = canvas.width = window.innerWidth;
   let height = canvas.height = window.innerHeight;
+  let isMobile = window.innerWidth < 768;
 
   window.addEventListener('resize', () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
+    isMobile = window.innerWidth < 768;
   });
 
-  const particleCount = 45;
+  const particleCount = isMobile ? 18 : 45;
   const particles = [];
 
   for (let i = 0; i < particleCount; i++) {
@@ -218,8 +220,10 @@ function initForgeParticles() {
       ctx.save();
       ctx.globalAlpha = p.alpha;
       ctx.fillStyle = p.color;
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = p.color;
+      if (!isMobile) {
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = p.color;
+      }
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
@@ -603,17 +607,35 @@ function initBeforeAfterSlider() {
     isDragging = false;
   });
 
-  // Touch Support
-  container.addEventListener('touchstart', (e) => {
+  // Touch Support (Ensuring vertical page scrolling is smooth on mobile)
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  handle.addEventListener('touchstart', (e) => {
     stopAutoSwipe();
     isDragging = true;
     updateSlider(e.touches[0].clientX);
-  });
+    e.stopPropagation();
+  }, { passive: true });
 
-  window.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    updateSlider(e.touches[0].clientX);
-  });
+  container.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  container.addEventListener('touchmove', (e) => {
+    if (!isDragging && e.touches.length === 1) {
+      const dx = Math.abs(e.touches[0].clientX - touchStartX);
+      const dy = Math.abs(e.touches[0].clientY - touchStartY);
+      if (dx > dy && dx > 8) {
+        stopAutoSwipe();
+        isDragging = true;
+      }
+    }
+    if (isDragging && e.touches.length === 1) {
+      updateSlider(e.touches[0].clientX);
+    }
+  }, { passive: true });
 
   window.addEventListener('touchend', () => {
     isDragging = false;
@@ -877,8 +899,26 @@ function openModal(modalId) {
 
     if (modalId === 'tour-modal') {
       const video = document.getElementById('tour-video');
+      const bigPlayBtn = document.getElementById('tour-big-play');
+      const playIcon = document.getElementById('tour-play-icon');
+
       if (video) {
-        video.play().catch(() => {});
+        video.muted = true;
+        video.playsInline = true;
+        video.currentTime = 0;
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            if (bigPlayBtn) bigPlayBtn.classList.add('opacity-0', 'pointer-events-none');
+            if (playIcon) playIcon.setAttribute('data-lucide', 'pause');
+            if (window.lucide) lucide.createIcons();
+          }).catch(err => {
+            console.log('Mobile video autoplay deferred:', err);
+            if (bigPlayBtn) bigPlayBtn.classList.remove('opacity-0', 'pointer-events-none');
+            if (playIcon) playIcon.setAttribute('data-lucide', 'play');
+            if (window.lucide) lucide.createIcons();
+          });
+        }
       }
     }
   }
@@ -891,6 +931,10 @@ function closeModal(modal) {
   if (video) {
     video.pause();
   }
+  const bigPlayBtn = modal.querySelector('#tour-big-play');
+  if (bigPlayBtn) {
+    bigPlayBtn.classList.remove('opacity-0', 'pointer-events-none');
+  }
 }
 
 /* =========================================================
@@ -902,6 +946,7 @@ let tourProgressInterval = null;
 function initTourVideoPlayer() {
   const video = document.getElementById('tour-video');
   const feedImg = document.getElementById('tour-feed-img');
+  const bigPlayBtn = document.getElementById('tour-big-play');
   const playToggle = document.getElementById('tour-play-toggle');
   const playIcon = document.getElementById('tour-play-icon');
   const progressBar = document.getElementById('tour-progress-bar');
@@ -923,6 +968,21 @@ function initTourVideoPlayer() {
 
   let isPlaying = true;
   let simulatedSeconds = 24;
+
+  function updatePlayState(playing) {
+    isPlaying = playing;
+    if (playIcon) {
+      playIcon.setAttribute('data-lucide', playing ? 'pause' : 'play');
+    }
+    if (bigPlayBtn) {
+      if (playing) {
+        bigPlayBtn.classList.add('opacity-0', 'pointer-events-none');
+      } else {
+        bigPlayBtn.classList.remove('opacity-0', 'pointer-events-none');
+      }
+    }
+    if (window.lucide) lucide.createIcons();
+  }
 
   function updateClock() {
     if (!liveClock) return;
@@ -956,6 +1016,19 @@ function initTourVideoPlayer() {
 
   // Video Time Update & Progress Synchronization
   if (video) {
+    video.addEventListener('play', () => updatePlayState(true));
+    video.addEventListener('pause', () => updatePlayState(false));
+
+    // Tap on video directly to play/pause
+    video.addEventListener('click', () => {
+      if (video.paused) {
+        video.muted = true;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+
     video.addEventListener('timeupdate', () => {
       if (video.duration) {
         const pct = (video.currentTime / video.duration) * 100;
@@ -971,27 +1044,42 @@ function initTourVideoPlayer() {
     });
   }
 
-  // Play / Pause Toggle
+  // Central Big Play Button (Mobile & Desktop)
+  if (bigPlayBtn) {
+    bigPlayBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (video) {
+        video.muted = true;
+        video.play().then(() => updatePlayState(true)).catch(err => console.log(err));
+      }
+      if (typeof playClickSound === 'function' && soundEnabled) playClickSound();
+    });
+  }
+
+  // Play / Pause Toggle Button
   if (playToggle) {
-    playToggle.addEventListener('click', () => {
+    playToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (!video) return;
       if (video.paused) {
-        video.play().catch(() => {});
-        if (playIcon) playIcon.setAttribute('data-lucide', 'pause');
-        showToast('▶ Live Stream Resumed');
+        video.muted = true;
+        video.play().then(() => {
+          updatePlayState(true);
+          showToast('▶ Live Stream Resumed');
+        }).catch(() => {});
       } else {
         video.pause();
-        if (playIcon) playIcon.setAttribute('data-lucide', 'play');
+        updatePlayState(false);
         showToast('⏸ Stream Paused');
       }
-      if (window.lucide) lucide.createIcons();
       if (typeof playClickSound === 'function' && soundEnabled) playClickSound();
     });
   }
 
   // Mute / Unmute Toggle
   if (muteToggle) {
-    muteToggle.addEventListener('click', () => {
+    muteToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (!video) return;
       video.muted = !video.muted;
       if (muteIcon) {
@@ -1010,8 +1098,10 @@ function initTourVideoPlayer() {
       if (container) {
         if (!document.fullscreenElement) {
           if (container.requestFullscreen) container.requestFullscreen();
+          else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
         } else {
           if (document.exitFullscreen) document.exitFullscreen();
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
         }
       }
     });
@@ -1054,7 +1144,10 @@ function initTourVideoPlayer() {
         video.src = videoSrc;
         if (imageSrc) video.poster = imageSrc;
         video.load();
-        video.play().catch(() => {});
+        const p = video.play();
+        if (p !== undefined) {
+          p.then(() => updatePlayState(true)).catch(() => updatePlayState(false));
+        }
         setTimeout(() => {
           video.style.opacity = '1';
         }, 150);
@@ -1354,29 +1447,51 @@ function initMobileNav() {
   const closeDrawerBtn = document.getElementById('close-mobile-drawer');
   const navLinks = document.querySelectorAll('.mobile-nav-link');
 
-  if (mobileToggle && mobileDrawer) {
-    mobileToggle.addEventListener('click', () => {
-      mobileDrawer.classList.toggle('hidden');
-      if (!mobileDrawer.classList.contains('hidden')) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
+  function setDrawerOpen(isOpen) {
+    if (!mobileDrawer) return;
+    if (isOpen) {
+      mobileDrawer.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      if (mobileToggle) {
+        mobileToggle.innerHTML = '<i data-lucide="x" class="w-5 h-5"></i>';
+        if (window.lucide) lucide.createIcons();
       }
+    } else {
+      mobileDrawer.classList.add('hidden');
+      document.body.style.overflow = '';
+      if (mobileToggle) {
+        mobileToggle.innerHTML = '<i data-lucide="menu" class="w-5 h-5"></i>';
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+  }
+
+  if (mobileToggle && mobileDrawer) {
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isHidden = mobileDrawer.classList.contains('hidden');
+      setDrawerOpen(isHidden);
       if (soundEnabled) playClickSound();
     });
 
     if (closeDrawerBtn) {
-      closeDrawerBtn.addEventListener('click', () => {
-        mobileDrawer.classList.add('hidden');
-        document.body.style.overflow = '';
+      closeDrawerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setDrawerOpen(false);
         if (soundEnabled) playClickSound();
       });
     }
 
     navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mobileDrawer.classList.add('hidden');
-        document.body.style.overflow = '';
+      link.addEventListener('click', (e) => {
+        const modalTarget = link.getAttribute('data-open-modal');
+        setDrawerOpen(false);
+        if (modalTarget) {
+          e.preventDefault();
+          setTimeout(() => {
+            openModal(modalTarget);
+          }, 100);
+        }
       });
     });
   }
