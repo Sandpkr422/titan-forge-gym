@@ -1,0 +1,14 @@
+[
+  {
+    "id": "titan-forge",
+    "name": "TITAN FORGE GYM",
+    "isDemo": true,
+    "file": "titan-forge.json"
+  },
+  {
+    "id": "apex-fitness",
+    "name": "APEX ATHLETIC CLUB",
+    "isDemo": false,
+    "file": "apex-fitness.json"
+  }
+]

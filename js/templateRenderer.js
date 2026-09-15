@@ -26,9 +26,14 @@
     /**
      * Initializes template hydration on page load
      */
-    init() {
+    async init() {
       const activeId = window.GymStore ? window.GymStore.getActiveGymId() : 'titan-forge';
-      let config = window.GymStore ? window.GymStore.getGym(activeId) : null;
+      let config = null;
+      if (window.GymStore && typeof window.GymStore.loadGym === 'function') {
+        config = await window.GymStore.loadGym(activeId);
+      } else if (window.GymStore) {
+        config = window.GymStore.getGym(activeId);
+      }
       if (!config) config = window.DEFAULT_GYM_DATA;
 
       this.currentConfig = config;

@@ -43,6 +43,41 @@
           localStorage.setItem(DATA_PREFIX + 'titan-forge', JSON.stringify(DEFAULT_DATA));
         }
       }
+      this.syncRemoteRegistry();
+    },
+
+    /**
+     * Synchronizes registry with static gyms/index.json
+     */
+    async syncRemoteRegistry() {
+      try {
+        const res = await fetch('/gyms/index.json?v=' + Date.now());
+        if (res.ok) {
+          const remoteList = await res.json();
+          if (Array.isArray(remoteList)) {
+            const local = this.getRegistry();
+            const localMap = new Map(local.map(g => [g.id, g]));
+            let changed = false;
+            remoteList.forEach(rg => {
+              if (!localMap.has(rg.id)) {
+                local.push({
+                  id: rg.id,
+                  name: rg.name,
+                  isDemo: Boolean(rg.isDemo),
+                  updatedAt: Date.now()
+                });
+                changed = true;
+              }
+            });
+            if (changed) {
+              this.saveRegistry(local);
+              window.dispatchEvent(new CustomEvent('gymRegistryUpdated', { detail: local }));
+            }
+          }
+        }
+      } catch (e) {
+        // Offline or local static mode
+      }
     },
 
     /**
@@ -124,6 +159,56 @@
       }
 
       return null;
+    },
+
+    /**
+     * Asynchronously loads gym config:
+     * 1. Checks localStorage (for local drafts / admin edits)
+     * 2. If not found, fetches /gyms/${id}.json from server
+     * 3. Falls back to default
+     */
+    async loadGym(id) {
+      if (!id) id = 'titan-forge';
+
+      // 1. Check local storage
+      const local = this.getGym(id);
+      if (local && (local.updatedAt || local.id !== 'titan-forge')) {
+        return local;
+      }
+
+      // 2. Fetch from static JSON file
+      try {
+        const res = await fetch('/gyms/' + encodeURIComponent(id) + '.json?v=' + Date.now());
+        if (res.ok) {
+          const remoteData = await res.json();
+          try {
+            localStorage.setItem(DATA_PREFIX + id, JSON.stringify(remoteData));
+          } catch (e) {}
+          return remoteData;
+        }
+      } catch (err) {
+        console.warn('Could not fetch remote gym JSON for:', id, err);
+      }
+
+      // 3. Fallback to local or default
+      return local || JSON.parse(JSON.stringify(DEFAULT_DATA));
+    },
+
+    /**
+     * Triggers one-click browser download of gym JSON file
+     */
+    downloadGymFile(id) {
+      const gym = this.getGym(id) || DEFAULT_DATA;
+      const jsonStr = JSON.stringify(gym, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (gym.id || 'gym') + '.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     },
 
     /**

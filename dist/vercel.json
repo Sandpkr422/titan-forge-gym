@@ -4,6 +4,7 @@
   "outputDirectory": "dist",
   "rewrites": [
     { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/gyms/:path*", "destination": "/gyms/:path*" },
     { "source": "/gym/:slug", "destination": "/index.html" }
   ],
   "headers": [

@@ -22,7 +22,7 @@ for (const file of htmlFiles) {
 }
 
 // Copy directories
-const folders = ['css', 'js', 'assets'];
+const folders = ['css', 'js', 'assets', 'gyms'];
 for (const folder of folders) {
   const src = path.join(rootDir, folder);
   const dest = path.join(distDir, folder);

@@ -367,6 +367,19 @@
         };
       }
 
+      // Download / Export Gym JSON
+      const downloadBtn = document.getElementById('btn-download-json');
+      if (downloadBtn) {
+        downloadBtn.onclick = () => {
+          try {
+            window.GymStore.downloadGymFile(activeGymId);
+            this.showToast('📥 Downloaded ' + activeGymId + '.json! Commit this file to git/gyms/ to make it live.');
+          } catch (e) {
+            alert('Failed to download gym JSON: ' + e.message);
+          }
+        };
+      }
+
       // Revert Changes
       const revertBtn = document.getElementById('btn-reset-changes');
       if (revertBtn) {
