@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TITAN FORGE // Gym Template Admin Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css?v=2.5">
+  <link rel="stylesheet" href="css/admin.css?v=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#070708',
+              charcoal: '#0B0B0E',
+              surface: '#111116',
+              card: '#16161C',
+              border: '#27272A',
+              volt: '#CCFF00',
+              crimson: '#FF3344',
+            }
+          },
+          fontFamily: {
+            display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Courier New', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="admin-body flex flex-col h-screen select-none">
+
+  <!-- TOP ADMIN BAR -->
+  <header class="h-16 bg-[#0B0B10] border-b border-zinc-800 px-4 sm:px-6 flex items-center justify-between shrink-0 z-30">
+    
+    <!-- Left: Brand Logo & Title -->
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-[#CCFF00] text-black flex items-center justify-center font-black text-sm shadow-[0_0_15px_rgba(204,255,0,0.4)]">
+        <i data-lucide="dumbbell" class="w-4 h-4"></i>
+      </div>
+      <div>
+        <h1 class="font-display font-extrabold text-sm sm:text-base text-white tracking-wide uppercase leading-tight">
+          TITAN FORGE <span class="text-[#CCFF00] font-mono text-xs">// MULTI-GYM ADMIN</span>
+        </h1>
+        <p class="text-[10px] text-zinc-400 font-mono hidden sm:block">Template Engine & Real-Time Personalizer</p>
+      </div>
+    </div>
+
+    <!-- Center: Gym Switcher & Quick Actions -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      
+      <!-- Gym Select Dropdown -->
+      <div class="flex items-center gap-2 bg-zinc-900 border border-zinc-700 rounded-xl px-2.5 py-1">
+        <label for="admin-gym-select" class="text-[10px] font-mono text-zinc-400 uppercase hidden sm:inline">Active Gym:</label>
+        <select id="admin-gym-select" class="bg-transparent text-white font-bold text-xs focus:outline-none cursor-pointer py-1 pr-1">
+          <!-- Populated by admin.js -->
+        </select>
+        <span id="admin-demo-badge" class="px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-[#CCFF00] text-[9px] font-mono font-bold hidden">
+          DEMO
+        </span>
+      </div>
+
+      <!-- Create New Gym Button -->
+      <button id="btn-create-gym" class="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white text-xs font-bold transition-all flex items-center gap-1.5" title="Create New Gym Profile">
+        <i data-lucide="plus-circle" class="w-4 h-4 text-[#CCFF00]"></i>
+        <span class="hidden md:inline">New Gym</span>
+      </button>
+
+      <!-- Duplicate Gym Button -->
+      <button id="btn-duplicate-gym" class="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-300 text-xs font-bold transition-all flex items-center gap-1.5" title="Duplicate Active Gym">
+        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+        <span class="hidden lg:inline">Clone</span>
+      </button>
+
+      <!-- Delete Gym Button -->
+      <button id="btn-delete-gym" class="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-zinc-900 hover:bg-red-950/60 border border-zinc-800 hover:border-red-600 text-zinc-400 hover:text-red-400 text-xs font-bold transition-all flex items-center gap-1" title="Delete Active Gym">
+        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+      </button>
+
+    </div>
+
+    <!-- Right: Save & Public View Actions -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      
+      <!-- Reset Changes Button -->
+      <button id="btn-reset-changes" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 hover:text-white text-xs font-mono transition-all hidden sm:flex items-center gap-1" title="Revert unsaved changes">
+        <i data-lucide="undo" class="w-3.5 h-3.5"></i>
+        <span class="hidden lg:inline">Revert</span>
+      </button>
+
+      <!-- Save Button -->
+      <button id="btn-save-gym" class="btn-shine px-4 py-2 rounded-xl bg-[#CCFF00] hover:bg-[#b5e600] text-black font-display font-black text-xs uppercase tracking-wider transition-all transform active:scale-95 shadow-[0_0_20px_rgba(204,255,0,0.35)] flex items-center gap-2">
+        <i data-lucide="save" class="w-4 h-4 fill-current"></i>
+        <span>Save Changes</span>
+      </button>
+
+      <!-- Public Site Link -->
+      <a id="link-view-public" href="/" target="_blank" rel="noopener noreferrer" class="p-2 sm:px-3 sm:py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 hover:text-white text-xs font-mono transition-all flex items-center gap-1.5" title="Open Customer Facing Website">
+        <span class="hidden sm:inline">View Live</span>
+        <i data-lucide="external-link" class="w-3.5 h-3.5 text-[#CCFF00]"></i>
+      </a>
+
+    </div>
+
+  </header>
+
+  <!-- MOBILE VIEWPORT TAB TOGGLER (Visible only on < lg screens) -->
+  <div class="lg:hidden flex border-b border-zinc-800 bg-zinc-950 px-3 py-1.5 shrink-0 justify-between items-center text-xs font-mono">
+    <div class="flex gap-2">
+      <button id="mobile-tab-edit" class="px-3 py-1 rounded-lg bg-[#CCFF00] text-black font-bold">
+        Edit Controls
+      </button>
+      <button id="mobile-tab-preview" class="px-3 py-1 rounded-lg bg-zinc-900 text-zinc-300 font-bold border border-zinc-800">
+        Live Preview
+      </button>
+    </div>
+    <span class="text-[10px] text-zinc-500">Dual View active on desktop</span>
+  </div>
+
+  <!-- WORKSPACE SPLIT SCREEN CONTAINER -->
+  <main class="flex-1 flex overflow-hidden relative">
+    
+    <!-- =========================================================
+         LEFT COLUMN: EDITING FORM CONTROLS
+         ========================================================= -->
+    <section id="admin-editor-panel" class="w-full lg:w-[48%] xl:w-[45%] flex flex-col bg-[#070709] border-r border-zinc-800/90 shrink-0 h-full overflow-hidden select-text">
+      
+      <!-- Tabs Navigator Bar -->
+      <nav class="flex items-center gap-1.5 px-4 py-2.5 border-b border-zinc-800/80 overflow-x-auto admin-scroll bg-[#0A0A0F] shrink-0">
+        <button class="admin-tab-btn active" data-tab="basic">
+          <i data-lucide="info" class="w-3.5 h-3.5"></i> Basic
+        </button>
+        <button class="admin-tab-btn" data-tab="branding">
+          <i data-lucide="palette" class="w-3.5 h-3.5"></i> Branding
+        </button>
+        <button class="admin-tab-btn" data-tab="hero">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Hero
+        </button>
+        <button class="admin-tab-btn" data-tab="stats">
+          <i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i> Stats
+        </button>
+        <button class="admin-tab-btn" data-tab="programs">
+          <i data-lucide="dumbbell" class="w-3.5 h-3.5"></i> Programs
+        </button>
+        <button class="admin-tab-btn" data-tab="pricing">
+          <i data-lucide="credit-card" class="w-3.5 h-3.5"></i> Plans
+        </button>
+        <button class="admin-tab-btn" data-tab="trainers">
+          <i data-lucide="users" class="w-3.5 h-3.5"></i> Trainers
+        </button>
+        <button class="admin-tab-btn" data-tab="testimonials">
+          <i data-lucide="message-square" class="w-3.5 h-3.5"></i> Proof
+        </button>
+        <button class="admin-tab-btn" data-tab="contact">
+          <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Contact
+        </button>
+        <button class="admin-tab-btn" data-tab="social">
+          <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Social
+        </button>
+      </nav>
+
+      <!-- Scrollable Form Panes Container -->
+      <div class="flex-1 overflow-y-auto admin-scroll p-4 sm:p-6 space-y-6">
+        
+        <!-- ==================== TAB 1: BASIC INFO ==================== -->
+        <div id="tab-pane-basic" class="admin-tab-pane space-y-5">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+            <div>
+              <h2 class="font-display font-bold text-base text-white uppercase">Gym Identity & Contact</h2>
+              <p class="text-xs text-zinc-400">Core operational information displayed throughout the template</p>
+            </div>
+            <span class="text-[10px] font-mono text-[#CCFF00] bg-[#CCFF00]/10 px-2 py-0.5 rounded">Core Data</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="admin-label">Full Gym Name *</label>
+              <input type="text" id="input-basic-name" data-bind="basicInfo.name" class="admin-input font-bold" placeholder="TITAN FORGE GYM" required />
+            </div>
+            <div>
+              <label class="admin-label">Short Name / Brand</label>
+              <input type="text" id="input-basic-shortname" data-bind="basicInfo.shortName" class="admin-input" placeholder="TITAN FORGE" />
+            </div>
+          </div>
+
+          <div>
+            <label class="admin-label">Tagline / Motto</label>
+            <input type="text" id="input-basic-tagline" data-bind="basicInfo.tagline" class="admin-input" placeholder="PERFORMANCE TEMPLE | OLYMPIC RATED" />
+          </div>
+
+          <div>
+            <label class="admin-label">Short Description</label>
+            <textarea id="input-basic-description" data-bind="basicInfo.description" rows="2" class="admin-input" placeholder="Raw industrial luxury, state-of-the-art equipment..."></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="admin-label">Phone Number *</label>
+              <input type="text" id="input-basic-phone" data-bind="basicInfo.phone" class="admin-input" placeholder="+91 98765 43210" />
+            </div>
+            <div>
+              <label class="admin-label">WhatsApp Number *</label>
+              <input type="text" id="input-basic-whatsapp" data-bind="basicInfo.whatsapp" class="admin-input" placeholder="+91 98765 43210" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="admin-label">Official Email</label>
+              <input type="email" id="input-basic-email" data-bind="basicInfo.email" class="admin-input" placeholder="vip@titanforgegym.in" />
+            </div>
+            <div>
+              <label class="admin-label">Operating Hours</label>
+              <input type="text" id="input-basic-hours" data-bind="basicInfo.openHours" class="admin-input" placeholder="Open 24/7/365" />
+            </div>
+          </div>
+
+          <div>
+            <label class="admin-label">Street Address</label>
+            <input type="text" id="input-basic-address" data-bind="basicInfo.address" class="admin-input" placeholder="Plot 42, Linking Road, Near Khar Telephone Exchange" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="admin-label">City & Area</label>
+              <input type="text" id="input-basic-city" data-bind="basicInfo.city" class="admin-input" placeholder="Bandra West, Mumbai" />
+            </div>
+            <div>
+              <label class="admin-label">State & PIN</label>
+              <input type="text" id="input-basic-state" data-bind="basicInfo.state" class="admin-input" placeholder="Maharashtra 400052" />
+            </div>
+          </div>
+
+          <div>
+            <label class="admin-label">Website URL</label>
+            <input type="url" id="input-basic-website" data-bind="basicInfo.websiteUrl" class="admin-input" placeholder="https://titan-forge-gym-omega.vercel.app" />
+          </div>
+        </div>
+
+        <!-- ==================== TAB 2: BRANDING & COLORS ==================== -->
+        <div id="tab-pane-branding" class="admin-tab-pane space-y-5 hidden">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+            <div>
+              <h2 class="font-display font-bold text-base text-white uppercase">Branding & Color Theme</h2>
+              <p class="text-xs text-zinc-400">Personalize logo, primary neon accents, and aesthetic glows</p>
+            </div>
+            <span class="text-[10px] font-mono text-[#CCFF00] bg-[#CCFF00]/10 px-2 py-0.5 rounded">Visual Theme</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="admin-label">Logo Main Text</label>
+              <input type="text" id="input-brand-logotext" data-bind="branding.logoText" class="admin-input" placeholder="TITAN FORGE" />
+            </div>
+            <div>
+              <label class="admin-label">Logo Subtext</label>
+              <input type="text" id="input-brand-logosubtext" data-bind="branding.logoSubtext" class="admin-input" placeholder="GYM" />
+            </div>
+          </div>
+
+          <div>
+            <label class="admin-label">Custom Logo Image URL (Optional - Replaces Text Logo)</label>
+            <input type="text" id="input-brand-logoimg" data-bind="branding.logoImage" class="admin-input" placeholder="https://example.com/logo.png or assets/images/logo.svg" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-3 bg-zinc-950 border border-zinc-800 rounded-xl">
+              <label class="admin-label flex items-center justify-between">
+                <span>Primary Accent Color</span>
+                <span id="label-primary-color" class="font-mono text-zinc-400 text-[10px]">#CCFF00</span>
+              </label>
+              <div class="flex items-center gap-3 mt-1.5">
+                <input type="color" id="picker-brand-primary" data-bind="branding.primaryColor" class="w-10 h-10 rounded-lg cursor-pointer bg-transparent border-0" value="#CCFF00" />
+                <input type="text" id="input-brand-primary" data-bind="branding.primaryColor" class="admin-input font-mono uppercase text-xs" value="#CCFF00" />
+              </div>
+              <div class="flex gap-1.5 mt-2.5">
+                <button type="button" class="preset-color-btn w-5 h-5 rounded-full bg-[#CCFF00] border border-black/40" data-color="#CCFF00" title="Neon Volt"></button>
+                <button type="button" class="preset-color-btn w-5 h-5 rounded-full bg-[#00E5FF] border border-black/40" data-color="#00E5FF" title="Cyber Cyan"></button>
+                <button type="button" class="preset-color-btn w-5 h-5 rounded-full bg-[#FFD700] border border-black/40" data-color="#FFD700" title="Gold Rush"></button>
+                <button type="button" class="preset-color-btn w-5 h-5 rounded-full bg-[#00FF66] border border-black/40" data-color="#00FF66" title="Toxic Emerald"></button>
+                <button type="button" class="preset-color-btn w-5 h-5 rounded-full bg-[#FF3344] border border-black/40" data-color="#FF3344" title="Crimson"></button>
+              </div>
+            </div>
+
+            <div class="p-3 bg-zinc-950 border border-zinc-800 rounded-xl">
+              <label class="admin-label flex items-center justify-between">
+                <span>Secondary Accent Color</span>
+                <span id="label-secondary-color" class="font-mono text-zinc-400 text-[10px]">#FF3344</span>
+              </label>
+              <div class="flex items-center gap-3 mt-1.5">
+                <input type="color" id="picker-brand-secondary" data-bind="branding.secondaryColor" class="w-10 h-10 rounded-lg cursor-pointer bg-transparent border-0" value="#FF3344" />
+                <input type="text" id="input-brand-secondary" data-bind="branding.secondaryColor" class="admin-input font-mono uppercase text-xs" value="#FF3344" />
+              </div>
+              <div class="flex gap-1.5 mt-2.5">
+                <button type="button" class="preset-color-btn w-5 h-5 rounded-full bg-[#FF3344] border border-black/40" data-color="#FF3344" title="Crimson"></button>
+                <button type="button" class="preset-color-btn w-5 h-5 rounded-full bg-[#FF8800] border border-black/40" data-color="#FF8800" title="Solar Flare"></button>
+                <button type="button" class="preset-color-btn w-5 h-5 rounded-full bg-[#A855F7] border border-black/40" data-color="#A855F7" title="Neon Purple"></button>
+                <button type="button" class="preset-color-btn w-5 h-5 rounded-full bg-[#00E5FF] border border-black/40" data-color="#00E5FF" title="Cyan"></button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="admin-label">Favicon URL</label>
+            <input type="text" id="input-brand-favicon" data-bind="branding.favicon" class="admin-input" placeholder="assets/images/favicon.ico or https://..." />
+          </div>
+        </div>
+
+        <!-- ==================== TAB 3: HERO SECTION ==================== -->
+        <div id="tab-pane-hero" class="admin-tab-pane space-y-5 hidden">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+            <div>
+              <h2 class="font-display font-bold text-base text-white uppercase">Hero Landing Section</h2>
+              <p class="text-xs text-zinc-400">Headlines, hero imagery, trust badges and primary CTAs</p>
+            </div>
+            <span class="text-[10px] font-mono text-[#CCFF00] bg-[#CCFF00]/10 px-2 py-0.5 rounded">Above the Fold</span>
+          </div>
+
+          <div>
+            <label class="admin-label">Top Cyber Badge Tag</label>
+            <input type="text" id="input-hero-badge" data-bind="hero.badge" class="admin-input" placeholder="PERFORMANCE TEMPLE | OLYMPIC RATED" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="admin-label">Headline Line 1</label>
+              <input type="text" id="input-hero-head1" data-bind="hero.headingLine1" class="admin-input font-bold" placeholder="TRANSFORM YOUR REALITY." />
+            </div>
+            <div>
+              <label class="admin-label">Headline Line 2 (Accent Gradient)</label>
+              <input type="text" id="input-hero-head2" data-bind="hero.headingLine2" class="admin-input font-bold text-[#CCFF00]" placeholder="UNLEASH THE BEAST." />
+            </div>
+          </div>
+
+          <div>
+            <label class="admin-label">Subheading Statement</label>
+            <textarea id="input-hero-subheading" data-bind="hero.subheading" rows="2" class="admin-input" placeholder="State-of-the-art equipment, elite Olympic-level trainers..."></textarea>
+          </div>
+
+          <div>
+            <label class="admin-label">Hero Background Image URL</label>
+            <input type="text" id="input-hero-image" data-bind="hero.heroImage" class="admin-input" placeholder="https://images.unsplash.com/photo-1534438327276-14e5300c3a48..." />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-3 bg-zinc-950 border border-zinc-800 rounded-xl space-y-2">
+              <span class="text-xs font-bold text-white uppercase block">Primary CTA Button</span>
+              <div>
+                <label class="admin-label">Button Text</label>
+                <input type="text" id="input-hero-cta1-text" data-bind="hero.primaryCtaText" class="admin-input" placeholder="Start Your Free Trial" />
+              </div>
+              <div>
+                <label class="admin-label">Button Link / Hash</label>
+                <input type="text" id="input-hero-cta1-link" data-bind="hero.primaryCtaLink" class="admin-input font-mono" placeholder="#lead-capture" />
+              </div>
+            </div>
+
+            <div class="p-3 bg-zinc-950 border border-zinc-800 rounded-xl space-y-2">
+              <span class="text-xs font-bold text-white uppercase block">Secondary CTA Button</span>
+              <div>
+                <label class="admin-label">Button Text</label>
+                <input type="text" id="input-hero-cta2-text" data-bind="hero.secondaryCtaText" class="admin-input" placeholder="Watch Facility Tour" />
+              </div>
+              <div>
+                <label class="admin-label">Action Target</label>
+                <input type="text" id="input-hero-cta2-link" data-bind="hero.secondaryCtaLink" class="admin-input font-mono" placeholder="tour-modal" />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="admin-label">Trust Badges (Comma-separated)</label>
+            <input type="text" id="input-hero-badges" class="admin-input" placeholder="Zero Joining Fee Today, 100% Free 1-Day VIP Access, Certified Olympic Coaching" />
+          </div>
+        </div>
+
+        <!-- ==================== TAB 4: GYM STATISTICS ==================== -->
+        <div id="tab-pane-stats" class="admin-tab-pane space-y-5 hidden">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+            <div>
+              <h2 class="font-display font-bold text-base text-white uppercase">Gym Statistics Counters</h2>
+              <p class="text-xs text-zinc-400">Dynamic numbers, suffixes, and labels displayed in the hero stat bar</p>
+            </div>
+            <button id="btn-add-stat" type="button" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold text-white flex items-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5 text-[#CCFF00]"></i> Add Stat
+            </button>
+          </div>
+
+          <div id="stats-list-container" class="space-y-3">
+            <!-- Dynamically rendered stat cards -->
+          </div>
+        </div>
+
+        <!-- ==================== TAB 5: PROGRAMS / DISCIPLINES ==================== -->
+        <div id="tab-pane-programs" class="admin-tab-pane space-y-5 hidden">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+            <div>
+              <h2 class="font-display font-bold text-base text-white uppercase">Services & Training Programs</h2>
+              <p class="text-xs text-zinc-400">Add, edit, or delete gym training disciplines and bento features</p>
+            </div>
+            <button id="btn-add-program" type="button" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold text-white flex items-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5 text-[#CCFF00]"></i> Add Program
+            </button>
+          </div>
+
+          <div id="programs-list-container" class="space-y-4">
+            <!-- Dynamically rendered program cards -->
+          </div>
+        </div>
+
+        <!-- ==================== TAB 6: MEMBERSHIP PLANS ==================== -->
+        <div id="tab-pane-pricing" class="admin-tab-pane space-y-5 hidden">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+            <div>
+              <h2 class="font-display font-bold text-base text-white uppercase">Membership Tiers & Pricing</h2>
+              <p class="text-xs text-zinc-400">Configure plans, prices, durations, features, and highlight popular tier</p>
+            </div>
+            <button id="btn-add-plan" type="button" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold text-white flex items-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5 text-[#CCFF00]"></i> Add Plan
+            </button>
+          </div>
+
+          <div id="plans-list-container" class="space-y-4">
+            <!-- Dynamically rendered plan cards -->
+          </div>
+        </div>
+
+        <!-- ==================== TAB 7: TRAINERS & COACHES ==================== -->
+        <div id="tab-pane-trainers" class="admin-tab-pane space-y-5 hidden">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+            <div>
+              <h2 class="font-display font-bold text-base text-white uppercase">Elite Coaches & Trainers</h2>
+              <p class="text-xs text-zinc-400">Profiles, photos, certifications, and specializations</p>
+            </div>
+            <button id="btn-add-trainer" type="button" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold text-white flex items-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5 text-[#CCFF00]"></i> Add Trainer
+            </button>
+          </div>
+
+          <div id="trainers-list-container" class="space-y-4">
+            <!-- Dynamically rendered trainer cards -->
+          </div>
+        </div>
+
+        <!-- ==================== TAB 8: TESTIMONIALS / PROOF ==================== -->
+        <div id="tab-pane-testimonials" class="admin-tab-pane space-y-5 hidden">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+            <div>
+              <h2 class="font-display font-bold text-base text-white uppercase">Member Testimonials & Results</h2>
+              <p class="text-xs text-zinc-400">Social proof, transformation metrics, and verified reviews</p>
+            </div>
+            <button id="btn-add-testimonial" type="button" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold text-white flex items-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5 text-[#CCFF00]"></i> Add Testimonial
+            </button>
+          </div>
+
+          <div id="testimonials-list-container" class="space-y-4">
+            <!-- Dynamically rendered testimonial cards -->
+          </div>
+        </div>
+
+        <!-- ==================== TAB 9: CONTACT & WHATSAPP ==================== -->
+        <div id="tab-pane-contact" class="admin-tab-pane space-y-5 hidden">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+            <div>
+              <h2 class="font-display font-bold text-base text-white uppercase">Contact, WhatsApp & Maps</h2>
+              <p class="text-xs text-zinc-400">Lead capture headlines, WhatsApp pre-filled prompt, and Google Maps</p>
+            </div>
+            <span class="text-[10px] font-mono text-[#CCFF00] bg-[#CCFF00]/10 px-2 py-0.5 rounded">Lead Generation</span>
+          </div>
+
+          <div>
+            <label class="admin-label">Lead Capture Card Headline</label>
+            <input type="text" id="input-contact-head" data-bind="contact.headline" class="admin-input font-bold" placeholder="CLAIM YOUR FREE 1-DAY VIP PASS" />
+          </div>
+
+          <div>
+            <label class="admin-label">Lead Capture Subheadline</label>
+            <textarea id="input-contact-subhead" data-bind="contact.subheadline" rows="2" class="admin-input" placeholder="Experience world-class training in Bandra West with zero commitments..."></textarea>
+          </div>
+
+          <div class="p-3 bg-zinc-950 border border-zinc-800 rounded-xl space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white uppercase flex items-center gap-1.5">
+                <i data-lucide="message-circle" class="w-4 h-4 text-[#25D366]"></i>
+                WhatsApp Lead Prompt Template
+              </span>
+              <span class="text-[10px] font-mono text-zinc-400">{GYM_NAME} replaced dynamically</span>
+            </div>
+            <textarea id="input-contact-waprompt" data-bind="contact.whatsappPrompt" rows="2" class="admin-input font-mono text-xs" placeholder="Hi, I am interested in joining {GYM_NAME}. Please share your membership plans and free trial details."></textarea>
+          </div>
+
+          <div>
+            <label class="admin-label">Google Maps Direct URL (Open in Maps Button)</label>
+            <input type="url" id="input-contact-mapsurl" data-bind="basicInfo.googleMapsUrl" class="admin-input" placeholder="https://maps.google.com/?q=..." />
+          </div>
+
+          <div>
+            <label class="admin-label">Google Maps Iframe Embed URL (Displays interactive map)</label>
+            <input type="text" id="input-contact-mapsembed" data-bind="basicInfo.googleMapsEmbedUrl" class="admin-input font-mono text-xs" placeholder="https://www.google.com/maps/embed?pb=..." />
+          </div>
+        </div>
+
+        <!-- ==================== TAB 10: SOCIAL MEDIA ==================== -->
+        <div id="tab-pane-social" class="admin-tab-pane space-y-5 hidden">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+            <div>
+              <h2 class="font-display font-bold text-base text-white uppercase">Social Media Profiles</h2>
+              <p class="text-xs text-zinc-400">Icons are automatically shown if a link is provided, or hidden if left blank</p>
+            </div>
+            <span class="text-[10px] font-mono text-[#CCFF00] bg-[#CCFF00]/10 px-2 py-0.5 rounded">Socials</span>
+          </div>
+
+          <div>
+            <label class="admin-label flex items-center gap-1.5">
+              <i data-lucide="instagram" class="w-3.5 h-3.5 text-pink-400"></i> Instagram Profile URL
+            </label>
+            <input type="url" id="input-social-instagram" data-bind="socialLinks.instagram" class="admin-input" placeholder="https://instagram.com/titanforgegym" />
+          </div>
+
+          <div>
+            <label class="admin-label flex items-center gap-1.5">
+              <i data-lucide="message-circle" class="w-3.5 h-3.5 text-[#25D366]"></i> WhatsApp Direct Link (Optional Override)
+            </label>
+            <input type="url" id="input-social-whatsapp" data-bind="socialLinks.whatsapp" class="admin-input" placeholder="https://wa.me/919876543210" />
+          </div>
+
+          <div>
+            <label class="admin-label flex items-center gap-1.5">
+              <i data-lucide="youtube" class="w-3.5 h-3.5 text-red-500"></i> YouTube Channel URL
+            </label>
+            <input type="url" id="input-social-youtube" data-bind="socialLinks.youtube" class="admin-input" placeholder="https://youtube.com/@titanforgegym" />
+          </div>
+
+          <div>
+            <label class="admin-label flex items-center gap-1.5">
+              <i data-lucide="facebook" class="w-3.5 h-3.5 text-blue-500"></i> Facebook Page URL
+            </label>
+            <input type="url" id="input-social-facebook" data-bind="socialLinks.facebook" class="admin-input" placeholder="https://facebook.com/titanforgegym" />
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================
+         RIGHT COLUMN: LIVE PREVIEW IFRAME WORKSPACE
+         ========================================================= -->
+    <section id="admin-preview-panel" class="hidden lg:flex flex-1 flex-col bg-[#050508] relative overflow-hidden h-full">
+      
+      <!-- Preview Sub-header with Device Frame Controls -->
+      <div class="h-10 bg-[#09090E] border-b border-zinc-800/80 px-4 flex items-center justify-between shrink-0 text-xs font-mono">
+        
+        <!-- Live Sync Status Indicator -->
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse"></span>
+          <span class="text-zinc-300 font-bold uppercase tracking-wider text-[11px]">Real-Time Live Preview</span>
+          <span class="text-zinc-600">|</span>
+          <span id="preview-sync-time" class="text-zinc-500 text-[10px]">Instant sync on keypress</span>
+        </div>
+
+        <!-- Viewport Switcher -->
+        <div class="flex items-center gap-1 bg-zinc-900 border border-zinc-800 rounded-lg p-0.5">
+          <button id="btn-view-desktop" class="px-2 py-1 rounded bg-zinc-800 text-white flex items-center gap-1 text-[11px] font-bold" title="Desktop View (100%)">
+            <i data-lucide="monitor" class="w-3 h-3"></i>
+            <span class="hidden xl:inline">Desktop</span>
+          </button>
+          <button id="btn-view-tablet" class="px-2 py-1 rounded text-zinc-400 hover:text-white flex items-center gap-1 text-[11px]" title="Tablet View (768px)">
+            <i data-lucide="tablet" class="w-3 h-3"></i>
+            <span class="hidden xl:inline">Tablet</span>
+          </button>
+          <button id="btn-view-mobile" class="px-2 py-1 rounded text-zinc-400 hover:text-white flex items-center gap-1 text-[11px]" title="Mobile View (390px)">
+            <i data-lucide="smartphone" class="w-3 h-3"></i>
+            <span class="hidden xl:inline">Mobile</span>
+          </button>
+        </div>
+
+        <!-- Reload Preview Button -->
+        <button id="btn-reload-preview" class="text-zinc-400 hover:text-white p-1 rounded hover:bg-zinc-800 transition-colors" title="Reload Preview Frame">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+        </button>
+
+      </div>
+
+      <!-- Live Preview Frame Container -->
+      <div class="flex-1 bg-[#040406] flex items-center justify-center p-2 sm:p-4 overflow-hidden relative">
+        <div id="preview-wrapper" class="w-full h-full flex items-center justify-center transition-all duration-300">
+          <iframe 
+            id="admin-preview-frame" 
+            src="/?preview=1" 
+            title="Titan Forge Gym Live Preview" 
+            class="w-full h-full border-0 bg-[#070708] rounded-none shadow-2xl transition-all duration-300"
+          ></iframe>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ==================== MODAL: CREATE NEW GYM ==================== -->
+  <div id="modal-create-gym" class="admin-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <div class="w-full max-w-md bg-[#0E0E14] border border-zinc-800 rounded-2xl p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <h3 class="font-display font-bold text-base text-white uppercase flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-4 h-4 text-[#CCFF00]"></i> Create New Gym Website
+        </h3>
+        <button class="modal-close-btn text-zinc-400 hover:text-white p-1 rounded">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div>
+        <label class="admin-label">Gym Name *</label>
+        <input type="text" id="modal-new-name" class="admin-input font-bold" placeholder="e.g. Apex Athletic Club" required />
+      </div>
+
+      <div>
+        <label class="admin-label">URL Slug * (Unique identifier, e.g. apex-athletic)</label>
+        <input type="text" id="modal-new-slug" class="admin-input font-mono text-xs" placeholder="apex-athletic" />
+        <p class="text-[10px] text-zinc-500 mt-1 font-mono">Website will be accessible at /gym/slug</p>
+      </div>
+
+      <div class="pt-3 border-t border-zinc-800 flex justify-end gap-2.5">
+        <button type="button" class="modal-close-btn px-4 py-2 rounded-xl bg-zinc-800 text-zinc-300 text-xs font-bold hover:bg-zinc-700">
+          Cancel
+        </button>
+        <button id="modal-confirm-create" type="button" class="px-5 py-2 rounded-xl bg-[#CCFF00] text-black font-display font-black text-xs uppercase tracking-wider hover:bg-[#b5e600] shadow-[0_0_15px_rgba(204,255,0,0.3)]">
+          Create Gym
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: DUPLICATE GYM ==================== -->
+  <div id="modal-duplicate-gym" class="admin-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <div class="w-full max-w-md bg-[#0E0E14] border border-zinc-800 rounded-2xl p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <h3 class="font-display font-bold text-base text-white uppercase flex items-center gap-2">
+          <i data-lucide="copy" class="w-4 h-4 text-[#CCFF00]"></i> Duplicate Gym Configuration
+        </h3>
+        <button class="modal-close-btn text-zinc-400 hover:text-white p-1 rounded">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div>
+        <label class="admin-label">New Gym Name *</label>
+        <input type="text" id="modal-dup-name" class="admin-input font-bold" placeholder="e.g. Titan Forge Pune" required />
+      </div>
+
+      <div class="pt-3 border-t border-zinc-800 flex justify-end gap-2.5">
+        <button type="button" class="modal-close-btn px-4 py-2 rounded-xl bg-zinc-800 text-zinc-300 text-xs font-bold hover:bg-zinc-700">
+          Cancel
+        </button>
+        <button id="modal-confirm-dup" type="button" class="px-5 py-2 rounded-xl bg-[#CCFF00] text-black font-display font-black text-xs uppercase tracking-wider hover:bg-[#b5e600]">
+          Duplicate
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="admin-toast" class="bg-zinc-900 border border-[#CCFF00] rounded-xl px-4 py-3 shadow-[0_0_25px_rgba(204,255,0,0.25)] flex items-center gap-3">
+    <span class="w-2 h-2 rounded-full bg-[#CCFF00] animate-ping"></span>
+    <span id="toast-message" class="text-xs font-bold text-white font-mono">Changes Saved Successfully!</span>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/defaultGymData.js"></script>
+  <script src="js/gymStore.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

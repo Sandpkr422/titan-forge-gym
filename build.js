@@ -11,10 +11,14 @@ if (fs.existsSync(distDir)) {
 }
 fs.mkdirSync(distDir, { recursive: true });
 
-// Copy index.html
-if (fs.existsSync(path.join(rootDir, 'index.html'))) {
-  fs.copyFileSync(path.join(rootDir, 'index.html'), path.join(distDir, 'index.html'));
-  console.log('✓ Copied index.html');
+// Copy html files
+const htmlFiles = ['index.html', 'admin.html'];
+for (const file of htmlFiles) {
+  const filePath = path.join(rootDir, file);
+  if (fs.existsSync(filePath)) {
+    fs.copyFileSync(filePath, path.join(distDir, file));
+    console.log(`✓ Copied ${file}`);
+  }
 }
 
 // Copy directories

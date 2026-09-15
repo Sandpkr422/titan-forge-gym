@@ -1216,16 +1216,18 @@ function initLeadForm() {
     playAnvilClang();
     setTimeout(playSuccessFanfare, 200);
 
-    const randomSerial = 'TF-2026-' + Math.floor(1000 + Math.random() * 9000);
-    const gymWhatsAppNumber = '919876543210';
+    const currentGym = window.CURRENT_GYM_CONFIG || window.DEFAULT_GYM_DATA || {};
+    const gymName = currentGym.basicInfo?.name || 'TITAN FORGE GYM';
+    const gymWhatsAppNumber = (currentGym.basicInfo?.whatsapp ? currentGym.basicInfo.whatsapp.replace(/[^0-9]/g, '') : '919876543210');
+    const randomSerial = (currentGym.basicInfo?.shortName ? currentGym.basicInfo.shortName.substring(0, 3).toUpperCase() : 'VIP') + '-2026-' + Math.floor(1000 + Math.random() * 9000);
     const message = encodeURIComponent(
-      `🔥 *TITAN FORGE GYM - VIP 1-DAY PASS RESERVATION*\n\n` +
+      `🔥 *${gymName} - VIP 1-DAY PASS RESERVATION*\n\n` +
       `🎫 *Pass ID:* ${randomSerial}\n` +
       `👤 *Athlete:* ${name}\n` +
       `📞 *Phone:* ${phone}\n` +
       `⏰ *Preferred Slot:* ${slot}\n` +
       `🎯 *Focus Discipline:* ${goal}\n\n` +
-      `_I am claiming my free VIP 1-Day Trial Pass at Titan Forge Gym. Please confirm my guest slot!_`
+      `_I am claiming my free VIP 1-Day Trial Pass at ${gymName}. Please confirm my guest slot!_`
     );
     const whatsappUrl = `https://wa.me/${gymWhatsAppNumber}?text=${message}`;
 
@@ -1235,7 +1237,7 @@ function initLeadForm() {
         <div class="flex items-center justify-between pb-4 border-b border-zinc-800">
           <div class="flex items-center gap-2">
             <span class="text-[#CCFF00] font-black text-xl">⚡</span>
-            <span class="font-display font-black text-lg text-white">TITAN FORGE // VIP PASS</span>
+            <span class="font-display font-black text-lg text-white">${gymName} // VIP PASS</span>
           </div>
           <span class="px-2.5 py-1 bg-[#CCFF00]/15 text-[#CCFF00] text-[10px] font-mono font-bold rounded">VALID 24H</span>
         </div>

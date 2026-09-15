@@ -1,0 +1,154 @@
+/* =========================================================
+   TITAN FORGE GYM - ADMIN DASHBOARD STYLES
+   Split-Screen Real-Time Preview & Management Workspace
+   ========================================================= */
+
+:root {
+  --admin-bg: #070709;
+  --admin-panel: #0E0E14;
+  --admin-card: #14141C;
+  --admin-card-hover: #1A1A24;
+  --admin-border: #272732;
+  --admin-border-focus: #CCFF00;
+  --admin-accent: #CCFF00;
+  --admin-accent-glow: rgba(204, 255, 0, 0.35);
+  --admin-crimson: #FF3344;
+  --admin-text-main: #FFFFFF;
+  --admin-text-muted: #8E8EA0;
+  --admin-text-sub: #B4B4C4;
+}
+
+body.admin-body {
+  background-color: var(--admin-bg);
+  color: var(--admin-text-main);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom Scrollbar for Admin Panels */
+.admin-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.admin-scroll::-webkit-scrollbar-track {
+  background: #09090D;
+}
+.admin-scroll::-webkit-scrollbar-thumb {
+  background: #252530;
+  border-radius: 4px;
+}
+.admin-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--admin-accent);
+}
+
+/* Form Inputs & Controls */
+.admin-input {
+  background-color: #0A0A0F;
+  border: 1px solid var(--admin-border);
+  color: #FFFFFF;
+  border-radius: 0.625rem;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.8125rem;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+.admin-input:focus {
+  outline: none;
+  border-color: var(--admin-border-focus);
+  box-shadow: 0 0 0 3px rgba(204, 255, 0, 0.15);
+}
+.admin-input::placeholder {
+  color: #555566;
+}
+
+.admin-label {
+  display: block;
+  font-size: 0.6875rem;
+  font-family: monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--admin-text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.admin-card {
+  background-color: var(--admin-panel);
+  border: 1px solid var(--admin-border);
+  border-radius: 0.875rem;
+  padding: 1.25rem;
+  position: relative;
+  transition: border-color 0.2s ease;
+}
+.admin-card:hover {
+  border-color: #383848;
+}
+
+/* Tab Navigation Buttons */
+.admin-tab-btn {
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--admin-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.admin-tab-btn:hover {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.04);
+}
+.admin-tab-btn.active {
+  color: #000000;
+  background-color: var(--admin-accent);
+  border-color: var(--admin-accent);
+  box-shadow: 0 0 15px var(--admin-accent-glow);
+}
+
+/* Toast Notifications */
+#admin-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  transform: translateY(120%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+#admin-toast.show {
+  transform: translateY(0);
+}
+
+/* Device Viewport Simulation in Preview */
+.preview-desktop {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+.preview-tablet {
+  width: 768px;
+  height: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), 0 0 0 8px #1E1E28;
+}
+.preview-mobile {
+  width: 390px;
+  height: 844px;
+  max-height: 94%;
+  border-radius: 2rem;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.95), 0 0 0 10px #1E1E28;
+}
+
+/* Modal Overlay */
+.admin-modal-overlay {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+}

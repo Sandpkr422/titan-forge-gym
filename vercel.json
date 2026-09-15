@@ -2,6 +2,10 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/gym/:slug", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
