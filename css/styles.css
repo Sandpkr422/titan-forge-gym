@@ -375,3 +375,25 @@ input[type=range]::-webkit-slider-thumb:hover {
   transform-origin: center center;
   transition: opacity 0.4s ease-in-out;
 }
+
+/* Studio Location Dark Interactive Map */
+#studio-leaflet-map {
+  background: #08080B !important;
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-container {
+  background: #08080B !important;
+  outline: none;
+  font-family: inherit;
+}
+
+.leaflet-tile {
+  filter: brightness(0.92) contrast(1.15) !important;
+}
+
+.custom-neon-pin {
+  background: transparent !important;
+  border: none !important;
+}

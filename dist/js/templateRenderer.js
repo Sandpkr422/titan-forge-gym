@@ -22,6 +22,9 @@
 
   const TemplateRenderer = {
     currentConfig: null,
+    studioMapInstance: null,
+    studioMapMarker: null,
+    lastGeocodedQuery: '',
 
     /**
      * Initializes template hydration on page load
@@ -619,23 +622,8 @@
         }
       }
 
-      // Google Maps Iframe Embed
-      const mapsIframe = document.getElementById('google-maps-iframe');
-      if (mapsIframe) {
-        // If user explicitly provided a custom valid embed URL that is not the hardcoded Titan Forge Mumbai demo
-        if (basic.googleMapsEmbedUrl && 
-            !basic.googleMapsEmbedUrl.includes('19.07281358213038') && 
-            !basic.googleMapsEmbedUrl.includes('19.065')) {
-          mapsIframe.src = basic.googleMapsEmbedUrl;
-          mapsIframe.classList.remove('hidden');
-        } else if (mapQuery) {
-          // Dynamic universal Google Maps embed: returns 200 without X-Frame-Options blocking
-          mapsIframe.src = `https://www.google.com/maps/embed?origin=mfe&pb=!1m2!2m1!1s${encodeURIComponent(mapQuery)}`;
-          mapsIframe.classList.remove('hidden');
-        } else {
-          mapsIframe.classList.add('hidden');
-        }
-      }
+      // 3. Studio Location Interactive Dark Map
+      this.renderStudioMap(config);
 
       // Social Links (hide if empty)
       const socialMap = [
@@ -656,6 +644,156 @@
           }
         }
       });
+    },
+
+    /**
+     * Renders high-performance dark interactive map with glowing neon pin
+     */
+    renderStudioMap(config) {
+      const basic = config.basicInfo || {};
+      const branding = config.branding || {};
+      const primaryColor = branding.primaryColor || '#CCFF00';
+      const mapContainer = document.getElementById('studio-leaflet-map');
+      const mapsIframe = document.getElementById('google-maps-iframe');
+      if (!mapContainer) return;
+
+      // Check if user explicitly provided a custom Google Maps Embed URL that is not the default Mumbai PB
+      const customEmbed = basic.googleMapsEmbedUrl && 
+        !basic.googleMapsEmbedUrl.includes('19.07281358213038') && 
+        !basic.googleMapsEmbedUrl.includes('19.065');
+
+      if (customEmbed && mapsIframe) {
+        mapsIframe.src = basic.googleMapsEmbedUrl;
+        mapsIframe.classList.remove('hidden');
+        mapContainer.classList.add('hidden');
+        return;
+      }
+
+      // Default: show Leaflet interactive dark map
+      if (mapsIframe) mapsIframe.classList.add('hidden');
+      mapContainer.classList.remove('hidden');
+
+      const addressParts = [basic.address, basic.city, basic.state].filter(Boolean);
+      const fullAddress = addressParts.join(', ');
+      const query = fullAddress || basic.city || basic.name || 'Mumbai';
+
+      // Smart coordinates estimation based on Indian cities & regions
+      let lat = 19.0728;
+      let lon = 72.8335;
+      const qLower = query.toLowerCase();
+      if (qLower.includes('bihar')) {
+        lat = 25.1938; lon = 85.5208;
+      } else if (qLower.includes('bangalore') || qLower.includes('bengaluru')) {
+        lat = 12.9716; lon = 77.5946;
+      } else if (qLower.includes('delhi') || qLower.includes('ncr')) {
+        lat = 28.6139; lon = 77.2090;
+      } else if (qLower.includes('pune')) {
+        lat = 18.5204; lon = 73.8567;
+      } else if (qLower.includes('kolkata')) {
+        lat = 22.5726; lon = 88.3639;
+      } else if (qLower.includes('hyderabad')) {
+        lat = 17.3850; lon = 78.4867;
+      } else if (qLower.includes('chennai')) {
+        lat = 13.0827; lon = 80.2707;
+      } else if (qLower.includes('ahmedabad')) {
+        lat = 23.0225; lon = 72.5714;
+      } else if (qLower.includes('chandigarh')) {
+        lat = 30.7333; lon = 76.7794;
+      } else if (qLower.includes('jaipur')) {
+        lat = 26.9124; lon = 75.7873;
+      }
+
+      const createNeonIcon = (color) => {
+        if (typeof L === 'undefined') return null;
+        return L.divIcon({
+          className: 'custom-neon-pin',
+          html: `
+            <div style="position: relative; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+              <span style="position: absolute; width: 100%; height: 100%; border-radius: 50%; background: ${color}; opacity: 0.38; animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></span>
+              <span style="position: relative; width: 14px; height: 14px; border-radius: 50%; background: ${color}; border: 2.5px solid #000; box-shadow: 0 0 14px ${color};"></span>
+            </div>
+          `,
+          iconSize: [28, 28],
+          iconAnchor: [14, 14]
+        });
+      };
+
+      const initOrUpdateMap = () => {
+        if (typeof L === 'undefined') return;
+
+        if (!this.studioMapInstance) {
+          try {
+            this.studioMapInstance = L.map('studio-leaflet-map', {
+              center: [lat, lon],
+              zoom: 14,
+              zoomControl: false,
+              attributionControl: false,
+              scrollWheelZoom: false
+            });
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+              maxZoom: 19,
+              subdomains: 'abcd'
+            }).addTo(this.studioMapInstance);
+
+            this.studioMapInstance.on('click', () => {
+              const mapsLink = document.getElementById('google-maps-btn');
+              if (mapsLink && mapsLink.href) window.open(mapsLink.href, '_blank');
+            });
+          } catch (e) {
+            console.warn('Leaflet init warning:', e);
+            return;
+          }
+        }
+
+        const icon = createNeonIcon(primaryColor);
+        if (icon) {
+          if (this.studioMapMarker) {
+            this.studioMapMarker.setIcon(icon);
+            this.studioMapMarker.setLatLng([lat, lon]);
+          } else {
+            this.studioMapMarker = L.marker([lat, lon], { icon }).addTo(this.studioMapInstance);
+          }
+        }
+
+        setTimeout(() => {
+          if (this.studioMapInstance) this.studioMapInstance.invalidateSize();
+        }, 150);
+
+        // Fetch exact coordinates via Nominatim if query changed
+        if (this.lastGeocodedQuery !== query && query) {
+          this.lastGeocodedQuery = query;
+          const searchTerms = [query, [basic.city, basic.state].filter(Boolean).join(', '), basic.city].filter(Boolean);
+          
+          const tryGeocode = (termIndex) => {
+            if (termIndex >= searchTerms.length) return;
+            const term = searchTerms[termIndex];
+            fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(term))
+              .then(r => r.json())
+              .then(data => {
+                if (Array.isArray(data) && data.length > 0) {
+                  const gLat = parseFloat(data[0].lat);
+                  const gLon = parseFloat(data[0].lon);
+                  if (!isNaN(gLat) && !isNaN(gLon) && this.studioMapInstance) {
+                    this.studioMapInstance.setView([gLat, gLon], 15);
+                    if (this.studioMapMarker) this.studioMapMarker.setLatLng([gLat, gLon]);
+                  }
+                } else {
+                  tryGeocode(termIndex + 1);
+                }
+              })
+              .catch(() => {});
+          };
+
+          tryGeocode(0);
+        }
+      };
+
+      if (typeof L !== 'undefined') {
+        initOrUpdateMap();
+      } else {
+        setTimeout(initOrUpdateMap, 300);
+      }
     }
   };
 
