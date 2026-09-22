@@ -67,6 +67,9 @@
 
       // 10. Setup Mobile Toggles
       this.setupMobileToggles();
+
+      // 11. Setup Google Sheets & Excel Bulk Tool
+      this.setupBulkSheetsTool();
     },
 
     /**
@@ -1173,6 +1176,314 @@
           this.syncPreview();
         };
       }
+    },
+
+    /**
+     * Setup Google Sheets & Excel Bulk Tool
+     * - Parses uploaded .xlsx, .xls, .csv files
+     * - Auto-detects Gym Name, Contact/Mobile, and Address
+     * - Generates instant custom demo URLs for each gym
+     * - Shortens them via TinyURL
+     * - Renders interactive preview table
+     * - Exports updated Excel sheet with all columns + Demo Link
+     */
+    setupBulkSheetsTool() {
+      const dropzone = document.getElementById('sheets-dropzone');
+      const fileInput = document.getElementById('sheets-file-input');
+      const sampleBtn = document.getElementById('btn-download-sample-sheet');
+      const progressContainer = document.getElementById('sheets-progress-container');
+      const progressBar = document.getElementById('sheets-progress-bar');
+      const progressStatus = document.getElementById('sheets-progress-status');
+      const progressPercent = document.getElementById('sheets-progress-percent');
+      const resultsSection = document.getElementById('sheets-results-section');
+      const totalCountBadge = document.getElementById('sheets-total-count');
+      const tableBody = document.getElementById('sheets-table-body');
+      const downloadUpdatedBtn = document.getElementById('btn-download-updated-sheet');
+
+      if (!dropzone || !fileInput) return;
+
+      let processedGymsData = [];
+
+      // Download Sample Sheet
+      if (sampleBtn) {
+        sampleBtn.onclick = () => {
+          if (typeof XLSX === 'undefined') {
+            alert('Sheet library loading. Please check your internet connection.');
+            return;
+          }
+          const sampleData = [
+            {
+              "Gym Name": "Iron Dungeon Fitness",
+              "Contact Number": "+91 98765 43210",
+              "Address": "Plot 14, Linking Road, Bandra West, Mumbai"
+            },
+            {
+              "Gym Name": "Apex Combat & Strength",
+              "Contact Number": "+91 98111 22233",
+              "Address": "Sector 29, Cyber City, Gurugram"
+            },
+            {
+              "Gym Name": "Titan Core Athletics",
+              "Contact Number": "+91 99887 76655",
+              "Address": "100 Feet Road, Indiranagar, Bengaluru"
+            }
+          ];
+          const ws = XLSX.utils.json_to_sheet(sampleData);
+          const wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, "Gyms_Sample");
+          XLSX.writeFile(wb, "Gym_Demo_Sample_Template.xlsx");
+        };
+      }
+
+      // Dropzone click & drag/drop
+      dropzone.onclick = () => fileInput.click();
+      dropzone.ondragover = (e) => {
+        e.preventDefault();
+        dropzone.classList.add('border-emerald-500', 'bg-zinc-900/90');
+      };
+      dropzone.ondragleave = () => {
+        dropzone.classList.remove('border-emerald-500', 'bg-zinc-900/90');
+      };
+      dropzone.ondrop = (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('border-emerald-500', 'bg-zinc-900/90');
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      };
+
+      fileInput.onchange = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+          handleFile(e.target.files[0]);
+        }
+      };
+
+      const handleFile = async (file) => {
+        if (typeof XLSX === 'undefined') {
+          alert('Excel processor library is still loading. Please wait 2 seconds and retry.');
+          return;
+        }
+
+        try {
+          const buffer = await file.arrayBuffer();
+          const workbook = XLSX.read(buffer, { type: 'array' });
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          const rawRows = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+
+          if (!rawRows || rawRows.length === 0) {
+            alert('The uploaded sheet is empty! Please upload a sheet containing gym rows.');
+            return;
+          }
+
+          // Show progress UI
+          progressContainer.classList.remove('hidden');
+          resultsSection.classList.add('hidden');
+          progressBar.style.width = '5%';
+          progressPercent.textContent = '5%';
+          progressStatus.textContent = `Found ${rawRows.length} rows. Parsing gym details...`;
+
+          processedGymsData = [];
+          if (tableBody) tableBody.innerHTML = '';
+
+          const defaultTemplate = window.DEFAULT_GYM_DATA || {};
+
+          for (let i = 0; i < rawRows.length; i++) {
+            const row = rawRows[i];
+            
+            // Flexible column name matching (case-insensitive & fuzzy)
+            const keys = Object.keys(row);
+            const findCol = (terms) => {
+              const k = keys.find(key => terms.some(t => key.toLowerCase().includes(t)));
+              return k ? String(row[k]).trim() : '';
+            };
+
+            const gymName = findCol(['gym', 'name', 'title', 'brand']) || `Gym ${i + 1}`;
+            const contactNum = findCol(['mobile', 'phone', 'contact', 'whatsapp', 'cell', 'number']) || '+91 98765 43210';
+            const address = findCol(['address', 'location', 'city', 'area', 'street']) || 'Main High Street';
+
+            const cleanSlug = gymName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `gym-${i + 1}`;
+
+            // Build gym object based on default template with custom overrides
+            const customGym = JSON.parse(JSON.stringify(defaultTemplate));
+            customGym.id = cleanSlug;
+            customGym.isDemo = false;
+            customGym.basicInfo.name = gymName.toUpperCase();
+            customGym.basicInfo.shortName = gymName;
+            customGym.basicInfo.phone = contactNum;
+            customGym.basicInfo.whatsapp = contactNum;
+            customGym.basicInfo.address = address;
+            customGym.branding.logoText = gymName.toUpperCase();
+            customGym.contact.address = address;
+            customGym.contact.phone = contactNum;
+            customGym.contact.whatsapp = contactNum;
+
+            // Generate self-contained live demo URL
+            progressStatus.textContent = `Generating live demo URL for: ${gymName} (${i + 1}/${rawRows.length})...`;
+            const liveUrl = await window.GymStore.getShareableUrl(customGym);
+
+            // Shorten with TinyURL
+            progressStatus.textContent = `Shortening link for: ${gymName}...`;
+            let tinyUrl = liveUrl;
+            try {
+              tinyUrl = await window.GymStore.shortenUrl(liveUrl);
+            } catch (err) {
+              console.warn('Shorten failed for row', i, err);
+            }
+
+            const record = {
+              ...row, // Preserve any extra original columns
+              "Gym Name": gymName,
+              "Contact Number": contactNum,
+              "Address": address,
+              "Demo Link (TinyURL)": tinyUrl,
+              "Full Demo Link": liveUrl,
+              _slug: cleanSlug,
+              _rawGym: customGym
+            };
+
+            processedGymsData.push(record);
+
+            // Update progress
+            const pct = Math.round(((i + 1) / rawRows.length) * 100);
+            progressBar.style.width = pct + '%';
+            progressPercent.textContent = pct + '%';
+          }
+
+          progressStatus.textContent = `✅ Successfully processed all ${processedGymsData.length} gyms!`;
+          this.showToast(`🎉 Processed ${processedGymsData.length} gyms with TinyURL links!`);
+
+          // Render rows into table
+          this.renderSheetsTable(processedGymsData);
+
+          // Update summary count & show results
+          if (totalCountBadge) totalCountBadge.textContent = `${processedGymsData.length} Gyms`;
+          resultsSection.classList.remove('hidden');
+
+        } catch (err) {
+          console.error('Failed to parse sheet:', err);
+          alert('Error parsing sheet: ' + err.message);
+          progressContainer.classList.add('hidden');
+        }
+      };
+
+      // Download Updated Sheet (.xlsx)
+      if (downloadUpdatedBtn) {
+        downloadUpdatedBtn.onclick = () => {
+          if (!processedGymsData || processedGymsData.length === 0) {
+            alert('No processed data to export.');
+            return;
+          }
+
+          // Format clean export data
+          const exportRows = processedGymsData.map((item, idx) => {
+            const cleanObj = {};
+            cleanObj["S.No"] = idx + 1;
+            cleanObj["Gym Name"] = item["Gym Name"] || '';
+            cleanObj["Contact Number"] = item["Contact Number"] || '';
+            cleanObj["Address"] = item["Address"] || '';
+            cleanObj["Demo Link (TinyURL)"] = item["Demo Link (TinyURL)"] || '';
+
+            // Retain any additional original columns
+            Object.keys(item).forEach(key => {
+              if (!key.startsWith('_') &&
+                  !["S.No", "Gym Name", "Contact Number", "Address", "Demo Link (TinyURL)", "Full Demo Link"].includes(key)) {
+                cleanObj[key] = item[key];
+              }
+            });
+            return cleanObj;
+          });
+
+          const ws = XLSX.utils.json_to_sheet(exportRows);
+
+          // Set column widths for polished presentation
+          ws['!cols'] = [
+            { wch: 6 },  // S.No
+            { wch: 30 }, // Gym Name
+            { wch: 18 }, // Contact Number
+            { wch: 45 }, // Address
+            { wch: 35 }  // Demo Link
+          ];
+
+          const wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, "Gyms_With_Demo_Links");
+          const timestamp = new Date().toISOString().slice(0, 10);
+          XLSX.writeFile(wb, `Gyms_With_Demo_Links_${timestamp}.xlsx`);
+          this.showToast('📥 Downloaded updated Excel sheet with TinyURL demo links!');
+        };
+      }
+    },
+
+    /**
+     * Render rows in the processed sheets table
+     */
+    renderSheetsTable(records) {
+      const tableBody = document.getElementById('sheets-table-body');
+      if (!tableBody) return;
+      tableBody.innerHTML = '';
+
+      records.forEach((row, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-zinc-900/60 transition-colors';
+
+        const tinyUrl = row["Demo Link (TinyURL)"] || '#';
+        const gymName = row["Gym Name"] || `Gym ${idx + 1}`;
+        const phone = row["Contact Number"] || 'N/A';
+        const addr = row["Address"] || 'N/A';
+
+        tr.innerHTML = `
+          <td class="p-2.5 text-zinc-500 font-mono">${idx + 1}</td>
+          <td class="p-2.5 font-bold text-white">${escapeHtml(gymName)}</td>
+          <td class="p-2.5 text-zinc-400">${escapeHtml(phone)}</td>
+          <td class="p-2.5 text-zinc-400 truncate max-w-[200px]" title="${escapeHtml(addr)}">${escapeHtml(addr)}</td>
+          <td class="p-2.5">
+            <div class="flex items-center gap-1.5">
+              <a href="${tinyUrl}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 font-mono font-bold hover:underline flex items-center gap-1 truncate max-w-[180px]">
+                <span>${tinyUrl}</span>
+                <i data-lucide="external-link" class="w-3 h-3 shrink-0"></i>
+              </a>
+              <button type="button" class="btn-copy-tiny p-1 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white" title="Copy Link" data-url="${tinyUrl}">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </td>
+          <td class="p-2.5 text-right">
+            <button type="button" class="btn-preview-gym px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] font-bold transition-all" data-idx="${idx}">
+              Load into Editor
+            </button>
+          </td>
+        `;
+
+        tableBody.appendChild(tr);
+      });
+
+      // Bind copy buttons
+      tableBody.querySelectorAll('.btn-copy-tiny').forEach(btn => {
+        btn.onclick = async () => {
+          const url = btn.getAttribute('data-url');
+          try {
+            await navigator.clipboard.writeText(url);
+            this.showToast('📋 Copied TinyURL to clipboard!');
+          } catch (e) {
+            prompt('Copy Demo URL:', url);
+          }
+        };
+      });
+
+      // Bind 'Load into Editor' buttons
+      tableBody.querySelectorAll('.btn-preview-gym').forEach(btn => {
+        btn.onclick = () => {
+          const idx = parseInt(btn.getAttribute('data-idx'), 10);
+          const item = records[idx];
+          if (item && item._rawGym) {
+            window.GymStore.saveGym(item._rawGym);
+            this.switchGym(item._rawGym.id);
+            this.showToast(`Loaded ${item._rawGym.basicInfo.name} into editor!`);
+          }
+        };
+      });
+
+      if (window.lucide) lucide.createIcons();
     },
 
     /**

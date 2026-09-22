@@ -258,8 +258,13 @@
      * Uses native browser CompressionStream (or fallback) + Base64url in URL hash fragment.
      * Works 100% serverless, zero database, instant demo link for clients!
      */
-    async getShareableUrl(id) {
-      const gym = this.getGym(id) || DEFAULT_DATA;
+    async getShareableUrl(gymOrId) {
+      let gym = null;
+      if (typeof gymOrId === 'object' && gymOrId !== null) {
+        gym = gymOrId;
+      } else {
+        gym = this.getGym(gymOrId) || DEFAULT_DATA;
+      }
       const base = window.location.origin;
       const slug = gym.id || 'titan-forge';
 
@@ -297,6 +302,26 @@
         console.warn('Failed to encode shareable URL:', err);
         return `${base}/?gym=${slug}`;
       }
+    },
+
+    /**
+     * Shortens a URL using TinyURL's public API. Falls back to original URL if rate-limited or offline.
+     */
+    async shortenUrl(longUrl) {
+      if (!longUrl) return '';
+      try {
+        const endpoint = 'https://tinyurl.com/api-create.php?url=' + encodeURIComponent(longUrl);
+        const res = await fetch(endpoint);
+        if (res.ok) {
+          const short = await res.text();
+          if (short && short.startsWith('http')) {
+            return short.trim();
+          }
+        }
+      } catch (e) {
+        console.warn('TinyURL shortening failed, using original URL:', e);
+      }
+      return longUrl;
     },
 
     /**
