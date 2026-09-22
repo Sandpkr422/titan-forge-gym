@@ -191,6 +191,14 @@
             if (sInput) sInput.value = val;
           }
 
+          // Auto-generate Google Maps link if not manually overridden
+          if (path === 'basicInfo.address' || path === 'basicInfo.city' || path === 'basicInfo.state' || path === 'basicInfo.name') {
+            const addr = [editingConfig.basicInfo?.name, editingConfig.basicInfo?.address, editingConfig.basicInfo?.city, editingConfig.basicInfo?.state].filter(Boolean).join(', ');
+            if (addr && (!editingConfig.basicInfo?.googleMapsUrl || editingConfig.basicInfo.googleMapsUrl.includes('Linking+Road') || editingConfig.basicInfo.googleMapsUrl.includes('Linking Road'))) {
+              editingConfig.basicInfo.googleMapsUrl = `https://maps.google.com/?q=${encodeURIComponent(addr)}`;
+            }
+          }
+
           this.syncPreview();
         };
 

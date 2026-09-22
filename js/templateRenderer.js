@@ -201,6 +201,18 @@
         headerHoursEl.textContent = basic.openHours || 'Open 24/7/365';
       }
 
+      // Mobile drawer city title
+      const mobileDrawerCityEl = document.getElementById('mobile-drawer-city-title');
+      if (mobileDrawerCityEl) {
+        mobileDrawerCityEl.textContent = `${(basic.city || basic.name || 'FACILITY').toUpperCase()} NAVIGATION`;
+      }
+
+      // Hero tour city badge
+      const heroTourCityBadge = document.getElementById('hero-tour-city-badge');
+      if (heroTourCityBadge) {
+        heroTourCityBadge.textContent = (basic.city || 'TOUR').toUpperCase();
+      }
+
       // WhatsApp buttons in header
       const waUrl = window.GymStore ? window.GymStore.buildWhatsAppUrl(basic.whatsapp, basic.name, config.contact?.whatsappPrompt) : '#';
       document.querySelectorAll('[data-whatsapp-cta]').forEach(btn => {
@@ -340,9 +352,22 @@
 
     renderTourVideo(config) {
       const tour = config.tourVideo || {};
+      const basic = config.basicInfo || {};
       const poster = tour.posterUrl || 'assets/images/tour_indian_female_workout.jpg';
       const videoSrc = tour.videoUrl || 'assets/videos/female_gym_workout.mp4';
       const cdnSrc = tour.videoCdnUrl || 'https://assets.mixkit.co/videos/52106/52106-720.mp4';
+
+      // Tour section heading subtitle
+      const tourSubtitle = document.getElementById('tour-section-subtitle');
+      if (tourSubtitle) {
+        tourSubtitle.textContent = `// ${(basic.city || basic.name || 'FLAGSHIP').toUpperCase()} FACILITY`;
+      }
+
+      // Modal tour title
+      const modalTourTitle = document.getElementById('modal-tour-title');
+      if (modalTourTitle) {
+        modalTourTitle.textContent = `${basic.name || 'GYM'} // ${(basic.city || 'FACILITY').toUpperCase()} TOUR`;
+      }
 
       const pageVideo = document.getElementById('page-tour-video');
       if (pageVideo) {
@@ -491,12 +516,60 @@
       const basic = config.basicInfo || {};
       const contact = config.contact || {};
       const socials = config.socialLinks || {};
+      const branding = config.branding || {};
+      const primaryColor = branding.primaryColor || '#CCFF00';
 
-      // Gym name in footer & contact
+      // 1. Gym name in footer & contact
       const footerGymNames = document.querySelectorAll('[data-gym-name]');
       footerGymNames.forEach(el => {
         el.textContent = basic.name || 'TITAN FORGE GYM';
       });
+
+      // 2. Footer Brand Logo: custom image or dynamic theme mark + name
+      const footerLogoEl = document.getElementById('footer-brand-logo');
+      if (footerLogoEl) {
+        if (branding.logoImage) {
+          footerLogoEl.innerHTML = `<img src="${branding.logoImage}" alt="${basic.name || 'Gym'}" class="h-9 sm:h-10 w-auto max-w-[180px] object-contain" />`;
+        } else {
+          const mainText = branding.logoText || basic.shortName || basic.name || 'TITAN FORGE';
+          const subText = branding.logoSubtext || 'GYM';
+          footerLogoEl.innerHTML = `
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center text-black font-black text-sm shadow-[0_0_15px_rgba(204,255,0,0.4)] shrink-0" style="background-color: ${primaryColor}">
+                <i data-lucide="dumbbell" class="w-4 h-4"></i>
+              </div>
+              <div class="flex flex-col text-left">
+                <span class="font-display font-bold text-lg sm:text-xl uppercase tracking-wider text-white leading-none">
+                  ${mainText}
+                </span>
+                <span class="font-mono text-[9px] uppercase tracking-[0.25em] font-bold leading-tight mt-0.5" style="color: ${primaryColor}">
+                  ${subText}
+                </span>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      // Footer Tagline
+      const footerTaglineEl = document.getElementById('footer-tagline');
+      if (footerTaglineEl) {
+        footerTaglineEl.textContent = basic.tagline || 'THE SANCTUARY OF UNCOMPROMISING RESULTS';
+      }
+
+      // Modal Brand Logo in VIP reservation modal
+      const modalLogoEl = document.getElementById('modal-brand-logo');
+      if (modalLogoEl) {
+        if (branding.logoImage) {
+          modalLogoEl.innerHTML = `<img src="${branding.logoImage}" alt="${basic.name || 'Gym'}" class="w-full h-full object-contain" />`;
+          modalLogoEl.style.borderColor = hexToRgba(primaryColor, 0.4);
+          modalLogoEl.style.backgroundColor = 'transparent';
+        } else {
+          modalLogoEl.innerHTML = `<i data-lucide="dumbbell" class="w-6 h-6 text-black"></i>`;
+          modalLogoEl.style.backgroundColor = primaryColor;
+          modalLogoEl.style.borderColor = primaryColor;
+        }
+      }
 
       // Contact headline
       const headlineEl = document.getElementById('contact-headline');
@@ -508,7 +581,16 @@
       // Full address
       const fullAddress = [basic.address, basic.city, basic.state].filter(Boolean).join(', ');
       const addressEl = document.getElementById('contact-full-address');
-      if (addressEl) addressEl.textContent = fullAddress;
+      if (addressEl) addressEl.textContent = fullAddress || (basic.address || 'Studio Location');
+
+      // Studio Location Map Pin Badge
+      const mapBadge = document.getElementById('contact-map-badge');
+      if (mapBadge) {
+        const pinLocation = basic.city ? (basic.city + (basic.state ? ', ' + basic.state : '')) : (basic.address || 'Studio Location');
+        mapBadge.textContent = '📍 ' + pinLocation;
+        mapBadge.style.color = primaryColor;
+        mapBadge.style.borderColor = hexToRgba(primaryColor, 0.4);
+      }
 
       // Operating hours
       const hoursEl = document.getElementById('contact-hours');
@@ -522,17 +604,33 @@
       const emailEl = document.getElementById('contact-email');
       if (emailEl) emailEl.textContent = basic.email || '';
 
+      // Map search query
+      const mapQuery = fullAddress || [basic.address, basic.city].filter(Boolean).join(', ') || basic.name || 'Gym';
+
       // Google Maps Direct Link
       const mapsLink = document.getElementById('google-maps-btn');
       if (mapsLink) {
-        mapsLink.href = basic.googleMapsUrl || 'https://maps.google.com';
+        if (basic.googleMapsUrl && !basic.googleMapsUrl.includes('Linking+Road') && !basic.googleMapsUrl.includes('Linking Road')) {
+          mapsLink.href = basic.googleMapsUrl;
+        } else if (mapQuery) {
+          mapsLink.href = `https://maps.google.com/?q=${encodeURIComponent(mapQuery)}`;
+        } else {
+          mapsLink.href = 'https://maps.google.com';
+        }
       }
 
       // Google Maps Iframe Embed
       const mapsIframe = document.getElementById('google-maps-iframe');
       if (mapsIframe) {
-        if (basic.googleMapsEmbedUrl) {
+        // If user explicitly provided a custom valid embed URL that is not the hardcoded Titan Forge Mumbai demo
+        if (basic.googleMapsEmbedUrl && 
+            !basic.googleMapsEmbedUrl.includes('19.07281358213038') && 
+            !basic.googleMapsEmbedUrl.includes('19.065')) {
           mapsIframe.src = basic.googleMapsEmbedUrl;
+          mapsIframe.classList.remove('hidden');
+        } else if (mapQuery) {
+          // Dynamic universal Google Maps embed: returns 200 without X-Frame-Options blocking
+          mapsIframe.src = `https://www.google.com/maps/embed?origin=mfe&pb=!1m2!2m1!1s${encodeURIComponent(mapQuery)}`;
           mapsIframe.classList.remove('hidden');
         } else {
           mapsIframe.classList.add('hidden');

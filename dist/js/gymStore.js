@@ -352,6 +352,18 @@
             const delta = JSON.parse(decompressed);
             const baseTemplate = JSON.parse(JSON.stringify(window.DEFAULT_GYM_DATA || DEFAULT_DATA));
             const merged = this.deepMerge(baseTemplate, delta);
+
+            // If custom address or city exists in delta, prevent inheriting Mumbai maps defaults
+            if (delta.basicInfo && (delta.basicInfo.address || delta.basicInfo.city)) {
+              const q = [delta.basicInfo.name || merged.basicInfo?.name, delta.basicInfo.address, delta.basicInfo.city].filter(Boolean).join(', ');
+              if (!delta.basicInfo.googleMapsUrl) {
+                merged.basicInfo.googleMapsUrl = `https://maps.google.com/?q=${encodeURIComponent(q)}`;
+              }
+              if (!delta.basicInfo.googleMapsEmbedUrl) {
+                merged.basicInfo.googleMapsEmbedUrl = `https://www.google.com/maps/embed?origin=mfe&pb=!1m2!2m1!1s${encodeURIComponent(q)}`;
+              }
+            }
+
             return merged;
           }
         } else if (rawToken) {
@@ -360,7 +372,20 @@
           const jsonStr = decodeURIComponent(atob(base64));
           const delta = JSON.parse(jsonStr);
           const baseTemplate = JSON.parse(JSON.stringify(window.DEFAULT_GYM_DATA || DEFAULT_DATA));
-          return this.deepMerge(baseTemplate, delta);
+          const merged = this.deepMerge(baseTemplate, delta);
+
+          // If custom address or city exists in delta, prevent inheriting Mumbai maps defaults
+          if (delta.basicInfo && (delta.basicInfo.address || delta.basicInfo.city)) {
+            const q = [delta.basicInfo.name || merged.basicInfo?.name, delta.basicInfo.address, delta.basicInfo.city].filter(Boolean).join(', ');
+            if (!delta.basicInfo.googleMapsUrl) {
+              merged.basicInfo.googleMapsUrl = `https://maps.google.com/?q=${encodeURIComponent(q)}`;
+            }
+            if (!delta.basicInfo.googleMapsEmbedUrl) {
+              merged.basicInfo.googleMapsEmbedUrl = `https://www.google.com/maps/embed?origin=mfe&pb=!1m2!2m1!1s${encodeURIComponent(q)}`;
+            }
+          }
+
+          return merged;
         }
       } catch (e) {
         console.warn('Failed to decode gym config from hash:', e);
@@ -432,7 +457,13 @@
       newGym.isDemo = false;
       newGym.basicInfo.name = cleanName.toUpperCase();
       newGym.basicInfo.shortName = cleanName;
+      newGym.basicInfo.address = '';
+      newGym.basicInfo.city = '';
+      newGym.basicInfo.state = '';
+      newGym.basicInfo.googleMapsUrl = '';
+      newGym.basicInfo.googleMapsEmbedUrl = '';
       newGym.branding.logoText = cleanName.toUpperCase();
+      newGym.branding.logoImage = '';
       newGym.createdAt = Date.now();
       newGym.updatedAt = Date.now();
 
