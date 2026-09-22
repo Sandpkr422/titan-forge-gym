@@ -119,7 +119,16 @@
       const params = new URLSearchParams(window.location.search);
       const queryGym = params.get('gym');
       if (queryGym) {
-        return queryGym.toLowerCase();
+        return queryGym.toLowerCase().replace(/[^a-z0-9_-]/g, '');
+      }
+
+      // 3. Check hash parameter: #...&gym=:slug
+      if (window.location.hash) {
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        const hashGym = hashParams.get('gym');
+        if (hashGym) {
+          return hashGym.toLowerCase().replace(/[^a-z0-9_-]/g, '');
+        }
       }
 
       // 3. Fallback to active gym stored in localStorage or default 'titan-forge'
@@ -278,15 +287,15 @@
             binary += String.fromCharCode(bytes[i]);
           }
           const b64 = btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-          return `${base}/gym/${slug}#demo=${b64}`;
+          return `${base}/#demo=${b64}&gym=${slug}`;
         } else {
           // Fallback if CompressionStream is unsupported
           const b64 = btoa(encodeURIComponent(jsonStr)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-          return `${base}/gym/${slug}#raw=${b64}`;
+          return `${base}/#raw=${b64}&gym=${slug}`;
         }
       } catch (err) {
         console.warn('Failed to encode shareable URL:', err);
-        return `${base}/gym/${slug}`;
+        return `${base}/?gym=${slug}`;
       }
     },
 
