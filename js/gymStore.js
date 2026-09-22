@@ -170,6 +170,17 @@
     async loadGym(id) {
       if (!id) id = 'titan-forge';
 
+      // 0. Check URL hash fragment (#demo=... or #raw=...) for instant client demo links
+      const hashGym = await this.decodeGymFromHash();
+      if (hashGym) {
+        if (hashGym.id) {
+          try {
+            localStorage.setItem(DATA_PREFIX + hashGym.id, JSON.stringify(hashGym));
+          } catch (e) {}
+        }
+        return hashGym;
+      }
+
       // 1. Check local storage
       const local = this.getGym(id);
       if (local && (local.updatedAt || local.id !== 'titan-forge')) {
@@ -209,6 +220,118 @@
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+    },
+
+    /**
+     * Deep merge helper to overlay customized delta on default template
+     */
+    deepMerge(target, source) {
+      const output = Object.assign({}, target);
+      if (this.isObject(target) && this.isObject(source)) {
+        Object.keys(source).forEach(key => {
+          if (this.isObject(source[key])) {
+            if (!(key in target)) Object.assign(output, { [key]: source[key] });
+            else output[key] = this.deepMerge(target[key], source[key]);
+          } else {
+            Object.assign(output, { [key]: source[key] });
+          }
+        });
+      }
+      return output;
+    },
+
+    isObject(item) {
+      return item && typeof item === 'object' && !Array.isArray(item);
+    },
+
+    /**
+     * Encodes a gym configuration into a shareable live demo URL.
+     * Uses native browser CompressionStream (or fallback) + Base64url in URL hash fragment.
+     * Works 100% serverless, zero database, instant demo link for clients!
+     */
+    async getShareableUrl(id) {
+      const gym = this.getGym(id) || DEFAULT_DATA;
+      const base = window.location.origin;
+      const slug = gym.id || 'titan-forge';
+
+      // 1. Calculate diff against default demo data to keep payload ultra-compact
+      const defaultRef = window.DEFAULT_GYM_DATA || DEFAULT_DATA;
+      const diff = { id: slug };
+      for (const k of Object.keys(gym)) {
+        if (JSON.stringify(gym[k]) !== JSON.stringify(defaultRef[k])) {
+          diff[k] = gym[k];
+        }
+      }
+
+      try {
+        const jsonStr = JSON.stringify(diff);
+        if (typeof CompressionStream !== 'undefined') {
+          const cs = new CompressionStream('deflate-raw');
+          const writer = cs.writable.getWriter();
+          writer.write(new TextEncoder().encode(jsonStr));
+          writer.close();
+
+          const compressed = await new Response(cs.readable).arrayBuffer();
+          const bytes = new Uint8Array(compressed);
+          let binary = '';
+          for (let i = 0; i < bytes.byteLength; i++) {
+            binary += String.fromCharCode(bytes[i]);
+          }
+          const b64 = btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+          return `${base}/gym/${slug}#demo=${b64}`;
+        } else {
+          // Fallback if CompressionStream is unsupported
+          const b64 = btoa(encodeURIComponent(jsonStr)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+          return `${base}/gym/${slug}#raw=${b64}`;
+        }
+      } catch (err) {
+        console.warn('Failed to encode shareable URL:', err);
+        return `${base}/gym/${slug}`;
+      }
+    },
+
+    /**
+     * Decodes gym configuration from URL hash fragment if present (#demo=... or #raw=...)
+     */
+    async decodeGymFromHash() {
+      if (typeof window === 'undefined' || !window.location.hash) return null;
+      const hash = window.location.hash.substring(1);
+      const params = new URLSearchParams(hash);
+      const demoToken = params.get('demo');
+      const rawToken = params.get('raw');
+
+      try {
+        if (demoToken) {
+          let base64 = demoToken.replace(/-/g, '+').replace(/_/g, '/');
+          while (base64.length % 4) base64 += '=';
+          const binStr = atob(base64);
+          const u8 = new Uint8Array(binStr.length);
+          for (let i = 0; i < binStr.length; i++) u8[i] = binStr.charCodeAt(i);
+
+          if (typeof DecompressionStream !== 'undefined') {
+            const ds = new DecompressionStream('deflate-raw');
+            const dWriter = ds.writable.getWriter();
+            dWriter.write(u8);
+            dWriter.close();
+
+            const decompressed = await new Response(ds.readable).text();
+            const delta = JSON.parse(decompressed);
+            const baseTemplate = JSON.parse(JSON.stringify(window.DEFAULT_GYM_DATA || DEFAULT_DATA));
+            const merged = this.deepMerge(baseTemplate, delta);
+            return merged;
+          }
+        } else if (rawToken) {
+          let base64 = rawToken.replace(/-/g, '+').replace(/_/g, '/');
+          while (base64.length % 4) base64 += '=';
+          const jsonStr = decodeURIComponent(atob(base64));
+          const delta = JSON.parse(jsonStr);
+          const baseTemplate = JSON.parse(JSON.stringify(window.DEFAULT_GYM_DATA || DEFAULT_DATA));
+          return this.deepMerge(baseTemplate, delta);
+        }
+      } catch (e) {
+        console.warn('Failed to decode gym config from hash:', e);
+      }
+      return null;
     },
 
     /**
@@ -416,8 +539,10 @@
     }
   };
 
-  // Run initialization
-  GymStore.init();
+  // Run initialization if in browser environment
+  if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+    GymStore.init();
+  }
 
   window.GymStore = GymStore;
 

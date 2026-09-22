@@ -95,7 +95,7 @@
       }
 
       if (publicLink) {
-        publicLink.href = '/?gym=' + encodeURIComponent(activeGymId);
+        publicLink.href = '/gym/' + encodeURIComponent(activeGymId);
       }
 
       select.onchange = (e) => {
@@ -376,6 +376,50 @@
             this.showToast('📥 Downloaded ' + activeGymId + '.json! Commit this file to git/gyms/ to make it live.');
           } catch (e) {
             alert('Failed to download gym JSON: ' + e.message);
+          }
+        };
+      }
+
+      // Share Demo Link Modal & Action
+      const shareBtn = document.getElementById('btn-share-link');
+      const shareModal = document.getElementById('modal-share-link');
+      const shareInput = document.getElementById('share-link-input');
+      const copyShareBtn = document.getElementById('btn-copy-share-link');
+      const cleanUrlText = document.getElementById('share-clean-url');
+      const sharePreviewLink = document.getElementById('share-open-preview');
+
+      if (shareBtn && shareModal) {
+        shareBtn.onclick = async () => {
+          try {
+            // First save any current in-memory edits so link includes latest data
+            window.GymStore.saveGym(editingConfig);
+            
+            const shareableUrl = await window.GymStore.getShareableUrl(activeGymId);
+            if (shareInput) shareInput.value = shareableUrl;
+            if (cleanUrlText) cleanUrlText.textContent = `/gym/${activeGymId}`;
+            if (sharePreviewLink) sharePreviewLink.href = shareableUrl;
+            shareModal.classList.remove('hidden');
+          } catch (err) {
+            alert('Failed to generate demo URL: ' + err.message);
+          }
+        };
+      }
+
+      if (copyShareBtn && shareInput) {
+        copyShareBtn.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(shareInput.value);
+            this.showToast('📋 Copied Live Demo URL to clipboard!');
+            copyShareBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i><span>Copied!</span>';
+            if (window.lucide) lucide.createIcons();
+            setTimeout(() => {
+              copyShareBtn.innerHTML = '<i data-lucide="copy" class="w-4 h-4"></i><span>Copy</span>';
+              if (window.lucide) lucide.createIcons();
+            }, 2500);
+          } catch (err) {
+            shareInput.select();
+            document.execCommand('copy');
+            this.showToast('📋 Copied Live Demo URL!');
           }
         };
       }
