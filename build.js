@@ -48,7 +48,13 @@ if (fs.existsSync(gymsDir)) {
     if (!fs.existsSync(slugDir)) {
       fs.mkdirSync(slugDir, { recursive: true });
     }
-    fs.writeFileSync(path.join(slugDir, 'index.html'), indexContent);
+    const gymData = JSON.parse(fs.readFileSync(path.join(gymsDir, file), 'utf8'));
+    let customHtml = indexContent.toString('utf8');
+    const gymName = gymData.basicInfo?.name || slug;
+    const tagline = gymData.basicInfo?.tagline || '';
+    customHtml = customHtml.replace(/<title>.*?<\/title>/, `<title>${gymName} // ${tagline}</title>`);
+    customHtml = customHtml.replace('</head>', `  <script>window.__INITIAL_GYM_ID__ = "${slug}"; window.__INITIAL_GYM_DATA__ = ${JSON.stringify(gymData)};</script>\n</head>`);
+    fs.writeFileSync(path.join(slugDir, 'index.html'), customHtml);
     console.log(`✓ Generated static page for /gym/${slug}`);
   });
 }

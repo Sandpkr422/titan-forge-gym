@@ -30,19 +30,25 @@
      * Initializes template hydration on page load
      */
     async init() {
-      const activeId = window.GymStore ? window.GymStore.getActiveGymId() : 'titan-forge';
-      let config = null;
-      if (window.GymStore && typeof window.GymStore.loadGym === 'function') {
-        config = await window.GymStore.loadGym(activeId);
-      } else if (window.GymStore) {
-        config = window.GymStore.getGym(activeId);
+      if (window.__INITIAL_GYM_DATA__) {
+        this.currentConfig = window.__INITIAL_GYM_DATA__;
+        window.CURRENT_GYM_CONFIG = window.__INITIAL_GYM_DATA__;
+        this.renderGym(window.__INITIAL_GYM_DATA__);
+      } else {
+        const activeId = window.GymStore ? window.GymStore.getActiveGymId() : 'titan-forge';
+        let config = null;
+        if (window.GymStore && typeof window.GymStore.loadGym === 'function') {
+          config = await window.GymStore.loadGym(activeId);
+        } else if (window.GymStore) {
+          config = window.GymStore.getGym(activeId);
+        }
+        if (!config) config = window.DEFAULT_GYM_DATA;
+
+        this.currentConfig = config;
+        window.CURRENT_GYM_CONFIG = config;
+
+        this.renderGym(config);
       }
-      if (!config) config = window.DEFAULT_GYM_DATA;
-
-      this.currentConfig = config;
-      window.CURRENT_GYM_CONFIG = config;
-
-      this.renderGym(config);
 
       // Listen for postMessage from admin iframe
       window.addEventListener('message', (event) => {
