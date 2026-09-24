@@ -10,5 +10,11 @@
     "name": "APEX ATHLETIC CLUB",
     "isDemo": false,
     "file": "apex-fitness.json"
+  },
+  {
+    "id": "pro-fitness-gym",
+    "name": "PRO FITNESS GYM",
+    "isDemo": false,
+    "file": "pro-fitness-gym.json"
   }
 ]
