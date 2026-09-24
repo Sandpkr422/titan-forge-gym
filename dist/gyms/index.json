@@ -16,5 +16,14 @@
     "name": "PRO FITNESS GYM",
     "isDemo": false,
     "file": "pro-fitness-gym.json"
+  },
+  {
+    "id": "black-panther-fitness-club",
+    "slug": "black-panther-fitness-club",
+    "name": "BLACK PANTHER FITNESS CLUB",
+    "city": "Bihar Sharif",
+    "tagline": "PERFORMANCE TEMPLE | OLYMPIC RATED",
+    "primaryColor": "#CCFF00",
+    "updatedAt": "2026-09-24T11:42:36.592Z"
   }
 ]
