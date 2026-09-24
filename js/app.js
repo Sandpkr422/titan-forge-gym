@@ -593,10 +593,20 @@ function initBeforeAfterSlider() {
   syncImageWidth();
   window.addEventListener('resize', syncImageWidth);
   if (beforeImg) {
+    beforeImg.addEventListener('error', function() {
+      if (this.src && !this.src.includes('images.unsplash.com')) {
+        this.src = 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000&auto=format&fit=crop';
+      }
+    });
     if (beforeImg.complete) syncImageWidth();
     else beforeImg.addEventListener('load', syncImageWidth);
   }
   if (afterImg) {
+    afterImg.addEventListener('error', function() {
+      if (this.src && !this.src.includes('images.unsplash.com')) {
+        this.src = 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1000&auto=format&fit=crop';
+      }
+    });
     if (afterImg.complete) syncImageWidth();
     else afterImg.addEventListener('load', syncImageWidth);
   }
@@ -719,8 +729,10 @@ function initBeforeAfterSlider() {
   // 7B. Multiple Indian Client Transformation Case Studies (Priya first, then Aman)
   const caseProfiles = {
     priya: {
-      beforeSrc: 'assets/female-transformation-before.jpg',
-      afterSrc: 'assets/female-transformation-after.jpg',
+      beforeSrc: '/assets/female-transformation-before.jpg',
+      afterSrc: '/assets/female-transformation-after.jpg',
+      fallbackBefore: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000&auto=format&fit=crop',
+      fallbackAfter: 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1000&auto=format&fit=crop',
       beforeAlt: 'Priya Nair Day 1 Baseline (Titan Forge Mumbai)',
       afterAlt: 'Priya Nair Week 12 Transformed Athletic Conditioning',
       beforeBadge: 'DAY 1 // 27.0% BODY FAT',
@@ -730,8 +742,10 @@ function initBeforeAfterSlider() {
       statStrength: '5K Run: 31m → 22m 40s'
     },
     aman: {
-      beforeSrc: 'assets/indian-transformation-before.jpg',
-      afterSrc: 'assets/indian-transformation-after.jpg',
+      beforeSrc: '/assets/indian-transformation-before.jpg',
+      afterSrc: '/assets/indian-transformation-after.jpg',
+      fallbackBefore: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=1000&auto=format&fit=crop',
+      fallbackAfter: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop',
       beforeAlt: 'Aman Singhania Day 1 Baseline (Titan Forge Mumbai)',
       afterAlt: 'Aman Singhania Week 12 Transformed Peak Recomp',
       beforeBadge: 'DAY 1 // 24.5% BODY FAT',
@@ -757,10 +771,18 @@ function initBeforeAfterSlider() {
       btn.classList.remove('text-zinc-400');
 
       if (beforeImg) {
+        beforeImg.onerror = function() {
+          this.onerror = null;
+          this.src = profile.fallbackBefore;
+        };
         beforeImg.src = profile.beforeSrc;
         beforeImg.alt = profile.beforeAlt;
       }
       if (afterImg) {
+        afterImg.onerror = function() {
+          this.onerror = null;
+          this.src = profile.fallbackAfter;
+        };
         afterImg.src = profile.afterSrc;
         afterImg.alt = profile.afterAlt;
         syncImageWidth();

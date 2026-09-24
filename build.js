@@ -53,6 +53,7 @@ if (fs.existsSync(gymsDir)) {
     const gymName = gymData.basicInfo?.name || slug;
     const tagline = gymData.basicInfo?.tagline || '';
     customHtml = customHtml.replace(/<title>.*?<\/title>/, `<title>${gymName} // ${tagline}</title>`);
+    customHtml = customHtml.replace(/(src|href|poster)=["']assets\//g, '$1="/assets/');
     customHtml = customHtml.replace('</head>', `  <script>window.__INITIAL_GYM_ID__ = "${slug}"; window.__INITIAL_GYM_DATA__ = ${JSON.stringify(gymData)};</script>\n</head>`);
     fs.writeFileSync(path.join(slugDir, 'index.html'), customHtml);
     console.log(`✓ Generated static page for /gym/${slug}`);

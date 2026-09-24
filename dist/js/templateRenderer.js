@@ -20,6 +20,12 @@
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
 
+  function fixAssetUrl(url) {
+    if (!url || typeof url !== 'string') return url;
+    if (url.startsWith('assets/')) return '/' + url;
+    return url;
+  }
+
   const TemplateRenderer = {
     currentConfig: null,
     studioMapInstance: null,
@@ -177,7 +183,7 @@
       const logoContainers = document.querySelectorAll('[data-brand-logo]');
       logoContainers.forEach(container => {
         if (branding.logoImage) {
-          container.innerHTML = `<img src="${branding.logoImage}" alt="${basic.name}" class="h-9 sm:h-10 w-auto object-contain" />`;
+          container.innerHTML = `<img src="${fixAssetUrl(branding.logoImage)}" alt="${basic.name}" class="h-9 sm:h-10 w-auto object-contain" />`;
         } else {
           const mainText = branding.logoText || basic.shortName || 'TITAN FORGE';
           const subText = branding.logoSubtext || 'GYM';
@@ -362,8 +368,8 @@
     renderTourVideo(config) {
       const tour = config.tourVideo || {};
       const basic = config.basicInfo || {};
-      const poster = tour.posterUrl || 'assets/images/tour_indian_female_workout.jpg';
-      const videoSrc = tour.videoUrl || 'assets/videos/female_gym_workout.mp4';
+      const poster = fixAssetUrl(tour.posterUrl || 'assets/images/tour_indian_female_workout.jpg');
+      const videoSrc = fixAssetUrl(tour.videoUrl || 'assets/videos/female_gym_workout.mp4');
       const cdnSrc = tour.videoCdnUrl || 'https://assets.mixkit.co/videos/52106/52106-720.mp4';
 
       // Tour section heading subtitle
@@ -454,7 +460,7 @@
           <div>
             <div class="flex items-center gap-3 mb-4">
               <img 
-                src="${t.photo || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&auto=format&fit=crop'}" 
+                src="${fixAssetUrl(t.photo) || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&auto=format&fit=crop'}" 
                 alt="${t.name}" 
                 class="w-12 h-12 rounded-full object-cover border border-zinc-700"
                 onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&auto=format&fit=crop'"
@@ -487,7 +493,7 @@
         <div class="interactive-card glass-card rounded-2xl overflow-hidden border border-zinc-800/80 group">
           <div class="relative aspect-[3/4] overflow-hidden">
             <img 
-              src="${tr.image || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop'}" 
+              src="${fixAssetUrl(tr.image) || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop'}" 
               alt="${tr.name}" 
               class="w-full h-full object-cover filter brightness-[0.88] group-hover:scale-105 transition-transform duration-700"
               onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop'"
@@ -538,7 +544,7 @@
       const footerLogoEl = document.getElementById('footer-brand-logo');
       if (footerLogoEl) {
         if (branding.logoImage) {
-          footerLogoEl.innerHTML = `<img src="${branding.logoImage}" alt="${basic.name || 'Gym'}" class="h-9 sm:h-10 w-auto max-w-[180px] object-contain" />`;
+          footerLogoEl.innerHTML = `<img src="${fixAssetUrl(branding.logoImage)}" alt="${basic.name || 'Gym'}" class="h-9 sm:h-10 w-auto max-w-[180px] object-contain" />`;
         } else {
           const mainText = branding.logoText || basic.shortName || basic.name || 'TITAN FORGE';
           const subText = branding.logoSubtext || 'GYM';
@@ -570,7 +576,7 @@
       const modalLogoEl = document.getElementById('modal-brand-logo');
       if (modalLogoEl) {
         if (branding.logoImage) {
-          modalLogoEl.innerHTML = `<img src="${branding.logoImage}" alt="${basic.name || 'Gym'}" class="w-full h-full object-contain" />`;
+          modalLogoEl.innerHTML = `<img src="${fixAssetUrl(branding.logoImage)}" alt="${basic.name || 'Gym'}" class="w-full h-full object-contain" />`;
           modalLogoEl.style.borderColor = hexToRgba(primaryColor, 0.4);
           modalLogoEl.style.backgroundColor = 'transparent';
         } else {

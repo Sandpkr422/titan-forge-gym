@@ -213,7 +213,7 @@
       "experience": "12+ Years Experience",
       "awards": "CSCS / Olympic Lifting Coach",
       "bio": "Former National Powerlifting Champion with 12+ years preparing elite athletes for stage and podium.",
-      "image": "assets/images/trainer_vikram_rathore.jpg"
+      "image": "/assets/images/trainer_vikram_rathore.jpg"
     },
     {
       "id": "t2",
@@ -223,7 +223,7 @@
       "experience": "8+ Years Coaching",
       "awards": "Master in Sports Science / USAW",
       "bio": "Former international lifter specializing in neuromuscular adaptation and flawless barbell bar-path efficiency.",
-      "image": "assets/images/trainer_ananya_sengupta.jpg"
+      "image": "/assets/images/trainer_ananya_sengupta.jpg"
     },
     {
       "id": "t3",
@@ -233,7 +233,7 @@
       "experience": "9+ Years Coaching",
       "awards": "Hyrox Master Trainer / CrossFit L3",
       "bio": "Pacesetting endurance specialist who builds unstoppable cardiovascular engines and mental stamina.",
-      "image": "assets/images/trainer_kabir_mehta.jpg"
+      "image": "/assets/images/trainer_kabir_mehta.jpg"
     },
     {
       "id": "t4",
@@ -243,7 +243,7 @@
       "experience": "7+ Years Pro Coaching",
       "awards": "National Muay Thai Gold Medalist",
       "bio": "Professional striking specialist focusing on rotational power, agile footwork, and injury-proof joint health.",
-      "image": "assets/images/trainer_neha_rao.jpg"
+      "image": "/assets/images/trainer_neha_rao.jpg"
     }
   ],
   "testimonials": [
@@ -253,7 +253,7 @@
       "role": "Corporate Executive & Member",
       "result": "-14kg Fat Loss / +8kg Lean Muscle",
       "rating": 5,
-      "photo": "assets/images/transformation_priya_after.jpg",
+      "photo": "/assets/images/transformation_priya_after.jpg",
       "text": "Dropped 14kg of fat and unlocked my first unassisted pull-up in 16 weeks. The atmosphere forces you to bring your absolute best every single workout."
     },
     {
@@ -262,7 +262,7 @@
       "role": "Competitive Powerlifter",
       "result": "Deadlift 140kg -> 230kg PR",
       "rating": 5,
-      "photo": "assets/images/transformation_aman_after.jpg",
+      "photo": "/assets/images/transformation_aman_after.jpg",
       "text": "Added 90kg to my deadlift total with Coach Vikram's periodization protocol. The Eleiko competition plates and calibrated bars make this the best gym in Mumbai."
     },
     {
@@ -289,14 +289,14 @@
       "caption": "Heavy Iron Dungeon"
     },
     {
-      "url": "assets/images/tour_indian_female_workout.jpg",
+      "url": "/assets/images/tour_indian_female_workout.jpg",
       "caption": "Kettlebell & Conditioning Floor"
     }
   ],
   "tourVideo": {
-    "videoUrl": "assets/videos/female_gym_workout.mp4",
+    "videoUrl": "/assets/videos/female_gym_workout.mp4",
     "videoCdnUrl": "https://assets.mixkit.co/videos/52106/52106-720.mp4",
-    "posterUrl": "assets/images/tour_indian_female_workout.jpg"
+    "posterUrl": "/assets/images/tour_indian_female_workout.jpg"
   },
   "contact": {
     "headline": "CLAIM YOUR FREE 1-DAY VIP PASS",
