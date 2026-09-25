@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZENX GYMS // PERFORMANCE TEMPLE | OLYMPIC RATED</title>
+  <meta name="description" content="Raw industrial luxury, state-of-the-art equipment, Olympic-level coaching, and 24/7 high-intensity athletic conditioning. Claim your free 1-day pass.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#070708',
+              charcoal: '#0B0B0E',
+              surface: '#111116',
+              card: '#16161C',
+              border: '#27272A',
+              volt: '#CCFF00',
+              crimson: '#FF3344',
+            }
+          },
+          fontFamily: {
+            display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            condensed: ['Bebas Neue', 'sans-serif'],
+            body: ['Plus Jakarta Sans', 'Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Leaflet Map Styles -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="/css/styles.css?v=2.5">
+  <script>window.__INITIAL_GYM_ID__ = "zenx-gyms"; window.__INITIAL_GYM_DATA__ = {"id":"zenx-gyms","isDemo":false,"basicInfo":{"name":"ZENX GYMS","shortName":"Zenx Gyms","tagline":"PERFORMANCE TEMPLE | OLYMPIC RATED","description":"Raw industrial luxury, state-of-the-art equipment, Olympic-level coaching, and 24/7 high-intensity athletic conditioning. Claim your free 1-day pass.","phone":"+9180769 62648","phoneRaw":"918076962648","whatsapp":"+9180769 62648","whatsappRaw":"918076962648","email":"contact@zenxgyms.in","address":"Bhaisasur, Bihar Sharif, Bihar 803101","city":"Bihar Sharif","state":"Bihar 803101","openHours":"Open 24/7/365","googleMapsUrl":"https://www.google.com/maps/dir//Zenx+Gyms,+Bhaisasur,+Bihar+Sharif,+Bihar+803101/data=!4m6!4m5!1m1!4e2!1m2!1m1!1s0x39f2f5e0063abe47:0xc4db6050a38844c2?sa=X&ved=1t:57443&ictx=111","googleMapsEmbedUrl":"https://www.google.com/maps/dir//Zenx+Gyms,+Bhaisasur,+Bihar+Sharif,+Bihar+803101/data=!4m6!4m5!1m1!4e2!1m2!1m1!1s0x39f2f5e0063abe47:0xc4db6050a38844c2?sa=X&ved=1t:57443&ictx=111","websiteUrl":"https://titan-forge-gym-omega.vercel.app"},"branding":{"logoText":"ZENX GYMS","logoSubtext":"GYM","logoImage":"","primaryColor":"#CCFF00","secondaryColor":"#FF3344","darkBg":"#070708","cardBg":"#0E0E12","favicon":""},"hero":{"badge":"PERFORMANCE TEMPLE | OLYMPIC RATED","headingLine1":"TRANSFORM YOUR REALITY.","headingLine2":"UNLEASH THE BEAST.","subheading":"State-of-the-art equipment, elite Olympic-level trainers, and high-intensity programs built for results. No excuses. No compromises.","primaryCtaText":"Start Your Free Trial","primaryCtaLink":"#lead-capture","secondaryCtaText":"Watch Facility Tour","secondaryCtaLink":"tour-modal","heroImage":"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop","trustBadges":["Zero Joining Fee Today","100% Free 1-Day VIP Access","Certified Olympic Coaching"]},"stats":[{"value":"800+","target":800,"suffix":"+","label":"Active Members","sublabel":"Forging Daily Greatness"},{"value":"10+","target":10,"suffix":"+","label":"Certified Trainers","sublabel":"Olympic & CSCS Specialists"},{"value":"7000 SQ FT","target":7000,"suffix":" SQ FT","label":"Training Floor","sublabel":"Iron Dungeon & Turf"},{"value":"24/7","target":24,"suffix":"/7","label":"Elite Access","sublabel":"Biometric Keyless Entry"}],"programs":[{"id":"p1","number":"01","name":"HEAVY IRON & OLYMPIC PLATFORMS","shortDesc":"Calibrated steel plates, competition Eleiko bars, custom dumbbell racks up to 60kg, and dedicated lifting deadlift dead-zones.","image":"https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop","tags":["Eleiko Spec","Chalk Allowed"],"accent":"volt"},{"id":"p2","number":"02","name":"HIGH-INTENSITY HYROX & SPRINT TURF","shortDesc":"50-meter indoor sprint track, Rogue dog sleds, skiergs, assault bikes, and team conditioning circuits.","image":"https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=800&auto=format&fit=crop","tags":["50m Sprint Lane","Rogue Sleds"],"accent":"crimson"},{"id":"p3","number":"03","name":"COMBAT & BOXING ARENA","shortDesc":"Regulation striking ring, 12 water-filled heavy bags, speedballs, and private pads instruction with pro striking coaches.","image":"https://images.unsplash.com/photo-1549060279-7e168fcee0c2?q=80&w=800&auto=format&fit=crop","tags":["Sparring Ring","Footwork Grid"],"accent":"volt"},{"id":"p4","number":"04","name":"MOBILITY & CRYO RECOVERY","shortDesc":"Sub-zero cryo immersion tubs, infrared Finnish sauna suites, pneumatic compression boots, and active fascia release.","image":"https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=800&auto=format&fit=crop","tags":["Ice Plunge (3°C)","Infrared Sauna"],"accent":"blue"},{"id":"p5","number":"05","name":"PRECISION NUTRITION LAB","shortDesc":"Custom biomarker metabolic profiling, tailored macro plans, in-house cold-pressed recovery shakes, and micro-nutrient timing.","image":"https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=800&auto=format&fit=crop","tags":["Macro Blueprints","Fuel Shake Bar"],"accent":"volt"},{"id":"p6","number":"06","name":"ELITE PERSONAL COACHING","shortDesc":"One-on-one periodized strength programming with CSCS certified master coaches focused on absolute performance.","image":"https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=800&auto=format&fit=crop","tags":["1-on-1 Coaching","CSCS Specialists"],"accent":"crimson"}],"membershipPlans":[{"id":"iron","name":"IRON TIER","tagline":"Essential Strength Foundation","price":"1,999","period":"per month","description":"Complete unhindered access to the main floor, powerlifting stations, and turf zones.","popular":false,"badge":"CORE ACCESS","features":["24/7 Unrestricted Floor Access","Full Dumbbell & Free Weight Arena","Locker & High-Pressure Showers","Biometric Turnstile Entry","Titan Forge Mobile Member App"],"ctaText":"Claim Iron Pass","ctaLink":"#lead-capture"},{"id":"forge-pro","name":"FORGE PRO","tagline":"Complete Athletic Conditioning","price":"2,999","period":"per month","description":"The definitive competitive athlete package with unrestricted class access and recovery privileges.","popular":true,"badge":"MOST POPULAR","features":["Everything in Iron Tier Included","Unlimited Functional & Hyrox Classes","Full Striking Arena & Ring Access","Free Monthly InBody Bio-Scan","2 Guest VIP Passes per Month","10% Discount at Fuel Shake Bar"],"ctaText":"Claim Forge Pro Pass","ctaLink":"#lead-capture"},{"id":"black-elite","name":"TITAN BLACK ELITE","tagline":"The Pinnacle Performance Membership","price":"5,999","period":"per month","description":"All-inclusive presidential strength tier with dedicated 1-on-1 coaching, full cryo recovery, and custom nutrition.","popular":false,"badge":"VIP ALL-ACCESS","features":["Full Unlimited 24/7 Access to All Zones","Weekly 1-on-1 CSCS Personal Coaching","Unlimited Cold Plunge & Infrared Sauna","Custom Nutrition & Macro Blueprint","Dedicated VIP Locker & Laundry Service","Complimentary Recovery Fuel Daily"],"ctaText":"Claim VIP Black Pass","ctaLink":"#lead-capture"}],"trainers":[{"id":"t1","name":"Vikram \"The Beast\" Rathore","role":"HEAD STRENGTH & CONDITIONING COACH","specialization":"Olympic Weightlifting & Powerlifting","experience":"12+ Years Experience","awards":"CSCS / Olympic Lifting Coach","bio":"Former National Powerlifting Champion with 12+ years preparing elite athletes for stage and podium.","image":"/assets/images/trainer_vikram_rathore.jpg"},{"id":"t2","name":"Ananya Sengupta","role":"OLYMPIC LIFTING & BIO-MECHANICS SPECIALIST","specialization":"Bio-Mechanics & Snatch / Clean Technique","experience":"8+ Years Coaching","awards":"Master in Sports Science / USAW","bio":"Former international lifter specializing in neuromuscular adaptation and flawless barbell bar-path efficiency.","image":"/assets/images/trainer_ananya_sengupta.jpg"},{"id":"t3","name":"Kabir Mehta","role":"FUNCTIONAL HYROX & METABOLIC SPECIALIST","specialization":"Hyrox Elite Racing & Engine Building","experience":"9+ Years Coaching","awards":"Hyrox Master Trainer / CrossFit L3","bio":"Pacesetting endurance specialist who builds unstoppable cardiovascular engines and mental stamina.","image":"/assets/images/trainer_kabir_mehta.jpg"},{"id":"t4","name":"Neha Rao","role":"COMBAT STRIKING & MOBILITY COACH","specialization":"Muay Thai & High-Intensity Conditioning","experience":"7+ Years Pro Coaching","awards":"National Muay Thai Gold Medalist","bio":"Professional striking specialist focusing on rotational power, agile footwork, and injury-proof joint health.","image":"/assets/images/trainer_neha_rao.jpg"}],"testimonials":[{"id":"test-1","name":"Priya Sharma","role":"Corporate Executive & Member","result":"-14kg Fat Loss / +8kg Lean Muscle","rating":5,"photo":"/assets/images/transformation_priya_after.jpg","text":"Dropped 14kg of fat and unlocked my first unassisted pull-up in 16 weeks. The atmosphere forces you to bring your absolute best every single workout."},{"id":"test-2","name":"Aman Verma","role":"Competitive Powerlifter","result":"Deadlift 140kg -> 230kg PR","rating":5,"photo":"/assets/images/transformation_aman_after.jpg","text":"Added 90kg to my deadlift total with Coach Vikram's periodization protocol. The Eleiko competition plates and calibrated bars make this the best gym in Mumbai."},{"id":"test-3","name":"Rohan K.","role":"Software Architect & Amateur Fighter","result":"12% Body Fat & Combat Ready","rating":5,"photo":"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop","text":"The 24/7 access fits my intense work schedule. 5 AM boxing rounds and cold plunge sessions have completely rebuilt my physical focus."}],"gallery":[{"url":"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop","caption":"Main Weight Floor"},{"url":"https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=1200&auto=format&fit=crop","caption":"Turf & Functional Arena"},{"url":"https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop","caption":"Heavy Iron Dungeon"},{"url":"/assets/images/tour_indian_female_workout.jpg","caption":"Kettlebell & Conditioning Floor"}],"tourVideo":{"videoUrl":"/assets/videos/female_gym_workout.mp4","videoCdnUrl":"https://assets.mixkit.co/videos/52106/52106-720.mp4","posterUrl":"/assets/images/tour_indian_female_workout.jpg"},"contact":{"headline":"CLAIM YOUR FREE 1-DAY VIP PASS","subheadline":"Experience world-class training in Bihar Sharif with zero commitments. No sales pressure. Just raw iron and elite coaching.","whatsappPrompt":"Hi, I am interested in joining {GYM_NAME}. Please share your membership plans and free trial details.","formSlots":["Morning (6 AM - 10 AM)","Afternoon (11 AM - 4 PM)","Evening (5 PM - 9 PM)","Night Owl (10 PM - 2 AM)"],"formGoals":["Hypertrophy & Muscle Building","Fat Loss & Athletic Conditioning","Olympic Lifting & Powerlifting","Functional Fitness & Hyrox"]},"socialLinks":{"instagram":"https://instagram.com/","whatsapp":"https://wa.me/918076962648","youtube":"https://youtube.com/","facebook":""},"createdAt":1790240123167,"updatedAt":1790329207107,"slug":"zenx-gyms"};</script>
+</head>
+<body class="bg-[#070708] text-white selection:bg-[#CCFF00] selection:text-black font-body relative overflow-x-hidden antialiased text-sm">
+
+  <!-- DYNAMIC FORGE SPARKS PARTICLES CANVAS -->
+  <canvas id="forge-sparks-canvas" class="fixed inset-0 pointer-events-none z-10 opacity-70"></canvas>
+
+  <!-- BACKGROUND AMBIENT GLOWS & MESH -->
+  <div class="fixed inset-0 pointer-events-none z-0 ambient-cyber-grid opacity-60"></div>
+  <div class="fixed top-[-15%] left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-[#CCFF00]/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
+  <div class="fixed bottom-[-10%] right-[-10%] w-[550px] h-[550px] bg-[#FF3344]/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+
+  <!-- =========================================================
+       1. STICKY HEADER & NAVIGATION
+       ========================================================= -->
+  <header class="sticky top-0 z-50 w-full backdrop-blur-2xl bg-[#070708]/90 border-b border-zinc-800/80 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group focus:outline-none" data-brand-logo>
+        <div class="w-9 h-9 rounded-xl bg-black border border-[#CCFF00]/40 p-1 flex items-center justify-center relative overflow-hidden group-hover:border-[#CCFF00] transition-colors box-glow-volt shadow-lg">
+          <img src="/assets/images/logo.svg" alt="Titan Forge Gym Logo" class="w-full h-full object-contain group-hover:scale-105 transition-transform" />
+          <div class="absolute inset-0 bg-[#CCFF00]/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display font-black text-base tracking-wide text-white flex items-center gap-1">
+            TITAN <span class="text-[#CCFF00] text-glow-volt">FORGE</span>
+          </span>
+          <span class="text-[8px] font-mono uppercase tracking-[0.2em] text-zinc-400">Elite Performance Club</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-7 text-xs font-semibold tracking-wider text-zinc-300 uppercase">
+        <a href="#programs" class="hover:text-[#CCFF00] transition-colors">Programs</a>
+        <a href="#arsenal" class="hover:text-[#CCFF00] transition-colors">Hardware</a>
+        <a href="#trainers" class="hover:text-[#CCFF00] transition-colors">Coaches</a>
+        <a href="#pricing" class="hover:text-[#CCFF00] transition-colors">Pricing</a>
+        <a href="#transformations" class="hover:text-[#CCFF00] transition-colors">Proof</a>
+        <a href="#schedule" class="hover:text-[#CCFF00] transition-colors">Schedule</a>
+      </nav>
+
+      <!-- Action Utilities: Sound FX Toggle + Free Pass CTA -->
+      <div class="hidden sm:flex items-center gap-3">
+        <!-- Audio SFX toggle -->
+        <button id="sfx-toggle" title="Toggle Sound Feedback" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-[#CCFF00]/40 text-xs font-mono text-zinc-300 transition-all">
+          <div class="flex items-center gap-0.5 h-3.5">
+            <span class="sound-bar"></span>
+            <span class="sound-bar"></span>
+            <span class="sound-bar"></span>
+            <span class="sound-bar"></span>
+          </div>
+          <span class="text-[10px] font-bold uppercase tracking-wider">SFX</span>
+        </button>
+
+        <!-- Claim Pass Button -->
+        <a href="#lead-capture" class="btn-shine relative inline-flex items-center justify-center px-4 py-2 rounded-lg bg-[#CCFF00] text-black font-display font-black text-xs uppercase tracking-wider hover:bg-[#b8e600] transition-all transform hover:-translate-y-0.5 shadow-[0_0_15px_rgba(204,255,0,0.3)]">
+          Claim Free Pass
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button id="mobile-nav-toggle" class="lg:hidden p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white focus:outline-none" aria-label="Toggle navigation">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer Overlay -->
+    <div id="mobile-drawer" class="hidden lg:hidden fixed inset-x-0 top-16 bottom-0 bg-[#070708]/98 backdrop-blur-2xl border-t border-zinc-800 p-5 flex flex-col justify-between z-50 overflow-y-auto overscroll-contain">
+      <div class="flex flex-col gap-3 text-sm font-bold font-display uppercase tracking-wider">
+        <!-- Drawer Header -->
+        <div class="flex items-center justify-between pb-3 mb-1 border-b border-zinc-800">
+          <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+            <span class="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse"></span>
+            <span id="mobile-drawer-city-title" class="text-white font-bold tracking-wider">MUMBAI NAVIGATION</span>
+          </div>
+          <button id="close-mobile-drawer" class="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors" aria-label="Close menu">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <a href="#programs" class="mobile-nav-link text-zinc-300 hover:text-[#CCFF00] transition-colors py-2.5 px-2 border-b border-zinc-900/90 flex items-center justify-between">
+          <span>Programs & Disciplines</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-600"></i>
+        </a>
+        <a href="#arsenal" class="mobile-nav-link text-zinc-300 hover:text-[#CCFF00] transition-colors py-2.5 px-2 border-b border-zinc-900/90 flex items-center justify-between">
+          <span>Hardware & Arsenal</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-600"></i>
+        </a>
+        <a href="#trainers" class="mobile-nav-link text-zinc-300 hover:text-[#CCFF00] transition-colors py-2.5 px-2 border-b border-zinc-900/90 flex items-center justify-between">
+          <span>Olympic Coaches</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-600"></i>
+        </a>
+        <a href="#pricing" class="mobile-nav-link text-zinc-300 hover:text-[#CCFF00] transition-colors py-2.5 px-2 border-b border-zinc-900/90 flex items-center justify-between">
+          <span>Memberships & Pricing</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-600"></i>
+        </a>
+        <a href="#transformations" class="mobile-nav-link text-zinc-300 hover:text-[#CCFF00] transition-colors py-2.5 px-2 border-b border-zinc-900/90 flex items-center justify-between">
+          <span>Before & After Proof</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-600"></i>
+        </a>
+        <a href="#schedule" class="mobile-nav-link text-zinc-300 hover:text-[#CCFF00] transition-colors py-2.5 px-2 border-b border-zinc-900/90 flex items-center justify-between">
+          <span>Daily Squad Schedule</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-600"></i>
+        </a>
+      </div>
+      <div class="pt-5 flex flex-col gap-2.5 border-t border-zinc-800/80 mt-4">
+        <a href="#lead-capture" class="mobile-nav-link btn-shine w-full text-center py-3 bg-[#CCFF00] text-black font-display font-black text-xs uppercase tracking-wider rounded-xl shadow-[0_0_20px_rgba(204,255,0,0.3)]">
+          Claim Free 1-Day Pass
+        </a>
+        <div class="flex items-center justify-between text-[10px] text-zinc-500 font-mono px-1">
+          <span id="header-address-text">Linking Rd, Bandra West</span>
+          <span id="header-hours-text" class="text-[#CCFF00] font-bold">Open 24/7/365</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       2. HERO SECTION (Above the Fold)
+       ========================================================= -->
+  <section class="relative min-h-[85vh] flex items-center justify-center pt-8 pb-14 overflow-hidden">
+    
+    <!-- Hero Background Image with Heavy Industrial Vignette -->
+    <div class="absolute inset-0 z-0 overflow-hidden">
+      <img 
+        id="hero-bg-image"
+        src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop" 
+        alt="Titan Forge Gym Atmosphere" 
+        class="w-full h-full object-cover object-center filter brightness-[0.2] contrast-[1.25] scale-105"
+      />
+      <!-- Vignette Gradients -->
+      <div class="absolute inset-0 bg-gradient-to-t from-[#070708] via-[#070708]/80 to-[#070708]/90"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_15%,_#070708_80%)]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+      
+      <!-- Top Cyber Tag -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/90 border border-[#CCFF00]/40 backdrop-blur-md mb-6 shadow-[0_0_12px_rgba(204,255,0,0.15)]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-ping"></span>
+        <span id="hero-cyber-badge" class="text-[10px] font-mono uppercase tracking-[0.18em] text-[#CCFF00] font-bold">PERFORMANCE TEMPLE</span>
+        <span class="text-zinc-600">|</span>
+        <span class="text-[10px] font-mono text-zinc-400">OLYMPIC RATED</span>
+      </div>
+
+      <!-- Main Headline (Tasteful, refined scale) -->
+      <h1 id="hero-heading-content" class="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight uppercase leading-[1.12] max-w-2xl">
+        TRANSFORM YOUR REALITY.<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-100 to-[#CCFF00]">
+          UNLEASH THE BEAST.
+        </span>
+      </h1>
+
+      <!-- High-Impact Subhead -->
+      <p id="hero-subheading" class="mt-4 text-xs sm:text-sm md:text-base text-zinc-300 font-normal max-w-xl mx-auto leading-relaxed">
+        State-of-the-art equipment, elite Olympic-level trainers, and high-intensity programs built for results. No excuses. No compromises.
+      </p>
+
+      <!-- Dual High-Contrast CTAs -->
+      <div class="mt-8 flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto justify-center">
+        <!-- Primary Action -->
+        <a id="hero-primary-cta" href="#lead-capture" class="btn-shine w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#CCFF00] hover:bg-[#b5e600] text-black font-display font-black text-xs uppercase tracking-wider transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(204,255,0,0.35)]">
+          <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
+          Start Your Free Trial
+        </a>
+
+        <!-- Secondary Action: Facility Tour -->
+        <button data-open-modal="tour-modal" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl glass-panel hover:bg-zinc-800/90 text-white font-display font-bold text-xs uppercase tracking-wider border border-white/10 hover:border-[#CCFF00]/40 transition-all group">
+          <div class="w-6 h-6 rounded-full bg-[#CCFF00]/20 text-[#CCFF00] flex items-center justify-center pulse-ring-effect group-hover:bg-[#CCFF00] group-hover:text-black transition-colors">
+            <i data-lucide="play" class="w-3 h-3 fill-current ml-0.5"></i>
+          </div>
+          <span id="hero-secondary-cta-text">Watch Facility Tour</span> <span id="hero-tour-city-badge" class="hidden sm:inline text-[#CCFF00] font-mono text-[10px] ml-1">MUMBAI</span>
+        </button>
+      </div>
+
+      <!-- Trust Badges & Guarantee Micro-bar -->
+      <div id="hero-trust-badges" class="mt-6 flex flex-wrap items-center justify-center gap-5 text-[11px] text-zinc-400 font-mono">
+        <span class="flex items-center gap-1.5">
+          <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#CCFF00]"></i> Zero Joining Fee Today
+        </span>
+        <span class="flex items-center gap-1.5">
+          <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#CCFF00]"></i> 100% Free 1-Day VIP Access
+        </span>
+        <span class="flex items-center gap-1.5">
+          <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#CCFF00]"></i> Certified Olympic Coaching
+        </span>
+      </div>
+
+      <!-- Dynamic Stat Counter Row (Refined sizes) -->
+      <div id="hero-stats-row" class="mt-12 w-full max-w-4xl glass-panel rounded-xl p-5 sm:p-6 border border-zinc-800/80 shadow-xl relative">
+        <div id="hero-stats-row-container" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 divide-y md:divide-y-0 md:divide-x divide-zinc-800/80">
+          
+          <!-- Stat 1 -->
+          <div class="flex flex-col items-center justify-center px-3 pt-2 md:pt-0">
+            <span class="stat-counter font-display font-black text-2xl sm:text-3xl text-[#CCFF00] text-glow-volt tracking-tight" data-target="1500" data-suffix="+">
+              1,500+
+            </span>
+            <span class="text-[11px] uppercase font-bold tracking-wider text-zinc-300 mt-1">Active Members</span>
+            <span class="text-[10px] text-zinc-500 font-mono mt-0.5">Forging Daily Greatness</span>
+          </div>
+
+          <!-- Stat 2 -->
+          <div class="flex flex-col items-center justify-center px-3 pt-3 md:pt-0">
+            <span class="stat-counter font-display font-black text-2xl sm:text-3xl text-white tracking-tight" data-target="25" data-suffix="+">
+              25+
+            </span>
+            <span class="text-[11px] uppercase font-bold tracking-wider text-zinc-300 mt-1">Certified Trainers</span>
+            <span class="text-[10px] text-zinc-500 font-mono mt-0.5">Olympic & CSCS Specialists</span>
+          </div>
+
+          <!-- Stat 3 -->
+          <div class="flex flex-col items-center justify-center px-3 pt-3 md:pt-0">
+            <span class="stat-counter font-display font-black text-2xl sm:text-3xl text-[#FF3344] text-glow-crimson tracking-tight" data-target="10000" data-suffix=" SQ. FT.">
+              10,000 SQ. FT.
+            </span>
+            <span class="text-[11px] uppercase font-bold tracking-wider text-zinc-300 mt-1">Training Floor</span>
+            <span class="text-[10px] text-zinc-500 font-mono mt-0.5">Iron Dungeon & Turf</span>
+          </div>
+
+          <!-- Stat 4 -->
+          <div class="flex flex-col items-center justify-center px-3 pt-3 md:pt-0">
+            <span class="font-display font-black text-2xl sm:text-3xl text-[#CCFF00] text-glow-volt tracking-tight">
+              24/7
+            </span>
+            <span class="text-[11px] uppercase font-bold tracking-wider text-zinc-300 mt-1">Elite Access</span>
+            <span class="text-[10px] text-zinc-500 font-mono mt-0.5">Biometric Keyless Entry</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Subtle Scroll Down Indicator -->
+    <a href="#programs" class="absolute bottom-3 left-1/2 -translate-x-1/2 text-zinc-500 hover:text-[#CCFF00] transition-colors flex flex-col items-center gap-1 z-10 text-[9px] font-mono tracking-widest uppercase">
+      <span>EXPLORE</span>
+      <i data-lucide="chevron-down" class="w-3.5 h-3.5 animate-bounce"></i>
+    </a>
+  </section>
+
+  <!-- MARQUEE BRAND BANNER -->
+  <div class="w-full bg-[#111116] border-y border-zinc-800 py-2.5 overflow-hidden relative">
+    <div class="marquee-inner flex items-center gap-8 whitespace-nowrap text-[11px] font-mono tracking-[0.25em] uppercase text-zinc-400">
+      <span class="flex items-center gap-2"><span class="text-[#CCFF00]">⚡</span> HYPERTROPHY</span>
+      <span class="flex items-center gap-2"><span class="text-[#FF3344]">⚡</span> OLYMPIC WEIGHTLIFTING</span>
+      <span class="flex items-center gap-2"><span class="text-[#CCFF00]">⚡</span> COMBAT OCTAGON</span>
+      <span class="flex items-center gap-2"><span class="text-[#FF3344]">⚡</span> CRYOTHERAPY & SAUNA</span>
+      <span class="flex items-center gap-2"><span class="text-[#CCFF00]">⚡</span> 24/7 BIOMETRIC ACCESS</span>
+      <span class="flex items-center gap-2"><span class="text-[#FF3344]">⚡</span> ELEIKO CALIBRATED PLATES</span>
+      <span class="flex items-center gap-2"><span class="text-[#CCFF00]">⚡</span> METABOLIC HIIT</span>
+      <span class="flex items-center gap-2"><span class="text-[#FF3344]">⚡</span> PRECISION MACRO COACHING</span>
+      <!-- Duplicate -->
+      <span class="flex items-center gap-2"><span class="text-[#CCFF00]">⚡</span> HYPERTROPHY</span>
+      <span class="flex items-center gap-2"><span class="text-[#FF3344]">⚡</span> OLYMPIC WEIGHTLIFTING</span>
+      <span class="flex items-center gap-2"><span class="text-[#CCFF00]">⚡</span> COMBAT OCTAGON</span>
+      <span class="flex items-center gap-2"><span class="text-[#FF3344]">⚡</span> CRYOTHERAPY & SAUNA</span>
+      <span class="flex items-center gap-2"><span class="text-[#CCFF00]">⚡</span> 24/7 BIOMETRIC ACCESS</span>
+      <span class="flex items-center gap-2"><span class="text-[#FF3344]">⚡</span> ELEIKO CALIBRATED PLATES</span>
+      <span class="flex items-center gap-2"><span class="text-[#CCFF00]">⚡</span> METABOLIC HIIT</span>
+      <span class="flex items-center gap-2"><span class="text-[#FF3344]">⚡</span> PRECISION MACRO COACHING</span>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       3. PROGRAMS & DISCIPLINES GRID (Bento Box Style)
+       ========================================================= -->
+  <section id="programs" class="py-16 relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header (Refined scale) -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      <div>
+        <div class="flex items-center gap-2 text-[#CCFF00] font-mono text-[11px] uppercase tracking-widest mb-2">
+          <span class="w-1.5 h-1.5 bg-[#CCFF00] rounded-sm"></span>
+          FORGED FOR MASTERY
+        </div>
+        <h2 class="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight">
+          ELITE DISCIPLINES & <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#CCFF00] to-white">TRAINING RIGS</span>
+        </h2>
+      </div>
+      <p class="text-zinc-400 max-w-md text-xs sm:text-sm leading-relaxed">
+        Engineered for athletes, powerlifters, and relentless individuals who refuse mediocre standards. Every zone is custom-designed for raw kinetic output.
+      </p>
+    </div>
+
+    <!-- Bento Grid (Dynamic Program Cards) -->
+    <div id="programs-cards-container" class="grid grid-cols-1 md:grid-cols-12 gap-5">
+      
+      <!-- Bento 1: Hypertrophy & Strength (8 cols) -->
+      <div class="md:col-span-8 interactive-card glass-card rounded-2xl p-6 sm:p-7 border border-zinc-800/80 relative overflow-hidden group">
+        <div class="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop" 
+            alt="Hypertrophy and Heavy Strength" 
+            class="w-full h-full object-cover filter brightness-[0.22] group-hover:scale-105 transition-transform duration-700"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E12] via-[#0E0E12]/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full flex flex-col justify-between min-h-[280px]">
+          <div class="flex items-start justify-between">
+            <span class="px-2.5 py-1 bg-[#CCFF00]/15 text-[#CCFF00] border border-[#CCFF00]/30 rounded font-mono text-[10px] font-bold uppercase tracking-wider">
+              Discipline 01 // Core
+            </span>
+            <div class="w-8 h-8 rounded-full bg-black/60 border border-zinc-700 flex items-center justify-center text-[#CCFF00] group-hover:bg-[#CCFF00] group-hover:text-black transition-all">
+              <i data-lucide="dumbbell" class="w-4 h-4"></i>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <h3 class="font-display font-bold text-lg sm:text-xl md:text-2xl uppercase tracking-wide text-white group-hover:text-[#CCFF00] transition-colors">
+              HYPERTROPHY & MAXIMUM STRENGTH
+            </h3>
+            <p class="text-zinc-300 text-xs sm:text-sm mt-2 max-w-xl leading-relaxed">
+              Equipped with calibrated Eleiko competition plates, Texas power bars, calibrated deadlift platforms, custom heavy dumbbell tiers up to 80kg, and isolation machines with bio-mechanical cams.
+            </p>
+            <div class="mt-4 flex flex-wrap gap-2 text-[11px] font-mono">
+              <span class="px-2 py-0.5 bg-black/80 border border-zinc-800 rounded text-zinc-300">Competition Power Racks</span>
+              <span class="px-2 py-0.5 bg-black/80 border border-zinc-800 rounded text-zinc-300">Oak Lifting Platforms</span>
+              <span class="px-2 py-0.5 bg-black/80 border border-zinc-800 rounded text-zinc-300">Chalk Allowed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bento 2: Cross-Training & HIIT (4 cols) -->
+      <div class="md:col-span-4 interactive-card glass-card rounded-2xl p-6 sm:p-7 border border-zinc-800/80 relative overflow-hidden group">
+        <div class="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1517963879433-6ad2b056d712?q=80&w=800&auto=format&fit=crop" 
+            alt="Cross-Training Kettlebells" 
+            class="w-full h-full object-cover filter brightness-[0.2] group-hover:scale-105 transition-transform duration-700"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E12] via-[#0E0E12]/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full flex flex-col justify-between min-h-[280px]">
+          <div class="flex items-start justify-between">
+            <span class="px-2.5 py-1 bg-[#FF3344]/15 text-[#FF3344] border border-[#FF3344]/30 rounded font-mono text-[10px] font-bold uppercase tracking-wider">
+              Discipline 02
+            </span>
+            <div class="w-8 h-8 rounded-full bg-black/60 border border-zinc-700 flex items-center justify-center text-[#FF3344] group-hover:bg-[#FF3344] group-hover:text-black transition-all">
+              <i data-lucide="flame" class="w-4 h-4"></i>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <h3 class="font-display font-bold text-base sm:text-lg uppercase tracking-wide text-white group-hover:text-[#FF3344] transition-colors">
+              CROSS-TRAINING & HIIT INFERNO
+            </h3>
+            <p class="text-zinc-300 text-xs mt-2 leading-relaxed">
+              30-meter high-friction sled track, Concept2 rowers, SkiErgs, assault bikes, and live heart-rate monitoring HUD.
+            </p>
+            <div class="mt-3 flex flex-wrap gap-2 text-[11px] font-mono">
+              <span class="px-2 py-0.5 bg-black/80 border border-zinc-800 rounded text-zinc-300">Prowler Sleds</span>
+              <span class="px-2 py-0.5 bg-black/80 border border-zinc-800 rounded text-zinc-300">Live Heart-Rate HUD</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bento 3: Combat & Boxing (4 cols) -->
+      <div class="md:col-span-4 interactive-card glass-card rounded-2xl p-6 sm:p-7 border border-zinc-800/80 relative overflow-hidden group">
+        <div class="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=800&auto=format&fit=crop" 
+            alt="Combat Octagon" 
+            class="w-full h-full object-cover filter brightness-[0.2] group-hover:scale-105 transition-transform duration-700"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E12] via-[#0E0E12]/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full flex flex-col justify-between min-h-[260px]">
+          <div class="flex items-start justify-between">
+            <span class="px-2.5 py-1 bg-zinc-800 text-[#CCFF00] border border-zinc-700 rounded font-mono text-[10px] font-bold uppercase tracking-wider">
+              Discipline 03
+            </span>
+            <div class="w-8 h-8 rounded-full bg-black/60 border border-zinc-700 flex items-center justify-center text-white group-hover:text-[#CCFF00] transition-colors">
+              <i data-lucide="shield" class="w-4 h-4"></i>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <h3 class="font-display font-bold text-base sm:text-lg uppercase tracking-wide text-white group-hover:text-[#CCFF00] transition-colors">
+              COMBAT & BOXING ARENA
+            </h3>
+            <p class="text-zinc-300 text-xs mt-2 leading-relaxed">
+              Regulation striking ring, 12 water-filled heavy bags, speedballs, and private pads instruction with pro striking coaches.
+            </p>
+            <div class="mt-3 flex gap-2 text-[11px] font-mono">
+              <span class="px-2 py-0.5 bg-black/80 border border-zinc-800 rounded text-zinc-300">Sparring Ring</span>
+              <span class="px-2 py-0.5 bg-black/80 border border-zinc-800 rounded text-zinc-300">Footwork Grid</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bento 4: Functional Mobility (4 cols) -->
+      <div class="md:col-span-4 interactive-card glass-card rounded-2xl p-6 sm:p-7 border border-zinc-800/80 relative overflow-hidden group">
+        <div class="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=800&auto=format&fit=crop" 
+            alt="Mobility and Cryo" 
+            class="w-full h-full object-cover filter brightness-[0.2] group-hover:scale-105 transition-transform duration-700"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E12] via-[#0E0E12]/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full flex flex-col justify-between min-h-[260px]">
+          <div class="flex items-start justify-between">
+            <span class="px-2.5 py-1 bg-zinc-800 text-sky-400 border border-zinc-700 rounded font-mono text-[10px] font-bold uppercase tracking-wider">
+              Discipline 04
+            </span>
+            <div class="w-8 h-8 rounded-full bg-black/60 border border-zinc-700 flex items-center justify-center text-sky-400 group-hover:text-white transition-colors">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <h3 class="font-display font-bold text-base sm:text-lg uppercase tracking-wide text-white group-hover:text-sky-400 transition-colors">
+              MOBILITY & CRYO RECOVERY
+            </h3>
+            <p class="text-zinc-300 text-xs mt-2 leading-relaxed">
+              Sub-zero cryo immersion tubs, infrared Finnish sauna suites, pneumatic compression boots, and active fascia release.
+            </p>
+            <div class="mt-3 flex gap-2 text-[11px] font-mono">
+              <span class="px-2 py-0.5 bg-black/80 border border-zinc-800 rounded text-zinc-300">Ice Plunge (3°C)</span>
+              <span class="px-2 py-0.5 bg-black/80 border border-zinc-800 rounded text-zinc-300">Infrared Sauna</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bento 5: Nutrition Coaching (4 cols) -->
+      <div class="md:col-span-4 interactive-card glass-card rounded-2xl p-6 sm:p-7 border border-zinc-800/80 relative overflow-hidden group">
+        <div class="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=800&auto=format&fit=crop" 
+            alt="Nutrition Blueprint" 
+            class="w-full h-full object-cover filter brightness-[0.2] group-hover:scale-105 transition-transform duration-700"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E12] via-[#0E0E12]/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full flex flex-col justify-between min-h-[260px]">
+          <div class="flex items-start justify-between">
+            <span class="px-2.5 py-1 bg-[#CCFF00]/15 text-[#CCFF00] border border-[#CCFF00]/30 rounded font-mono text-[10px] font-bold uppercase tracking-wider">
+              Discipline 05
+            </span>
+            <div class="w-8 h-8 rounded-full bg-black/60 border border-zinc-700 flex items-center justify-center text-[#CCFF00] group-hover:text-white transition-colors">
+              <i data-lucide="apple" class="w-4 h-4"></i>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <h3 class="font-display font-bold text-base sm:text-lg uppercase tracking-wide text-white group-hover:text-[#CCFF00] transition-colors">
+              PRECISION NUTRITION LAB
+            </h3>
+            <p class="text-zinc-300 text-xs mt-2 leading-relaxed">
+              Custom biomarker metabolic profiling, tailored macro plans, in-house cold-pressed recovery shakes, and micro-nutrient timing.
+            </p>
+            <div class="mt-3 flex gap-2 text-[11px] font-mono">
+              <span class="px-2 py-0.5 bg-black/80 border border-zinc-800 rounded text-zinc-300">Macro Blueprints</span>
+              <span class="px-2 py-0.5 bg-black/80 border border-zinc-800 rounded text-zinc-300">Fuel Shake Bar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       FACILITY TOUR: CINEMATIC VIDEO EXPERIENCE (MUMBAI FLAGSHIP)
+       ========================================================= -->
+  <section id="tour" class="py-16 bg-[#08080C] border-t border-zinc-800/90 relative overflow-hidden">
+    <!-- Ambient glows -->
+    <div class="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-[#CCFF00]/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-[#FF3344]/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Section Header -->
+      <div class="mb-8 text-center max-w-3xl mx-auto">
+        <h2 class="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight text-white">
+          WATCH FACILITY TOUR <span id="tour-section-subtitle" class="text-transparent bg-clip-text bg-gradient-to-r from-[#CCFF00] to-white">// MUMBAI FLAGSHIP</span>
+        </h2>
+      </div>
+
+      <!-- Dedicated Clean Video Frame -->
+      <div class="glass-card rounded-2xl overflow-hidden border border-zinc-800 shadow-[0_0_60px_rgba(0,0,0,0.85)] relative max-w-5xl mx-auto">
+        
+        <!-- Pure Video Display -->
+        <div class="relative w-full aspect-[16/9] sm:aspect-[21/9] lg:aspect-[16/9] bg-black overflow-hidden group select-none">
+          
+          <!-- High-Definition Streaming Video Element -->
+          <video 
+            id="page-tour-video" 
+            class="w-full h-full object-cover relative z-[2] transition-opacity duration-500" 
+            autoplay 
+            loop 
+            playsinline 
+            webkit-playsinline
+            muted
+            preload="auto"
+            poster="/assets/images/tour_indian_female_workout.jpg"
+          >
+            <source src="/assets/videos/female_gym_workout.mp4" type="video/mp4">
+            <source src="https://assets.mixkit.co/videos/52106/52106-720.mp4" type="video/mp4">
+          </video>
+
+          <img 
+            id="page-tour-feed-img" 
+            src="/assets/images/tour_indian_female_workout.jpg" 
+            alt="Titan Forge Gym Mumbai Facility Tour" 
+            class="absolute inset-0 w-full h-full object-cover filter brightness-[0.95] contrast-[1.05] z-[1] hidden"
+          />
+
+          <!-- Clean Floating Controls Bar -->
+          <div class="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center gap-3 z-20 opacity-90 hover:opacity-100 transition-opacity">
+            <!-- Play / Pause Button -->
+            <button id="page-tour-play-toggle" class="p-2 rounded-xl bg-zinc-900/90 hover:bg-[#CCFF00] text-zinc-300 hover:text-black transition-colors" title="Play / Pause Video" aria-label="Toggle Play">
+              <i data-lucide="pause" class="w-4 h-4" id="page-tour-play-icon"></i>
+            </button>
+
+            <!-- Video Scrub Bar -->
+            <div class="flex-1 h-2 bg-zinc-800 rounded-full overflow-hidden cursor-pointer relative group" id="page-tour-progress-bar">
+              <div id="page-tour-progress-fill" class="h-full bg-[#CCFF00] rounded-full" style="width: 45%;"></div>
+            </div>
+
+            <!-- Audio Mute Toggle -->
+            <button id="page-tour-mute-toggle" class="p-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 hover:text-white transition-colors" title="Toggle Audio" aria-label="Toggle Mute">
+              <i data-lucide="volume-2" class="w-4 h-4" id="page-tour-mute-icon"></i>
+            </button>
+
+            <!-- Cinema Mode / Fullscreen Trigger -->
+            <button data-open-modal="tour-modal" class="px-3 py-1.5 rounded-xl bg-[#CCFF00] hover:bg-[#b5e600] text-black font-display font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shadow">
+              <i data-lucide="maximize" class="w-3.5 h-3.5"></i>
+              <span class="hidden sm:inline">Cinema Mode</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+  <section id="arsenal" class="py-16 bg-[#09090D] border-y border-zinc-800/80 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-[11px] font-mono text-[#CCFF00] uppercase tracking-widest font-bold">CALIBRATED HARDWARE</span>
+          <h2 class="font-display font-extrabold text-2xl sm:text-3xl uppercase tracking-tight text-white mt-1">
+            THE TITAN ARSENAL
+          </h2>
+        </div>
+        <p class="text-zinc-400 text-xs sm:text-sm max-w-md">
+          Zero commercial cut corners. Every barbell, cable pulley, and platform is certified for competitive lifting and high-velocity athletics.
+        </p>
+      </div>
+
+      <!-- Equipment dynamic cards -->
+      <div id="equipment-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Injected via app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       4. MEMBERSHIP TIER CARDS (Pricing Section)
+       ========================================================= -->
+  <section id="pricing" class="py-20 bg-[#0B0B0E] relative border-b border-zinc-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header with Billing Switcher -->
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-[11px] font-mono text-[#CCFF00] uppercase tracking-widest font-bold">TRANSPARENT PRICING</span>
+        <h2 class="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight text-white mt-1">
+          FORGE YOUR MEMBERSHIP TIER
+        </h2>
+        <p class="text-zinc-400 text-xs sm:text-sm mt-2">
+          Select your commitment level. Every tier grants direct access to our 24/7 biometric floor and certified strength equipment.
+        </p>
+
+        <!-- Billing Switcher -->
+        <div class="mt-6 inline-flex items-center p-1 rounded-xl bg-zinc-900 border border-zinc-800">
+          <button id="billing-monthly" class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-[#CCFF00] text-black shadow-md transition-all">
+            Standard Term
+          </button>
+          <button id="billing-annual" class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all flex items-center gap-1.5">
+            Annual Pass
+            <span class="px-1.5 py-0.5 rounded-full bg-[#FF3344] text-white text-[9px] font-extrabold">SAVE 25%</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Pricing Tier Cards Grid -->
+      <div id="pricing-cards-container" class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+        
+        <!-- Tier 1: Monthly Starter -->
+        <div class="interactive-card glass-panel rounded-2xl p-7 border border-zinc-800 hover:border-zinc-600 flex flex-col justify-between transition-all">
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="font-display font-bold text-base sm:text-lg uppercase tracking-wide text-white">Monthly Starter</h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono text-zinc-400 bg-zinc-900 border border-zinc-800">Foundation</span>
+            </div>
+            <p class="text-zinc-400 text-xs mt-1.5">Ideal for disciplined lifters seeking pure equipment access without long lock-ins.</p>
+
+            <!-- Price -->
+            <div class="tier-price mt-5 pb-5 border-b border-zinc-800/80" data-tier="starter">
+              <span class="text-3xl lg:text-4xl font-extrabold text-white font-display">₹1,999</span>
+              <span class="text-zinc-400 text-xs font-normal ml-1">/month</span>
+            </div>
+
+            <!-- Features -->
+            <ul class="mt-5 space-y-3 text-xs sm:text-sm text-zinc-300">
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-[#CCFF00] shrink-0 mt-0.5"></i>
+                <span>Full access to 10,000 sq. ft. gym floor</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-[#CCFF00] shrink-0 mt-0.5"></i>
+                <span>24/7 keyless biometric facility access</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-[#CCFF00] shrink-0 mt-0.5"></i>
+                <span>Free 1-on-1 baseline movement assessment</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-[#CCFF00] shrink-0 mt-0.5"></i>
+                <span>Titan Forge athlete locker room & showers</span>
+              </li>
+              <li class="flex items-start gap-2.5 text-zinc-600">
+                <i data-lucide="x" class="w-4 h-4 text-zinc-700 shrink-0 mt-0.5"></i>
+                <span>Recovery spa & cryotherapy pod access</span>
+              </li>
+            </ul>
+          </div>
+
+          <button data-tier-name="Monthly Starter" class="join-tier-btn mt-6 w-full py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-display font-bold text-xs uppercase tracking-wider border border-zinc-700 transition-all">
+            Join Starter Tier
+          </button>
+        </div>
+
+        <!-- Tier 2: Pro Athlete (MOST POPULAR - Neon Volt Accent) -->
+        <div class="interactive-card neon-trace-border rounded-2xl p-7 border-2 border-[#CCFF00] relative flex flex-col justify-between shadow-[0_0_35px_rgba(204,255,0,0.18)] transform lg:-translate-y-2">
+          <!-- Popular Badge -->
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#CCFF00] text-black font-display font-black text-[10px] uppercase tracking-widest shadow">
+            ★ MOST POPULAR ★
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mt-1">
+              <h3 class="font-display font-bold text-lg sm:text-xl uppercase tracking-wide text-white">Pro Athlete</h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono text-[#CCFF00] bg-[#CCFF00]/10 border border-[#CCFF00]/30 font-bold">Quarterly</span>
+            </div>
+            <p class="text-zinc-300 text-xs mt-1.5">For serious lifters aiming for measurable physique and performance gains.</p>
+
+            <!-- Price -->
+            <div class="tier-price mt-5 pb-5 border-b border-zinc-800/80" data-tier="pro">
+              <span class="text-3xl lg:text-4xl font-extrabold text-[#CCFF00] text-glow-volt font-display">₹4,999</span>
+              <span class="text-zinc-400 text-xs font-normal ml-1">/quarter</span>
+            </div>
+
+            <!-- Features -->
+            <ul class="mt-5 space-y-3 text-xs sm:text-sm text-zinc-200">
+              <li class="flex items-start gap-2.5 font-semibold text-white">
+                <i data-lucide="check" class="w-4 h-4 text-[#CCFF00] shrink-0 mt-0.5"></i>
+                <span>Everything in Monthly Starter</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-[#CCFF00] shrink-0 mt-0.5"></i>
+                <span>Unlimited group HIIT & Boxing masterclasses</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-[#CCFF00] shrink-0 mt-0.5"></i>
+                <span>Weekly Cryotherapy immersion sessions (4/mo)</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-[#CCFF00] shrink-0 mt-0.5"></i>
+                <span>Monthly InBody 770 composition scans</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-[#CCFF00] shrink-0 mt-0.5"></i>
+                <span>2 Free VIP Guest Day Passes every month</span>
+              </li>
+            </ul>
+          </div>
+
+          <button data-tier-name="Pro Athlete" class="join-tier-btn btn-shine mt-6 w-full py-3.5 rounded-xl bg-[#CCFF00] hover:bg-[#b8e600] text-black font-display font-black text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(204,255,0,0.3)] transition-all">
+            Claim Pro Athlete Tier
+          </button>
+        </div>
+
+        <!-- Tier 3: Annual Elite Pass -->
+        <div class="interactive-card glass-panel rounded-2xl p-7 border border-zinc-800 hover:border-[#FF3344]/50 flex flex-col justify-between transition-all relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-[#FF3344]/10 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="font-display font-bold text-base sm:text-lg uppercase tracking-wide text-white">Annual Elite Pass</h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono text-[#FF3344] bg-[#FF3344]/10 border border-[#FF3344]/30 font-bold">VIP VIP</span>
+            </div>
+            <p class="text-zinc-400 text-xs mt-1.5">Complete transformation suite with 1-on-1 Olympic coaching.</p>
+
+            <!-- Price -->
+            <div class="tier-price mt-5 pb-5 border-b border-zinc-800/80" data-tier="elite">
+              <span class="text-3xl lg:text-4xl font-extrabold text-white font-display">₹14,999</span>
+              <span class="text-zinc-400 text-xs font-normal ml-1">/year</span>
+            </div>
+
+            <!-- Features -->
+            <ul class="mt-5 space-y-3 text-xs sm:text-sm text-zinc-300">
+              <li class="flex items-start gap-2.5 font-semibold text-white">
+                <i data-lucide="check" class="w-4 h-4 text-[#FF3344] shrink-0 mt-0.5"></i>
+                <span>All Pro Athlete features included</span>
+              </li>
+              <li class="flex items-start gap-2.5 text-white font-bold">
+                <i data-lucide="check" class="w-4 h-4 text-[#FF3344] shrink-0 mt-0.5"></i>
+                <span>12 Private 1-on-1 Personal Training Sessions</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-[#FF3344] shrink-0 mt-0.5"></i>
+                <span>Custom Clinical Nutrition Blueprint</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-[#FF3344] shrink-0 mt-0.5"></i>
+                <span>Unlimited Infrared Sauna & Cryo Pod access</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-[#FF3344] shrink-0 mt-0.5"></i>
+                <span>Dedicated VIP Locker + Laundry Service</span>
+              </li>
+            </ul>
+          </div>
+
+          <button data-tier-name="Annual Elite Pass" class="join-tier-btn mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-[#FF3344] to-[#e02434] hover:from-[#e02434] text-white font-display font-black text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(255,51,68,0.3)] transition-all">
+            Join Annual Elite
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Corporate / Custom Pass callout -->
+      <div class="mt-8 text-center text-xs font-mono text-zinc-500">
+        Need corporate group memberships or athlete team bookings? 
+        <a href="#lead-capture" class="text-[#CCFF00] underline ml-1 hover:text-white">Contact our concierge team</a>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <!-- =========================================================
+       BEFORE/AFTER TRANSFORMATION SLIDER (TRANSITIONAL PROOF)
+       ========================================================= -->
+  <section id="transformations" class="py-16 bg-[#09090D] border-t border-zinc-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-8">
+        <span class="px-2.5 py-0.5 bg-[#FF3344]/10 text-[#FF3344] border border-[#FF3344]/30 rounded-full font-mono text-[10px] font-bold uppercase tracking-wider">
+          VERIFIED MEMBER CASE STUDIES
+        </span>
+        <h2 class="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight text-white mt-2">
+          RAW PROOF OF PROGRESS
+        </h2>
+        <p class="text-zinc-400 text-xs sm:text-sm mt-1.5">
+          Witness the transitional evolution: drag the vertical neon divider or trigger the live auto-sweep to inspect true body recomposition after 12 weeks of Titan Forge coaching.
+        </p>
+      </div>
+
+      <!-- Case Selection Tabs & Live Transition Auto-Swipe Toggle -->
+      <div class="max-w-3xl mx-auto mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2 p-1 rounded-xl bg-zinc-900/90 border border-zinc-800 text-xs font-mono">
+          <button type="button" data-case="priya" class="ba-case-btn active px-3 py-1.5 rounded-lg bg-[#CCFF00] text-black font-bold transition-all shadow">
+            Priya N. (12W Athletic Shred)
+          </button>
+          <button type="button" data-case="aman" class="ba-case-btn px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition-all">
+            Aman S. (12W Recomp)
+          </button>
+        </div>
+
+        <!-- Live Auto-Transition Sweep Button -->
+        <button id="ba-auto-swipe-btn" type="button" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-700 hover:border-[#CCFF00] text-xs font-mono text-zinc-200 transition-all hover:bg-zinc-850 active:scale-95">
+          <span id="ba-swipe-indicator" class="w-2 h-2 rounded-full bg-[#CCFF00] animate-ping"></span>
+          <span id="ba-swipe-label" class="font-bold uppercase tracking-wider text-[11px]">Live Transition (Click to Pause)</span>
+        </button>
+      </div>
+
+      <div class="max-w-3xl mx-auto">
+        <!-- The Draggable Interactive Comparison Container -->
+        <div id="ba-slider-container" class="ba-container w-full h-[380px] sm:h-[480px] rounded-2xl border border-zinc-800 shadow-2xl relative cursor-ew-resize overflow-hidden bg-black select-none">
+          
+          <!-- Before Image (Base Layer - Baseline Physique) -->
+          <div class="w-full h-full relative">
+            <img 
+              id="ba-before-img"
+              src="/assets/female-transformation-before.jpg" 
+              alt="Priya Nair Day 1 Baseline (Titan Forge Mumbai)" 
+              class="w-full h-full object-cover object-top filter brightness-[0.9] contrast-[1.05]"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000&auto=format&fit=crop';"
+            />
+            <!-- Before Floating Badge -->
+            <div id="ba-before-badge" class="absolute bottom-5 left-5 px-3 py-1.5 rounded-lg bg-black/85 backdrop-blur-md border border-zinc-700 text-xs font-mono text-zinc-300 font-bold shadow-lg">
+              <span class="text-zinc-500 block text-[9px] uppercase tracking-widest">Baseline State</span>
+              <span>DAY 1 // 27.0% BODY FAT</span>
+            </div>
+          </div>
+
+          <!-- After Overlay Image Layer (Transformed Peak Shred) -->
+          <div id="ba-after-layer" class="ba-image-after w-[50%]">
+            <img 
+              id="ba-after-img"
+              src="/assets/female-transformation-after.jpg" 
+              alt="Priya Nair Week 12 Transformed Athletic Conditioning" 
+              class="absolute top-0 left-0 max-w-none h-full object-cover object-top filter brightness-[1.02] contrast-[1.12]"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1000&auto=format&fit=crop';"
+            />
+            <!-- After Floating Badge -->
+            <div id="ba-after-badge" class="absolute bottom-5 right-5 px-3 py-1.5 rounded-lg bg-[#CCFF00] text-black text-xs font-mono font-black shadow-2xl border border-black/20">
+              <span class="text-black/70 block text-[9px] uppercase tracking-widest font-bold">Titan Forge Peak</span>
+              <span>WEEK 12 // 16.0% BF (TONED CORE)</span>
+            </div>
+          </div>
+
+          <!-- Central Draggable Handle with Neon Glow Divider -->
+          <div id="ba-drag-handle" class="ba-handle" style="left: 50%;">
+            <i data-lucide="chevrons-left-right" class="w-4 h-4 text-black"></i>
+          </div>
+
+        </div>
+
+        <!-- Instructions Bar -->
+        <div class="mt-3 flex items-center justify-between text-[11px] font-mono text-zinc-500 px-1">
+          <span>◀ Baseline (Week 0)</span>
+          <span class="text-zinc-400 font-semibold flex items-center gap-1">
+            <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 text-[#CCFF00]"></i> Drag divider or hover to inspect transition
+          </span>
+          <span>Peak Recomp (Week 12) ▶</span>
+        </div>
+
+        <!-- Live Measured Telemetry Dashboard of the Transformation -->
+        <div id="ba-telemetry-bar" class="mt-4 p-3.5 sm:p-4 rounded-xl bg-zinc-950 border border-zinc-800 grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 text-center text-xs font-mono">
+          <div class="p-2.5 rounded-lg bg-black/60 border border-zinc-850">
+            <span class="text-[10px] text-zinc-500 uppercase block">Body Fat Evolution</span>
+            <span id="ba-stat-bf" class="font-bold text-sm text-[#CCFF00]">27.0% → 16.0% (-11.0%)</span>
+          </div>
+          <div class="p-2.5 rounded-lg bg-black/60 border border-zinc-850">
+            <span class="text-[10px] text-zinc-500 uppercase block">Lean Skeletal Muscle</span>
+            <span id="ba-stat-muscle" class="font-bold text-sm text-white">Toned Abs & Athletic Deltoids</span>
+          </div>
+          <div class="p-2.5 rounded-lg bg-black/60 border border-zinc-850">
+            <span class="text-[10px] text-zinc-500 uppercase block">Performance / Cardio PR</span>
+            <span id="ba-stat-strength" class="font-bold text-sm text-sky-400">5K Run: 31m → 22m 40s</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       6. TRAINER SHOWCASE & REVIEWS
+       ========================================================= -->
+  <section id="trainers" class="py-16 bg-[#07070A] relative border-t border-zinc-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <span class="text-[11px] font-mono text-[#FF3344] uppercase tracking-widest font-bold">PROVEN RESULTS</span>
+          <h2 class="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight text-white mt-1">
+            ELITE COACHES & ATHLETES
+          </h2>
+        </div>
+        <p class="text-zinc-400 max-w-md text-xs sm:text-sm leading-relaxed">
+          Led by former national champions and sports scientists. Our coaches program your body for elite biomechanical efficiency.
+        </p>
+      </div>
+
+      <!-- Dynamic Trainers Cards Showcase -->
+      <div id="trainers-cards-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        
+        <!-- Trainer 1: Vikramaditya Rane -->
+        <div class="interactive-card glass-card rounded-xl overflow-hidden border border-zinc-800/80 group">
+          <div class="h-80 relative overflow-hidden bg-zinc-950">
+            <img 
+              src="/assets/images/coach_vikramaditya.jpg" 
+              alt="Coach Vikramaditya Rane - Head of Strength & Olympic Performance" 
+              class="w-full h-full object-cover object-top filter brightness-[0.95] contrast-[1.05] group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#111116] via-[#111116]/20 to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-0.5 bg-black/85 backdrop-blur-md border border-[#CCFF00]/40 text-[#CCFF00] font-mono text-[10px] font-bold rounded">
+              HEAD OF STRENGTH
+            </span>
+          </div>
+          <div class="p-5 relative z-10">
+            <h4 class="font-display font-bold text-lg uppercase tracking-wide text-white group-hover:text-[#CCFF00] transition-colors">
+              Vikramaditya Rane
+            </h4>
+            <p class="text-[11px] font-mono text-zinc-400 mt-0.5">CSCS • Senior Indian Powerlifting Gold Medalist</p>
+            <p class="text-zinc-300 text-xs mt-2.5 leading-relaxed">
+              Specializes in heavy barbell kinematics, deadlift PR progression, and injury-free progressive overload cycles for national athletes.
+            </p>
+            <div class="mt-4 pt-3 border-t border-zinc-800/80 flex items-center justify-between">
+              <span class="text-[11px] font-mono text-zinc-400">@vikram.ironforge</span>
+              <a href="#lead-capture" class="text-xs font-bold text-[#CCFF00] uppercase tracking-wider hover:text-white transition-colors">
+                Book Session →
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainer 2: Ananya Deshmukh -->
+        <div class="interactive-card glass-card rounded-xl overflow-hidden border border-zinc-800/80 group">
+          <div class="h-80 relative overflow-hidden bg-zinc-950">
+            <img 
+              src="/assets/images/coach_ananya.jpg" 
+              alt="Coach Ananya Deshmukh - Combat & Conditioning Director" 
+              class="w-full h-full object-cover object-top filter brightness-[0.95] contrast-[1.05] group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#111116] via-[#111116]/20 to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-0.5 bg-black/85 backdrop-blur-md border border-[#FF3344]/40 text-[#FF3344] font-mono text-[10px] font-bold rounded">
+              COMBAT & CONDITIONING
+            </span>
+          </div>
+          <div class="p-5 relative z-10">
+            <h4 class="font-display font-bold text-lg uppercase tracking-wide text-white group-hover:text-[#FF3344] transition-colors">
+              Ananya Deshmukh
+            </h4>
+            <p class="text-[11px] font-mono text-zinc-400 mt-0.5">National Kickboxing Champion • Lead Striking Coach</p>
+            <p class="text-zinc-300 text-xs mt-2.5 leading-relaxed">
+              Ruthless metabolic conditioning, striking precision, heavy bag circuits, and mental stamina development for fighters and athletes.
+            </p>
+            <div class="mt-4 pt-3 border-t border-zinc-800/80 flex items-center justify-between">
+              <span class="text-[11px] font-mono text-zinc-400">@ananya.striking</span>
+              <a href="#lead-capture" class="text-xs font-bold text-[#FF3344] uppercase tracking-wider hover:text-white transition-colors">
+                Book Session →
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainer 3: Dr. Rhea Sen -->
+        <div class="interactive-card glass-card rounded-xl overflow-hidden border border-zinc-800/80 group">
+          <div class="h-80 relative overflow-hidden bg-zinc-950">
+            <img 
+              src="/assets/images/coach_rhea.jpg" 
+              alt="Dr. Rhea Sen - Recovery & Sports Biomechanics Director" 
+              class="w-full h-full object-cover object-top filter brightness-[0.95] contrast-[1.05] group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#111116] via-[#111116]/20 to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-0.5 bg-black/85 backdrop-blur-md border border-sky-400/40 text-sky-400 font-mono text-[10px] font-bold rounded">
+              RECOVERY & NUTRITION
+            </span>
+          </div>
+          <div class="p-5 relative z-10">
+            <h4 class="font-display font-bold text-lg uppercase tracking-wide text-white group-hover:text-sky-400 transition-colors">
+              Dr. Rhea Sen
+            </h4>
+            <p class="text-[11px] font-mono text-zinc-400 mt-0.5">M.P.T. Sports Biomechanics • FMS & Cryo Lead</p>
+            <p class="text-zinc-300 text-xs mt-2.5 leading-relaxed">
+              Translates metabolic biomarker data into personalized athletic recovery, cryo immersion protocols, and joint longevity programs.
+            </p>
+            <div class="mt-4 pt-3 border-t border-zinc-800/80 flex items-center justify-between">
+              <span class="text-[11px] font-mono text-zinc-400">@dr.rhea.recovery</span>
+              <a href="#lead-capture" class="text-xs font-bold text-sky-400 uppercase tracking-wider hover:text-white transition-colors">
+                Book Session →
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Testimonials with Metric Pills -->
+      <div class="border-t border-zinc-800 pt-12">
+        <h3 class="font-display font-bold text-xl sm:text-2xl uppercase tracking-wide text-white mb-6 text-center">
+          MEMBER PROOF OF TRANSFORMATION
+        </h3>
+
+        <div id="testimonials-cards-container" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          <!-- Testimonial 1 -->
+          <div class="glass-panel p-5 rounded-xl border border-zinc-800 relative">
+            <div class="flex items-center gap-1 text-amber-400 mb-2 text-[11px]">
+              ★★★★★
+            </div>
+            <!-- Metric Pill -->
+            <div class="inline-block px-2.5 py-0.5 rounded-full bg-[#FF3344]/15 border border-[#FF3344]/30 text-[#FF3344] text-[10px] font-mono font-bold mb-2">
+              -14 KG FAT LOSS IN 90 DAYS
+            </div>
+            <p class="text-zinc-300 text-xs italic leading-relaxed">
+              "Titan Forge completely flipped my mindset. The combination of intense HIIT, calibrated barbells, and coach Vikram's nutrition guidance took me from gassed after stairs to deadlifting 160kg."
+            </p>
+            <div class="mt-4 pt-3 border-t border-zinc-800/80 flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-full bg-zinc-800 border border-[#CCFF00] flex items-center justify-center text-[10px] font-bold text-white">
+                AK
+              </div>
+              <div>
+                <span class="text-xs font-bold text-white block">Aditya Kapoor</span>
+                <span class="text-[10px] font-mono text-zinc-500">Tech Founder • Pro Member</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="glass-panel p-5 rounded-xl border border-zinc-800 relative">
+            <div class="flex items-center gap-1 text-amber-400 mb-2 text-[11px]">
+              ★★★★★
+            </div>
+            <!-- Metric Pill -->
+            <div class="inline-block px-2.5 py-0.5 rounded-full bg-[#CCFF00]/15 border border-[#CCFF00]/30 text-[#CCFF00] text-[10px] font-mono font-bold mb-2">
+              +8.5 KG LEAN MUSCLE MASS
+            </div>
+            <p class="text-zinc-300 text-xs italic leading-relaxed">
+              "The equipment here is Olympic standard. No bent barbells, no broken cables. The 24/7 biometric access lets me train at 5:30 AM before hospital shifts without rushing."
+            </p>
+            <div class="mt-4 pt-3 border-t border-zinc-800/80 flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-full bg-zinc-800 border border-[#CCFF00] flex items-center justify-center text-[10px] font-bold text-white">
+                DR
+              </div>
+              <div>
+                <span class="text-xs font-bold text-white block">Dr. Rhea Sharma</span>
+                <span class="text-[10px] font-mono text-zinc-500">Orthopedic Surgeon • Elite Pass</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="glass-panel p-5 rounded-xl border border-zinc-800 relative">
+            <div class="flex items-center gap-1 text-amber-400 mb-2 text-[11px]">
+              ★★★★★
+            </div>
+            <!-- Metric Pill -->
+            <div class="inline-block px-2.5 py-0.5 rounded-full bg-sky-400/15 border border-sky-400/30 text-sky-400 text-[10px] font-mono font-bold mb-2">
+              +65 KG DEADLIFT PR
+            </div>
+            <p class="text-zinc-300 text-xs italic leading-relaxed">
+              "The boxing arena and sauna recovery room alone justify the membership. It's raw, it's focused, and everyone here actually trains with fierce discipline."
+            </p>
+            <div class="mt-4 pt-3 border-t border-zinc-800/80 flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-full bg-zinc-800 border border-[#CCFF00] flex items-center justify-center text-[10px] font-bold text-white">
+                RO
+              </div>
+              <div>
+                <span class="text-xs font-bold text-white block">Rohan Oak</span>
+                <span class="text-[10px] font-mono text-zinc-500">Competitive Powerlifter</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       7. INTERACTIVE SCHEDULE SECTION
+       ========================================================= -->
+  <section id="schedule" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+      <div>
+        <span class="text-[11px] font-mono text-[#CCFF00] uppercase tracking-widest font-bold">DAILY CLASS TIMETABLE</span>
+        <h2 class="font-display font-extrabold text-2xl sm:text-3xl uppercase tracking-tight text-white mt-1">
+          JOIN A LIVE SQUAD
+        </h2>
+      </div>
+      
+      <!-- Filter Chips -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button data-filter="all" class="schedule-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-[#CCFF00] text-black transition-all">
+          All Classes
+        </button>
+        <button data-filter="strength" class="schedule-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-zinc-900 text-zinc-400 hover:text-white transition-all">
+          Strength
+        </button>
+        <button data-filter="hiit" class="schedule-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-zinc-900 text-zinc-400 hover:text-white transition-all">
+          HIIT
+        </button>
+        <button data-filter="combat" class="schedule-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-zinc-900 text-zinc-400 hover:text-white transition-all">
+          Boxing
+        </button>
+        <button data-filter="mobility" class="schedule-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-zinc-900 text-zinc-400 hover:text-white transition-all">
+          Mobility
+        </button>
+      </div>
+    </div>
+
+    <!-- Schedule List Render Container -->
+    <div id="schedule-list-container" class="space-y-2.5">
+      <!-- Populated via app.js -->
+    </div>
+  </section>
+
+  <!-- =========================================================
+       8. LEAD-CAPTURE FOOTER & LOCATION MAP
+       ========================================================= -->
+  <footer id="lead-capture" class="bg-[#050507] border-t border-zinc-800 pt-16 pb-10 relative overflow-hidden">
+    
+    <!-- Ambient Accent Glow -->
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[250px] bg-[#CCFF00]/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Instant 1-Day Trial Form Container -->
+      <div class="glass-panel rounded-2xl p-6 sm:p-10 border-2 border-[#CCFF00]/40 shadow-[0_0_40px_rgba(204,255,0,0.1)] mb-16 relative overflow-hidden">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <div class="lg:col-span-5">
+            <span class="px-2.5 py-0.5 bg-[#CCFF00]/15 text-[#CCFF00] border border-[#CCFF00]/30 rounded font-mono text-[10px] font-bold uppercase tracking-wider">
+              ZERO RISK • NO CARD REQUIRED
+            </span>
+            <h3 class="font-display font-extrabold text-2xl sm:text-3xl uppercase tracking-tight text-white mt-3 leading-tight">
+              CLAIM YOUR FREE<br>
+              <span class="text-[#CCFF00] text-glow-volt">1-DAY VIP PASS</span>
+            </h3>
+            <p class="text-zinc-300 text-xs sm:text-sm mt-2 leading-relaxed">
+              Step into the Forge. Test any machine, jump into a heavy bag or HIIT squad session, and consult with our Olympic coaches. Experience the standard firsthand.
+            </p>
+
+            <div class="mt-4 space-y-2 text-xs text-zinc-400 font-mono">
+              <div class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-[#CCFF00]"></i>
+                <span>Instant Confirmation & Digital Ticket</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-[#CCFF00]"></i>
+                <span>Valid for any 24-hour window this week</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-[#CCFF00]"></i>
+                <span>Includes free InBody composition test</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- The Lead Form -->
+          <div class="lg:col-span-7 bg-[#09090C] p-5 sm:p-7 rounded-xl border border-zinc-800">
+            <form id="free-pass-form" class="space-y-3.5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label class="block text-[11px] font-mono uppercase text-zinc-400 mb-1">Athlete Name *</label>
+                  <input 
+                    type="text" 
+                    name="name" 
+                    required 
+                    placeholder="e.g. Rahul Mehta" 
+                    class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-600 focus:outline-none focus:border-[#CCFF00] text-xs"
+                  />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-mono uppercase text-zinc-400 mb-1">WhatsApp Mobile No. *</label>
+                  <input 
+                    type="tel" 
+                    name="phone" 
+                    required 
+                    placeholder="+91 98765 43210" 
+                    class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-600 focus:outline-none focus:border-[#CCFF00] text-xs"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label class="block text-[11px] font-mono uppercase text-zinc-400 mb-1">Preferred Time Slot *</label>
+                  <select name="slot" class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-[#CCFF00] text-xs cursor-pointer">
+                    <option value="Early Morning (6:00 AM - 9:00 AM)">Early Morning (6:00 AM - 9:00 AM)</option>
+                    <option value="Mid-Day Focus (11:00 AM - 3:00 PM)">Mid-Day Focus (11:00 AM - 3:00 PM)</option>
+                    <option value="Peak Evening (6:00 PM - 9:30 PM)" selected>Peak Evening (6:00 PM - 9:30 PM)</option>
+                    <option value="Night Owls (10:00 PM - 2:00 AM)">Night Owls (10:00 PM - 2:00 AM)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[11px] font-mono uppercase text-zinc-400 mb-1">Primary Target</label>
+                  <select name="goal" class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-[#CCFF00] text-xs cursor-pointer">
+                    <option value="Heavy Strength & Hypertrophy">Heavy Strength & Hypertrophy</option>
+                    <option value="Fat Loss & HIIT Conditioning">Fat Loss & HIIT Conditioning</option>
+                    <option value="Boxing & Combat Athletics">Boxing & Combat Athletics</option>
+                    <option value="Mobility & Cryotherapy Recovery">Mobility & Cryotherapy Recovery</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-shine w-full py-3 rounded-lg bg-[#CCFF00] hover:bg-[#b8e600] text-black font-display font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(204,255,0,0.3)] flex items-center justify-center gap-2">
+                <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
+                Generate VIP Pass Ticket
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Studio Location, Interactive Map & Operating Hours -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-12 border-b border-zinc-800/80">
+        
+        <!-- Location & Contact -->
+        <div>
+          <div id="footer-brand-logo" class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-black border border-[#CCFF00]/40 p-1 flex items-center justify-center shrink-0 box-glow-volt">
+              <img src="/assets/images/logo.svg" alt="Titan Forge Logo" class="w-full h-full object-contain" />
+            </div>
+            <span class="font-display font-bold text-xl uppercase tracking-wider text-white" data-gym-name>
+              TITAN FORGE GYM
+            </span>
+          </div>
+          <p class="text-zinc-400 text-[10px] font-mono mt-1.5" id="footer-tagline">THE SANCTUARY OF UNCOMPROMISING RESULTS</p>
+          
+          <div class="mt-4 space-y-2.5 text-xs text-zinc-300">
+            <p class="flex items-start gap-2.5">
+              <i data-lucide="map-pin" class="w-4 h-4 text-[#CCFF00] shrink-0 mt-0.5"></i>
+              <span id="contact-full-address">Floor 3 & 4, Titan Tower, Linking Road, Bandra West, Mumbai 400052</span>
+            </p>
+            <p class="flex items-center gap-2.5">
+              <i data-lucide="phone" class="w-4 h-4 text-[#CCFF00] shrink-0"></i>
+              <span id="contact-phone">+91 98765 43210</span>
+            </p>
+            <p class="flex items-center gap-2.5">
+              <i data-lucide="mail" class="w-4 h-4 text-[#CCFF00] shrink-0"></i>
+              <span id="contact-email">vip@titanforgegym.in</span>
+            </p>
+          </div>
+
+          <!-- WhatsApp Chat Trigger Button -->
+          <div class="mt-4">
+            <a 
+              data-whatsapp-cta
+              href="https://wa.me/919876543210?text=Hello%20Titan%20Forge%20Gym!%20I%20want%20to%20inquire%20about%20memberships%20and%20claim%20my%201-Day%20Free%20Pass." 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="btn-shine inline-flex items-center gap-2.5 px-4 py-2.5 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(37,211,102,0.3)]"
+            >
+              <svg class="w-4 h-4 fill-white shrink-0" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.676.15-.2.301-.776.978-.952 1.179-.176.2-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.675-2.085-.176-.3-.019-.462.132-.612.136-.135.301-.351.451-.526.151-.176.201-.301.301-.502.1-.2.05-.376-.025-.526-.075-.15-.677-1.631-.928-2.233-.244-.587-.492-.507-.676-.517-.175-.008-.376-.01-.576-.01s-.527.075-.802.376c-.276.301-1.053 1.028-1.053 2.508 0 1.479 1.078 2.909 1.229 3.109.15.201 2.121 3.239 5.14 4.542.718.31 1.279.495 1.716.634.721.23 1.378.197 1.9.12.581-.088 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.201-.576-.351z"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.05 22l4.985-1.308A9.948 9.948 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.167c-1.57 0-3.045-.44-4.303-1.206l-.309-.187-2.96.777.79-2.884-.205-.327A8.132 8.132 0 0 1 3.833 12c0-4.51 3.657-8.167 8.167-8.167s8.167 3.657 8.167 8.167-3.657 8.167-8.167 8.167z"/>
+              </svg>
+              <span>Chat on WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Operating Hours Schedule -->
+        <div>
+          <h4 class="font-display font-bold text-xs uppercase tracking-wider text-white mb-3">
+            OPERATING HOURS
+          </h4>
+          <ul class="space-y-2 text-xs font-mono text-zinc-300">
+            <li class="flex justify-between pb-1 border-b border-zinc-900">
+              <span class="text-zinc-400">Mon - Fri:</span>
+              <span class="text-[#CCFF00] font-bold">24 HOURS OPEN</span>
+            </li>
+            <li class="flex justify-between pb-1 border-b border-zinc-900">
+              <span class="text-zinc-400">Saturday:</span>
+              <span class="text-[#CCFF00] font-bold">24 HOURS OPEN</span>
+            </li>
+            <li class="flex justify-between pb-1 border-b border-zinc-900">
+              <span class="text-zinc-400">Sunday:</span>
+              <span class="text-[#CCFF00] font-bold">06:00 AM - 11:00 PM</span>
+            </li>
+            <li class="flex justify-between pb-1 border-b border-zinc-900">
+              <span class="text-zinc-400">Biometric Gate:</span>
+              <span class="text-white font-bold">UNRESTRICTED 24/7</span>
+            </li>
+            <li class="flex justify-between pb-1 border-b border-zinc-900">
+              <span class="text-zinc-400">Recovery Spa:</span>
+              <span class="text-white">06:00 AM - 10:30 PM</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Integrated Stylized Dark Map Container -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-display font-bold text-xs uppercase tracking-wider text-white">STUDIO LOCATION</h4>
+            <a id="google-maps-btn" href="https://maps.google.com/?q=Linking+Road+Bandra+West+Mumbai" target="_blank" rel="noopener noreferrer" class="text-[10px] font-mono text-[#CCFF00] hover:underline flex items-center gap-1">
+              Open in Maps <i data-lucide="external-link" class="w-3 h-3"></i>
+            </a>
+          </div>
+          <div class="w-full h-36 rounded-xl overflow-hidden border border-zinc-800 relative group bg-[#0A0A0E] shadow-inner">
+            <!-- Native Dark Leaflet Map -->
+            <div id="studio-leaflet-map" class="w-full h-full cursor-pointer z-0"></div>
+
+            <!-- Optional Custom Google Maps Iframe -->
+            <iframe 
+              id="google-maps-iframe"
+              title="Studio Location Map" 
+              class="w-full h-full border-0 filter invert contrast-[1.2] opacity-80 group-hover:opacity-100 transition-opacity hidden z-[1] absolute inset-0" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+
+            <!-- Location Pin Badge -->
+            <div id="contact-map-badge" class="absolute bottom-2 left-2 z-10 px-2.5 py-1 bg-black/90 backdrop-blur border border-[#CCFF00]/40 rounded text-[9px] font-mono text-[#CCFF00] font-bold shadow pointer-events-none">
+              📍 Linking Rd, Bandra West
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Social Links Row -->
+      <div class="pt-6 pb-4 flex items-center justify-between border-b border-zinc-850 text-xs font-mono">
+        <span class="text-zinc-400">Connect with us:</span>
+        <div class="flex items-center gap-4">
+          <a id="social-instagram" href="https://instagram.com/titanforgegym" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#CCFF00] transition-colors" title="Instagram">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+          </a>
+          <a id="social-whatsapp" href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#25D366] transition-colors" title="WhatsApp">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+          </a>
+          <a id="social-youtube" href="https://youtube.com/@titanforgegym" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#FF3344] transition-colors" title="YouTube">
+            <i data-lucide="youtube" class="w-4 h-4"></i>
+          </a>
+          <a id="social-facebook" href="" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-sky-400 transition-colors hidden" title="Facebook">
+            <i data-lucide="facebook" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Bottom Credits & Legal -->
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-500 font-mono gap-3">
+        <p>© 2026 <span data-gym-name>TITAN FORGE GYM</span>. ALL RIGHTS RESERVED.</p>
+        <div class="flex items-center gap-5">
+          <a href="#" class="hover:text-white transition-colors">Privacy</a>
+          <a href="#" class="hover:text-white transition-colors">Terms</a>
+          <a href="#" class="hover:text-white transition-colors">Rules</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       MODAL 1: REALISTIC FACILITY TOUR VIDEO EXPERIENCE
+       ========================================================= -->
+  <div id="tour-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 bg-black/95 backdrop-blur-2xl">
+    <div class="modal-content w-full max-w-4xl bg-[#0B0B0E] border border-zinc-800 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.95)] relative flex flex-col max-h-[94vh] overflow-y-auto">
+      
+      <!-- Modal Header -->
+      <div class="p-3 sm:p-4 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/90 shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-[#CCFF00] animate-ping"></span>
+          <span id="modal-tour-title" class="font-display font-bold text-xs uppercase tracking-wider text-white">
+            TITAN FORGE // MUMBAI FLAGSHIP TOUR
+          </span>
+        </div>
+        <button data-close-modal class="text-zinc-400 hover:text-white p-2 rounded-lg hover:bg-zinc-800 transition-colors" aria-label="Close tour modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Video Player Container -->
+      <div class="relative w-full aspect-video bg-black overflow-hidden group select-none shrink-0" id="tour-player-viewport">
+        <div id="tour-video-container" class="w-full h-full relative overflow-hidden bg-zinc-950">
+          <video 
+            id="tour-video" 
+            class="w-full h-full object-cover relative z-[2] transition-opacity duration-500" 
+            autoplay 
+            loop 
+            playsinline 
+            webkit-playsinline
+            muted
+            preload="auto"
+            poster="/assets/images/tour_indian_female_workout.jpg"
+          >
+            <source src="/assets/videos/female_gym_workout.mp4" type="video/mp4">
+            <source src="https://assets.mixkit.co/videos/52106/52106-720.mp4" type="video/mp4">
+          </video>
+
+          <img 
+            id="tour-feed-img" 
+            src="/assets/images/tour_indian_female_workout.jpg" 
+            alt="Titan Forge Mumbai Live Feed" 
+            class="absolute inset-0 w-full h-full object-cover filter brightness-[0.95] contrast-[1.05] z-[1] hidden"
+          />
+        </div>
+
+        <!-- Central Tap-To-Play / Pause Mobile Button -->
+        <button id="tour-big-play" class="absolute inset-0 m-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#CCFF00]/90 hover:bg-[#CCFF00] text-black flex items-center justify-center shadow-[0_0_30px_rgba(204,255,0,0.6)] transition-all duration-300 transform active:scale-90 z-20 opacity-0 pointer-events-none focus:outline-none" title="Play / Resume Tour">
+          <i data-lucide="play" class="w-7 h-7 sm:w-8 sm:h-8 fill-current ml-1" id="tour-big-play-icon"></i>
+        </button>
+
+        <!-- Custom Video Controls Floating Bar -->
+        <div id="tour-controls-bar" class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/95 via-black/70 to-transparent flex items-center gap-3 z-20 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
+          <!-- Play / Pause -->
+          <button id="tour-play-toggle" class="p-2 rounded-lg bg-zinc-900/90 hover:bg-[#CCFF00] text-zinc-200 hover:text-black transition-colors" aria-label="Toggle Play">
+            <i data-lucide="pause" class="w-4 h-4" id="tour-play-icon"></i>
+          </button>
+
+          <!-- Progress Bar -->
+          <div class="flex-1 h-2 bg-zinc-800 rounded-full overflow-hidden cursor-pointer relative" id="tour-progress-bar">
+            <div id="tour-progress-fill" class="h-full bg-[#CCFF00] rounded-full" style="width: 35%;"></div>
+          </div>
+
+          <!-- Mute / Unmute -->
+          <button id="tour-mute-toggle" class="p-2 rounded-lg bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-white transition-colors" title="Toggle Tour Audio" aria-label="Toggle Mute">
+            <i data-lucide="volume-2" class="w-4 h-4" id="tour-mute-icon"></i>
+          </button>
+
+          <!-- Fullscreen -->
+          <button id="tour-fullscreen-btn" class="p-2 rounded-lg bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-white transition-colors" aria-label="Fullscreen">
+            <i data-lucide="maximize" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 2: QUICK LEAD PASS / TIER JOIN MODAL
+       ========================================================= -->
+  <div id="lead-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/92 backdrop-blur-xl">
+    <div class="modal-content w-full max-w-md bg-[#0E0E12] border border-[#CCFF00]/40 rounded-xl p-5 sm:p-6 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+      
+      <button data-close-modal class="absolute top-3.5 right-3.5 text-zinc-400 hover:text-white p-2 rounded-lg hover:bg-zinc-800 transition-colors" aria-label="Close modal">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <div class="text-center mb-5">
+        <div id="modal-brand-logo" class="w-12 h-12 rounded-xl bg-black border border-[#CCFF00]/40 p-1.5 flex items-center justify-center mx-auto mb-2.5 box-glow-volt shadow-lg">
+          <img src="/assets/images/logo.svg" alt="Titan Forge Logo" class="w-full h-full object-contain" />
+        </div>
+        <h3 class="font-display font-bold text-lg uppercase tracking-wider text-white">RESERVE YOUR SPOT</h3>
+        <p class="text-zinc-400 text-xs mt-1">Immediate VIP confirmation & direct facility access.</p>
+      </div>
+
+      <form id="modal-free-pass-form" class="space-y-3">
+        <div>
+          <label class="block text-[11px] font-mono uppercase text-zinc-400 mb-1">Your Full Name</label>
+          <input type="text" name="name" required placeholder="e.g. Vikram Singhania" class="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-600 focus:outline-none focus:border-[#CCFF00] text-xs">
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-mono uppercase text-zinc-400 mb-1">WhatsApp Phone Number</label>
+          <input type="tel" name="phone" required placeholder="+91 98765 43210" class="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-600 focus:outline-none focus:border-[#CCFF00] text-xs">
+        </div>
+
+        <input type="hidden" id="pass-goal" name="goal" value="VIP Membership Claim">
+
+        <button type="submit" class="btn-shine w-full py-2.5 rounded-lg bg-[#CCFF00] hover:bg-[#b8e600] text-black font-display font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(204,255,0,0.3)]">
+          Confirm Reservation
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- FLOATING WHATSAPP CHAT BUTTON -->
+  <a 
+    data-whatsapp-cta
+    href="https://wa.me/919876543210?text=Hi%20Titan%20Forge!%20I%20am%20interested%20in%20a%20VIP%20Trial%20Pass." 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    title="Chat on WhatsApp" 
+    aria-label="Chat on WhatsApp"
+    class="fixed bottom-5 left-5 z-40 w-12 h-12 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_0_20px_rgba(37,211,102,0.5)] hover:scale-110 transition-transform focus:outline-none group"
+  >
+    <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.676.15-.2.301-.776.978-.952 1.179-.176.2-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.675-2.085-.176-.3-.019-.462.132-.612.136-.135.301-.351.451-.526.151-.176.201-.301.301-.502.1-.2.05-.376-.025-.526-.075-.15-.677-1.631-.928-2.233-.244-.587-.492-.507-.676-.517-.175-.008-.376-.01-.576-.01s-.527.075-.802.376c-.276.301-1.053 1.028-1.053 2.508 0 1.479 1.078 2.909 1.229 3.109.15.201 2.121 3.239 5.14 4.542.718.31 1.279.495 1.716.634.721.23 1.378.197 1.9.12.581-.088 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.201-.576-.351z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.05 22l4.985-1.308A9.948 9.948 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.167c-1.57 0-3.045-.44-4.303-1.206l-.309-.187-2.96.777.79-2.884-.205-.327A8.132 8.132 0 0 1 3.833 12c0-4.51 3.657-8.167 8.167-8.167s8.167 3.657 8.167 8.167-3.657 8.167-8.167 8.167z"/>
+    </svg>
+  </a>
+
+  <!-- Lucide Icon Initialization -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+  <!-- Leaflet Map Library -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Main Application Script -->
+  <script src="/js/defaultGymData.js"></script>
+  <script src="/js/gymStore.js"></script>
+  <script src="/js/templateRenderer.js"></script>
+  <script src="/js/app.js?v=2.5"></script>
+</body>
+</html>
